@@ -1,0 +1,397 @@
+---
+title: "Vignette of the `clinUtils` package"
+author: "Laure Cougnaud"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: glpgStyle::html_report
+vignette: >
+  %\VignetteIndexEntry{Introduction to the `clinUtils` package}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Introduction
+
+```{r optionsChunks, echo = FALSE, cache = FALSE}
+
+	library(knitr)
+
+	knitr::opts_chunk$set(
+		message = FALSE,
+		# stop document execution if error (not the default)
+		error = FALSE, # stop-on-error
+		fig.align = "center",
+		fig.path = "./figures_vignette/",
+		echo = TRUE
+	)
+	
+```
+
+This package `clinUtils` compiles functionalities
+for analysis of clinical datasets in R [@R].
+
+```{r loadPackages}
+
+	library(clinUtils)
+
+```
+
+# Data pre-processing
+
+## Data import
+
+The [`haven`](https://cran.r-project.org/package=haven) R package enables to load 
+SAS datasets in `sas7bdat` and `xpt` formats.
+
+The function `loadDataADaMSDTM` automates the loading of multiple
+SAS datasets. This returns a list of dataset (named by domain) and a 
+ the different labels of the variables used across all datasets
+(e.g. `labelVars` parameter used in the `patientProfiles`/`inTextSummaryTable` packages).
+
+```{r loadData, eval = FALSE}
+
+	data <- loadDataADaMSDTM(
+		files = list.files(path = ".", pattern = "*.sas7bdat", full.names = TRUE)
+	)
+	labelVars <- attr(data, "labelVars")
+	# each dataset is available via data$[DM], e.g. data$AE for adverse events, ...
+
+```
+
+## Example datasets
+
+Example _ADaM_ and _SDTM_ dataset from the Pelican study ('GLPG2737-CL-202') have
+been imported into R with this function.
+
+```{r loadADaMSDTMDatasets}
+	
+	library(pander)
+
+	## ADaM
+
+	# load data
+	data(ADaMDataPelican)
+	# print first line
+#	pander(lapply(ADaMDataPelican, head, 1))
+	# extract labels
+	labelVarsADaM <- attr(ADaMDataPelican, "labelVars")
+#	pander(head(labelVarsADaM))
+	
+	# SDTM
+
+	# load data
+	data(SDTMDataPelican)
+	# print first line
+#	pander(lapply(SDTMDataPelican, head, 1))
+	# extract labels
+	labelVarsSDTM <- attr(SDTMDataPelican, "labelVars")
+#	pander(head(labelVarsSDTM))
+
+```
+
+## Variable labels
+
+Note: By default, when the data is loaded with the `loadDataADaMSDTM` (via the `haven` package),  the labels for each variable are available in an attribute of each column.  
+However, this attribute is lost when the dataset is subsetted as a data.frame.
+
+The function `getLabelVar` extracts the label for the specified variables.
+
+```{r getLabelVar}
+
+	# upon reading the data: attributes are available in each column
+	getLabelVar(data = ADaMDataPelican$ADAE, var = "AREL")
+	
+	# but when data is subsetted, label is lost:
+	getLabelVar(data = subset(ADaMDataPelican$ADAE, AESEV == "MODERATE"), var = "AREL")
+
+	# so always use 'labelVars':
+	getLabelVar(var = "AREL", labelVars = labelVarsADaM)
+	
+```
+
+## Get parameter label from its parameter code
+
+The function `getLabelParamcd` get the label from specific parameter(s) code.
+
+```{r getLabelParamcd}
+
+	getLabelParamcd(paramcd = "CRP", data = ADaMDataPelican$ADLB)
+
+```
+
+
+# Visualizations
+
+## Palette for CDISC variables
+
+Palette for typical CDISC-variable(s) are available in the package.
+
+### Normal reference range indicators
+
+Meaningful colors and symbols for a Normal Reference Range Indicator
+CDISC variable (`-NRIND`) are extracted via the `colorPaletteNRIND`
+and `shapePaletteNRIND` respectively:
+
+```{r palette-show}
+print(shapePaletteNRIND)
+print(colorPaletteNRIND)
+```
+
+```{r palette-plot, fig.height = 8}
+plot(
+	x = seq_along(colorPaletteNRIND),
+	col = colorPaletteNRIND, 
+	bg = colorPaletteNRIND, 
+	pch = shapePaletteNRIND
+)
+text(
+	x = seq_along(colorPaletteNRIND),
+	labels = names(colorPaletteNRIND), pos = 3
+)
+title("Palette for CDISC normal reference range indicator")
+```
+The `getPaletteCDISC` function extracts such palette for a specified
+variable.  
+
+This retains only the categories available in the variable,
+and ensures that extra symbols are extracted in case non standard
+categories are available in the data.
+
+```{r getPaletteCDISC}
+dataPlot <- subset(SDTMDataPelican$LB, LBTEST == "Neutrophils")
+# replace empty element by: 'Unknown'
+dataPlot[which(dataPlot$LBNRIND == ""), "LBNRIND"] <- "UNKNOWN"
+table(dataPlot$LBNRIND)
+# typically, if LBNRINDN variable would be available in the data,
+# categories could be ordered as: 
+# dataPlot$LBNRIND <- with(dataPlot, reorder(LBNRIND, LBNRINDN))
+
+colorPalette <- getPaletteCDISC(x = dataPlot$LBNRIND, var = "NRIND", type = "color")
+print(colorPalette)
+shapePalette <- getPaletteCDISC(x = dataPlot$LBNRIND, var = "NRIND", type = "shape")
+print(shapePalette)
+
+# visualize profile over time
+gg <- ggplot(data = dataPlot) +
+	geom_point(aes(x = LBDY, y = LBSTRESN, 
+		color = LBNRIND, fill = LBNRIND, shape = LBNRIND)) +
+	ggtitle("Evolution of Neutrophils actual value over time")
+print(gg)
+
+# use 'standard' symbols/colors
+# ('limits' is only required if the categories are not already ordered in LBNRIND)
+gg + 
+	scale_color_manual(values = colorPalette, limits = names(colorPalette)) +
+	scale_fill_manual(values = colorPalette, limits = names(colorPalette)) +
+	scale_shape_manual(values = shapePalette, limits = names(colorPalette))
+```
+
+## Figure comparison
+
+Figures, e.g. generated from different versions of the datasets can be compared with the `compareFigs` function.
+The [ImageMagick](https://imagemagick.org/) tool should be available (see example in documentation: `? compareFigs`).
+
+# Reporting tools
+
+### Utility function for interactive table
+
+The [DT](https://cran.r-project.org/package=DT) package enables to create
+interactive table in HTML format.
+Such interactivity includes the possibilities to wrap long tables,
+filter columns.
+
+The `toDTGLPG` function is an utility function containing sensitive default settings
+and extra common
+functionalities to include in this table, e.g. possibility to expand
+a row variable, to include bar visualization, ...
+
+```{r toDTGLPG}
+
+	dataTEAE <- subset(dataAE, SAFFL == "Y" & TRTEMFL == "Y")
+	
+	# set column names to labels
+	labelVarsTEAE <- getLabelVar(
+		var = colnames(dataTEAE), 
+		labelVars = labelVarsADaM
+	)
+	colnamesTEAE <- setNames(names(labelVarsTEAE), labelVarsTEAE)
+	
+	# add patient profiles link (if available)
+	dataTEAE <- createPatientProfileVar(
+		data = dataTEAE, 
+		patientProfilePath = "patientProfiles", 
+		checkExist = FALSE
+	)
+	dataTEAE <- dataTEAE[order(dataTEAE$AESOC), ]
+	
+	toDTGLPG(
+		dataTEAE, 
+		colnames = colnamesTEAE, 
+		rowGroupVar = c("AESOC"),
+		expandVar = c("patientProfileLink"),
+		nonVisibleVar = c("patientProfilePath", "SUBJID"),
+		# patient profile URL should be considered as raw HTML
+		escape = -grep("patientProfileLink", colnames(dataTEAE)),
+		barVar = "AGE",
+		barRange = c(0, 100)
+	)
+
+```
+
+## Include list of objects in a _Rmarkdown_ document
+
+In [knitr](https://CRAN.R-project.org/package=knitr), some chunk options are not available/vectorized
+for each object printed within a chunk.
+The functions `knitPrintListPlots` and `knitPrintListObjects` include each
+plot/object contained in a list in a separated code chunk, in which different chunk 
+options can be specified.
+
+Please note that the following chunk option should be used: **`results = 'asis'`**.
+
+### Static figures with `ggplot2`
+
+For example, the options to specify figure dimensions should be the same for all plots
+generated from the same chunk (`fig.height`/`fig.width`).
+
+```{r knitPrintListPlots-static, out.width = "100%", warning = FALSE, results = "asis"}
+	
+	# same color palette for all plots:
+	colorPalette <- glpgStyle::getGLPGColorPalette(x = levels(dataLB$ANRIND))
+	
+	library(plyr)
+	
+	# create plots:
+	listPlotsLB <- dlply(dataLB, "PARCAT1", function(data)
+		ggplot(data = data) +
+			geom_histogram(aes(fill = ANRIND, x = TRTA), stat = "count", position = "dodge") +
+			facet_wrap(~ PARAMCD) +
+			scale_fill_manual(values = colorPalette) + 
+			theme(axis.text.x = element_text(angle = -45, hjust = 0))
+	)
+	# n2mfrow: extract default dimensions for a specified number of plots
+	figDim <- dlply(dataLB, "PARCAT1", function(data) 
+		n2mfrow(length(unique(data$PARAMCD)))
+	)
+	knitPrintListPlots(
+		plotsList = listPlotsLB, 
+		generalLabel = "lab-hist-static",
+		type = "ggplot2",
+		# set caption for each figure
+		fig.cap = paste("Barplot of", tolower(names(listPlotsLB)), "measurements"),
+		# specify different dimensions
+		fig.width = sapply(figDim, "[[", 1) * 2 + 1, # 3 in for each plot + 1 in for the legend
+		fig.height = sapply(figDim, "[[", 2) * 2 + 2, # 3 in for each plot + 2 for x-axis labels
+		# include title before each visualization
+		titles = simpleCap(tolower(names(listPlotsLB))),
+		titleLevel = 4
+	)
+
+```
+
+### Interactive figures with `plotly`
+
+#### Include visualizations in document
+
+A list of interactive figures can be included within a _Rmarkdown_
+document with the `htmltools::tagList` function.
+The function `knitPrintListPlots` with the `type`
+set to 'plotly' enables to include additionally e.g. a caption or a title.
+
+```{r knitPrintListPlots-interactive, warning = FALSE, results = "asis"}
+	
+library(plotly)
+dataLB <- convertVarToFactor(data = dataLB, 
+	var = c("PARAMCD", "PARCAT1"), varNum = c("PARAMN", "PARCAT1N")
+)
+listPlotsLB <- dlply(dataLB, "PARCAT1", function(dataParcat){
+	plot_ly(data = dataParcat, x = ~ TRTA, type = "histogram",
+		color = ~ ANRIND, colors = colorPalette,
+		legendgroup = "color"
+	)
+})
+knitPrintListPlots(
+	plotsList = listPlotsLB, 
+	generalLabel = "lab-hist-interactive",
+	type = "plotly",
+	# set caption for each figure
+	fig.cap = paste("Barplot of", tolower(names(listPlotsLB)), "measurements"),
+	# include title before each visualization
+	titles = simpleCap(tolower(names(listPlotsLB))),
+	titleLevel = 5
+)
+
+```
+
+#### Include visualizations selection via a button
+
+When a large number of interactive visualizations are included in 
+a _Rmarkdown_ report, the size of the report and the rendering time 
+can increase considerably.
+
+A solution is to export each visualization into a separate figure and only
+display them when the user select the specified plot in a button.
+
+This can be achieved with the function `includeListPlotsButton`.
+
+Please note that the Rmarkdown document containing the vignette should be re-run to have
+the images properly included in the vignette document.
+
+```{r includeListPlotsButton-interactive, warning = FALSE, results = "asis"}
+
+	includeListPlotsButton(
+		listPlots = listPlotsLB,
+		generalLabel = "lab-hist",
+		titles = names(listPlotsLB),
+		pathFigures = "."
+	)
+
+```
+
+### List of flextable objects
+
+**List of [`flextable`](https://CRAN.R-project.org/package=flextable ) objects** cannot be included 
+from the same chunk of a _Rmarkdown_ document.
+The function `knitPrintListObjects` is used to included each `flextable` object in a 
+separated chunk.
+Please note that the following chunk option should be used: **`results = 'asis'`**.
+
+```{r knitPrintListObjects-flextable, warning = FALSE, results = "asis"}
+	
+	listFtLB <- dlply(dataLB, "PARCAT1", function(dataParcat){
+		getGLPGFlextable(data = head(dataParcat), style = "presentation")
+	})
+	
+	knitPrintListObjects(
+		xList = listFtLB, 
+		generalLabel = "lab-hist-ft",
+		titles = simpleCap(tolower(names(listFtLB))),
+		titleLevel = 4
+	)
+
+```
+
+### `htmltools::tagList` solution
+
+Please note that the `tagList` function of the `htmltools` package can also be used
+to include plots with associated title.
+However, in this case the titles are not automatically numbered by `knitr`.
+
+```{r knitPrintListObjects-tagList, warning = FALSE, results = "asis"}
+	
+	library(htmltools)
+	tagListArgs <- unlist(
+		lapply(names(listPlotsLB), function(name) list(h4(name), listPlotsLB[[name]]))
+	, recursive = FALSE)
+	do.call(htmltools::tagList, tagListArgs)
+
+```
+
+# Appendix
+
+## Session information
+
+```{r includeSessionInfo, echo = FALSE}
+
+	library(pander)
+	pander(sessionInfo())
+
+```

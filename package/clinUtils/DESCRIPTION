@@ -1,0 +1,35 @@
+Package: clinUtils
+Type: Package
+Title: General utility functions for analysis of clinical data.
+Version: 0.0.1.999
+Date: 2021-04-01
+Author: Laure Cougnaud and Michela Pasetto
+Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>
+Description: This package contains general utility functions: for import, reporting and analysis of clinical data.
+Imports:
+  crosstalk,
+  data.table,
+  DT,
+  grDevices,
+  haven,
+  htmlwidgets,
+  knitr,
+  magrittr,
+  plyr, 
+  png,
+  tools,    
+  utils
+Suggests:
+  dplyr,
+  ggplot2,
+  plotly,
+  htmltools,
+  jsonlite,
+  pander,
+  rmarkdown,
+  testthat,
+  webshot,
+  xml2
+License: file LICENSE
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr
