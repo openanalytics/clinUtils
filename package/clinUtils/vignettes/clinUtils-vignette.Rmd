@@ -2,7 +2,10 @@
 title: "Vignette of the `clinUtils` package"
 author: "Laure Cougnaud"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
-output: rmarkdown::html_document
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
 vignette: >
   %\VignetteIndexEntry{Introduction to the `clinUtils` package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -32,6 +35,7 @@ for analysis of clinical datasets in R [@R].
 ```{r loadPackages}
 
 	library(clinUtils)
+	library(pander)
 
 ```
 
@@ -42,49 +46,62 @@ for analysis of clinical datasets in R [@R].
 The [`haven`](https://cran.r-project.org/package=haven) R package enables to load 
 SAS datasets in `sas7bdat` and `xpt` formats.
 
-The function `loadDataADaMSDTM` automates the loading of multiple
-SAS datasets. This returns a list of dataset (named by domain) and a 
- the different labels of the variables used across all datasets
-(e.g. `labelVars` parameter used in the `patientProfiles`/`inTextSummaryTable` packages).
+The function `loadDataADaMSDTM` imports multiple
+SAS datasets at once. This returns a list of dataset (once by domain).
+The variable labels are combined across datasets and available in
+a dedicated attribute.
 
-```{r loadData, eval = FALSE}
+```{r loadData}
 
-	data <- loadDataADaMSDTM(
-		files = list.files(path = ".", pattern = "*.sas7bdat", full.names = TRUE)
+	pathExampleDatasets <- list.files(
+		path = system.file("extdata", "cdiscpilot01", package = "clinUtils"), 
+		pattern = "*.xpt", 
+		full.names = TRUE
 	)
+	
+	data <- loadDataADaMSDTM(files = pathExampleDatasets)
+	# A list is returned, each separated file is accessible via data$[fileName]
+	pander(head(data$DM))
+	pander(head(data$LB))
+	pander(head(data$AE))
+	
+	# Access labels for all variables
 	labelVars <- attr(data, "labelVars")
-	# each dataset is available via data$[DM], e.g. data$AE for adverse events, ...
+	labelVars
+	# Access label for particular variable: 
+	labelVars["USUBJID"]
 
 ```
 
 ## Example datasets
 
-Example _ADaM_ and _SDTM_ dataset from the Pelican study ('GLPG2737-CL-202') have
-been imported into R with this function.
+To demonstrate the functionalities of this package, 
+a subset of the _SDTM_ datasets from the CDISC Pilot 01 
+study, imported into R are available in the package as well.
 
 ```{r loadADaMSDTMDatasets}
 	
-	library(pander)
-
 	## ADaM
-
-	# load data
-	data(ADaMDataPelican)
-	# print first line
-#	pander(lapply(ADaMDataPelican, head, 1))
-	# extract labels
-	labelVarsADaM <- attr(ADaMDataPelican, "labelVars")
-#	pander(head(labelVarsADaM))
 	
-	# SDTM
+	# load data
+	data(dataADaMCDISCP01)
+	dataADaM <- dataADaMCDISCP01
+	names(dataADaM)
+	pander(head(dataADaM$ADSL))
+	pander(head(dataADaM$ADLBC))
+	pander(head(dataADaM$ADAE))
+	labelVarsADaM <- attr(dataADaM, "labelVars")
+
+	## SDTM
 
 	# load data
-	data(SDTMDataPelican)
-	# print first line
-#	pander(lapply(SDTMDataPelican, head, 1))
-	# extract labels
-	labelVarsSDTM <- attr(SDTMDataPelican, "labelVars")
-#	pander(head(labelVarsSDTM))
+	data(dataSDTMCDISCP01)
+	dataSDTM <- dataSDTMCDISCP01
+	names(dataSDTM)
+	pander(head(dataSDTM$DM))
+	pander(head(dataSDTM$LB))
+	pander(head(dataSDTM$AE))
+	labelVarsSDTM <- attr(dataSDTM, "labelVars")
 
 ```
 
@@ -98,13 +115,14 @@ The function `getLabelVar` extracts the label for the specified variables.
 ```{r getLabelVar}
 
 	# upon reading the data: attributes are available in each column
-	getLabelVar(data = ADaMDataPelican$ADAE, var = "AREL")
+	getLabelVar(data = dataADaM$ADAE, var = "AEDECOD")
 	
-	# but when data is subsetted, label is lost:
-	getLabelVar(data = subset(ADaMDataPelican$ADAE, AESEV == "MODERATE"), var = "AREL")
+	# Please note that when the data is converted to data.frame
+	# if the data is subsetted, the label is lost:
+	getLabelVar(data = subset(dataADaM$ADAE, AESEV == "MODERATE"), var = "AEDECOD")
 
 	# so always use 'labelVars':
-	getLabelVar(var = "AREL", labelVars = labelVarsADaM)
+	getLabelVar(var = "AEDECOD", labelVars = labelVars)
 	
 ```
 
@@ -114,10 +132,9 @@ The function `getLabelParamcd` get the label from specific parameter(s) code.
 
 ```{r getLabelParamcd}
 
-	getLabelParamcd(paramcd = "CRP", data = ADaMDataPelican$ADLB)
+	getLabelParamcd(paramcd = "CHOL", data = dataADaM$ADLB)
 
 ```
-
 
 # Visualizations
 
@@ -132,8 +149,8 @@ CDISC variable (`-NRIND`) are extracted via the `colorPaletteNRIND`
 and `shapePaletteNRIND` respectively:
 
 ```{r palette-show}
-print(shapePaletteNRIND)
 print(colorPaletteNRIND)
+print(shapePaletteNRIND)
 ```
 
 ```{r palette-plot, fig.height = 8}
@@ -157,13 +174,7 @@ and ensures that extra symbols are extracted in case non standard
 categories are available in the data.
 
 ```{r getPaletteCDISC}
-dataPlot <- subset(SDTMDataPelican$LB, LBTEST == "Neutrophils")
-# replace empty element by: 'Unknown'
-dataPlot[which(dataPlot$LBNRIND == ""), "LBNRIND"] <- "UNKNOWN"
-table(dataPlot$LBNRIND)
-# typically, if LBNRINDN variable would be available in the data,
-# categories could be ordered as: 
-# dataPlot$LBNRIND <- with(dataPlot, reorder(LBNRIND, LBNRINDN))
+dataPlot <- subset(dataSDTM$LB, LBTEST == "Cholesterol")
 
 colorPalette <- getPaletteCDISC(x = dataPlot$LBNRIND, var = "NRIND", type = "color")
 print(colorPalette)
@@ -185,11 +196,6 @@ gg +
 	scale_shape_manual(values = shapePalette, limits = names(colorPalette))
 ```
 
-## Figure comparison
-
-Figures, e.g. generated from different versions of the datasets can be compared with the `compareFigs` function.
-The [ImageMagick](https://imagemagick.org/) tool should be available (see example in documentation: `? compareFigs`).
-
 # Reporting tools
 
 ### Utility function for interactive table
@@ -206,7 +212,7 @@ a row variable, to include bar visualization, ...
 
 ```{r toDTGLPG}
 
-	dataTEAE <- subset(dataAE, SAFFL == "Y" & TRTEMFL == "Y")
+	dataTEAE <- subset(dataADaM$ADAE, SAFFL == "Y" & TRTEMFL == "Y")
 	
 	# set column names to labels
 	labelVarsTEAE <- getLabelVar(
@@ -228,11 +234,12 @@ a row variable, to include bar visualization, ...
 		colnames = colnamesTEAE, 
 		rowGroupVar = c("AESOC"),
 		expandVar = c("patientProfileLink"),
-		nonVisibleVar = c("patientProfilePath", "SUBJID"),
+		nonVisibleVar = c("patientProfilePath"),
 		# patient profile URL should be considered as raw HTML
 		escape = -grep("patientProfileLink", colnames(dataTEAE)),
 		barVar = "AGE",
-		barRange = c(0, 100)
+		barRange = c(0, 100),
+		caption = "Listing of treatment-emergent adverse events on the safety analysis set"
 	)
 
 ```
@@ -256,15 +263,17 @@ generated from the same chunk (`fig.height`/`fig.width`).
 	
 	library(plyr)
 	
+	dataADLB <- dataADaMCDISCP01$ADLB
+	
 	# create plots:
-	listPlotsLB <- dlply(dataLB, "PARCAT1", function(data)
+	listPlotsLB <- dlply(dataADLB, "PARCAT1", function(data)
 		ggplot(data = data) +
 			geom_histogram(aes(fill = ANRIND, x = TRTA), stat = "count", position = "dodge") +
 			facet_wrap(~ PARAMCD) +
 			theme(axis.text.x = element_text(angle = -45, hjust = 0))
 	)
 	# n2mfrow: extract default dimensions for a specified number of plots
-	figDim <- dlply(dataLB, "PARCAT1", function(data) 
+	figDim <- dlply(dataADLB, "PARCAT1", function(data) 
 		n2mfrow(length(unique(data$PARAMCD)))
 	)
 	knitPrintListPlots(
@@ -295,10 +304,7 @@ set to 'plotly' enables to include additionally e.g. a caption or a title.
 ```{r knitPrintListPlots-interactive, warning = FALSE, results = "asis"}
 	
 library(plotly)
-dataLB <- convertVarToFactor(data = dataLB, 
-	var = c("PARAMCD", "PARCAT1"), varNum = c("PARAMN", "PARCAT1N")
-)
-listPlotsLB <- dlply(dataLB, "PARCAT1", function(dataParcat){
+listPlotsLB <- dlply(dataADLB, "PARCAT1", function(dataParcat){
 	plot_ly(data = dataParcat, x = ~ TRTA, type = "histogram",
 		color = ~ ANRIND, 
 		legendgroup = "color"
@@ -317,31 +323,6 @@ knitPrintListPlots(
 
 ```
 
-#### Include visualizations selection via a button
-
-When a large number of interactive visualizations are included in 
-a _Rmarkdown_ report, the size of the report and the rendering time 
-can increase considerably.
-
-A solution is to export each visualization into a separate figure and only
-display them when the user select the specified plot in a button.
-
-This can be achieved with the function `includeListPlotsButton`.
-
-Please note that the Rmarkdown document containing the vignette should be re-run to have
-the images properly included in the vignette document.
-
-```{r includeListPlotsButton-interactive, warning = FALSE, results = "asis"}
-
-	includeListPlotsButton(
-		listPlots = listPlotsLB,
-		generalLabel = "lab-hist",
-		titles = names(listPlotsLB),
-		pathFigures = "."
-	)
-
-```
-
 ### List of flextable objects
 
 **List of [`flextable`](https://CRAN.R-project.org/package=flextable ) objects** cannot be included 
@@ -352,8 +333,8 @@ Please note that the following chunk option should be used: **`results = 'asis'`
 
 ```{r knitPrintListObjects-flextable, warning = FALSE, results = "asis"}
 	
-	listFtLB <- dlply(dataLB, "PARCAT1", function(dataParcat){
-		getGLPGFlextable(data = head(dataParcat), style = "presentation")
+	listFtLB <- dlply(dataADLB, "PARCAT1", function(dataParcat){
+		flextable(data = head(dataParcat))
 	})
 	
 	knitPrintListObjects(
