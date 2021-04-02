@@ -1,6 +1,6 @@
 Package: clinUtils
 Type: Package
-Title: General utility functions for analysis of clinical data.
+Title: General utility functions for analysis of clinical data
 Version: 0.0.1.999
 Date: 2021-04-01
 Author: Laure Cougnaud and Michela Pasetto
@@ -14,7 +14,6 @@ Imports:
   haven,
   htmlwidgets,
   knitr,
-  magrittr,
   plyr, 
   png,
   tools,    
