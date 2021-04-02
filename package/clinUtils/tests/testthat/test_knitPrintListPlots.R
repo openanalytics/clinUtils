@@ -113,7 +113,7 @@ includePlotsInRmdDoc <- function(includePlotCmd, file)
 		"output: rmarkdown::html_document",
 		"---",
 		"```{r results = 'asis'}",
-		"library(plotly);library(glpgUtilityFct)",
+		"library(plotly);library(clinUtils)",
 		"plotsListInteractive <- list(
 			A = plot_ly(data = cars, x = ~speed, y = ~dist, type = \"scatter\", mode = \"marker\"),
 			B = plot_ly(data = cars, x = ~speed, y = ~dist, type = \"scatter\", mode = \"line\")
@@ -163,7 +163,7 @@ test_that("Knitting list of interactive flextable with 'knitPrintListObjects'", 
 		"output: rmarkdown::html_document",
 		"---",
 		"```{r results = \"asis\"}",
-		"library(flextable);library(glpgUtilityFct)",
+		"library(flextable);library(clinUtils)",
 		"listTables <- list(flextable(iris), flextable(cars))",
 		"knitPrintListObjects(xList = listTables)",
 		"```",
