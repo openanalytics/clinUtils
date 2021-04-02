@@ -1,11 +1,11 @@
 context("Get labels of variables in SAS datasets")
 
-data(ADaMDataPelican)
-data(SDTMDataPelican)
-data <- ADaMDataPelican$ADSL
-
 test_that("Get label of one specific variable in a dataset", {
 			
+	data <- data.frame(
+		USUBJID = structure(sample.int(5), label = "Subject ID"),
+		stringsAsFactors = FALSE
+	)
 	var <- head(colnames(data), 1)
 	
 	# var
@@ -56,6 +56,11 @@ test_that("Get label of one specific variable in a dataset", {
 
 test_that("Get label of multiple specific variables in a dataset", {
 
+	data <- data.frame(
+		USUBJID = structure(sample.int(5), label = "Subject ID"),
+		TRT = structure(c("A", "B", "A", "B", "A"), label = "Treatment"),
+		stringsAsFactors = FALSE
+	)
 	vars <- head(colnames(data))
 	varsLabels <- getLabelVar(var = vars, data = data)
 	
@@ -69,7 +74,18 @@ test_that("Get label of multiple specific variables in a dataset", {
 
 test_that("Get label of all variables in datasets", {
 
-	dataList <- ADaMDataPelican[1:2]
+	data1 <- data.frame(
+		USUBJID = structure(sample.int(5), label = "Subject ID"),
+		TRT = structure(c("A", "B", "A", "B", "A"), label = "Treatment"),
+		stringsAsFactors = FALSE
+	)
+	data2 <- data.frame(
+		USUBJID = structure(sample.int(5), label = "Subject ID"),
+		AVAL = structure(rnorm(5), label = "Analysis value"),
+		stringsAsFactors = FALSE	
+	)
+	dataList <- list(data1, data2)
+		
 	dataListLabels <- getLabelVars(data = dataList)
 	
 	expect_is(dataListLabels, "character")
@@ -87,7 +103,12 @@ test_that("Get label of all variables in datasets", {
 test_that("Get label from parameter codes", {
 			
 	# for ADaM dataset
-	dataADaM <- ADaMDataPelican$ADLB
+	dataADaM <- data.frame(
+		USUBJID = sample.int(6), 
+		PARAM = rep(c("Cholesterol", "Triglycerides"), each = 3),
+		PARAMCD = rep(c("CHOL", "TRIGL"), each = 3),
+		stringsAsFactors = FALSE
+	)
 	paramcdsADaM <- unique(dataADaM$PARAMCD)
 	expect_silent(paramLabelsADaM <- getLabelParamcd(paramcd = paramcdsADaM, data = dataADaM))
 	expect_is(paramLabelsADaM, "character")
@@ -96,7 +117,12 @@ test_that("Get label from parameter codes", {
 	expect_equal(unname(paramLabelsADaM), dataADaM[match(paramcdsADaM, dataADaM$PARAMCD), "PARAM"])
 	
 	# for SDTM (custom variables)
-	dataSDTM <- SDTMDataPelican$LB
+	dataSDTM <- data.frame(
+		USUBJID = sample.int(6), 
+		LBTEST = rep(c("Cholesterol", "Triglycerides"), each = 3),
+		LBTESTCD = rep(c("CHOL", "TRIGL"), each = 3),
+		stringsAsFactors = FALSE
+	)
 	paramcdsSDTM <- unique(dataSDTM$LBTESTCD)
 	expect_error(paramLabels <- getLabelParamcd(paramcd = paramcdsSDTM, data = dataSDTM))
 	expect_silent(paramLabelsSDTM <- getLabelParamcd(
