@@ -1,8 +1,5 @@
 context("Test plots-utility")
 
-data(ADaMDataPelican)
-dataAE <- ADaMDataPelican$ADAE
-
 test_that("Formatting long labels", {
 			
 	labelLong <- paste(
@@ -24,6 +21,16 @@ test_that("Formatting long labels", {
 
 test_that("Formatting variables for plot labels", {
 			
+	dataAE <- data.frame(
+		USUBJID = c("1", "1", "2", "2", "3"), 
+		SEX = c("F", "F", "F", "F", "M"),
+		AEBODSYS = c("II", "I", "I", "I", "II"),
+		AEBDSYCD = c(2, 1, 1, 1, 2),
+		AEHLT = c("C", "B", "A", "A", "C"),
+		AEDECOD = c("c1", "b1", "a1", "a2", "c1"),
+		stringsAsFactors = FALSE
+	)		
+	
       expect_null(
           formatVarForPlotLabel(
               dataAE,
