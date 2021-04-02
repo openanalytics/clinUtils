@@ -39,8 +39,8 @@ where '/' are replaced with '-' in the subject
 identifier (\code{subjectVar}).
 }
 \examples{
-data(ADaMDataPelican)
-data <- ADaMDataPelican$ADSL
+# Typical CDISC dataset contains universal subject ID (USUBJID)
+data <- data.frame(USUBJID = c("subj1", "subj2", "subj3"))
 dataWithPatientProfileVar <- createPatientProfileVar(
   data = data, 
   patientProfilePath = "pathProfiles", 
