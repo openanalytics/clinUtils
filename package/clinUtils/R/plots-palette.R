@@ -26,7 +26,6 @@
 #' \item{"UNKNOWN" or 'NA': }{grey}
 #' \item{"NA": }{grey}
 #' }
-#' These colors are extracted from \code{\link[glpgStyle]{glpgColor}}
 "colorPaletteNRIND"
 
 #' Get standard palette for typical CDISC variables.

@@ -566,7 +566,7 @@ toDTGLPG <- function(data,
 #' \code{\link[DT]{formatStyle}}
 #' @return Updated \code{tableDT}
 #' @import DT
-#' @importFrom glpgStyle glpgColor
+#' @importFrom viridisLite viridis
 #' @author Laure Cougnaud
 formatDTBarVar <- function(
 	tableDT,
@@ -582,8 +582,6 @@ formatDTBarVar <- function(
 	barVar <- checkVarInData(var = barVar, data = data, label = "bar")
 	
 	if(!is.null(barVar)){
-		
-		glpgColors <- glpgStyle::glpgColor()
 		
 		# check if barVar is numeric
 		barVarNotNum <- barVar[!sapply(data[, barVar, drop = FALSE], is.numeric)]
@@ -625,12 +623,12 @@ formatDTBarVar <- function(
 			barColor <- if(!is.null(barColorThrVar)){
 				styleInterval(
 					cuts = barColorThrVar, 
-					values = glpgColors[seq_len(length(barColorThrVar)+1)]
+					values = viridis(length(barColorThrVar)+1)
 				)
 			}else	"black"
 			barBg <- styleColorBar(
 				data = barRangeVar, 
-				color = glpgColors["lightGreen"]
+				color = "green"
 			)
 			tableDT <- tableDT %>% 
 				formatStyle(

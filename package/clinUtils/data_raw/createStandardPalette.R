@@ -14,13 +14,12 @@ shapePaletteNRIND <- c(
 
 save(shapePaletteNRIND, file = "../data/shapePaletteNRIND.RData")
 
-glpgColors <- glpgStyle::glpgColor()
 colorPaletteNRIND <- c(
-	LOW = unname(glpgColors["orange"]), 
-	NORMAL = unname(glpgColors["green"]),
-	HIGH = unname(glpgColors["orange"]),
-	ABNORMAL = unname(glpgColors["signalRed"]),
-	UNKNOWN = unname(glpgColors["grey"]),
-	'NA' = unname(glpgColors["grey"])
+	LOW = "orange", 
+	NORMAL = "green",
+	HIGH = "orange",
+	ABNORMAL = "red",
+	UNKNOWN = "grey",
+	'NA' = "grey"
 )
 save(colorPaletteNRIND, file = "../data/colorPaletteNRIND.RData")

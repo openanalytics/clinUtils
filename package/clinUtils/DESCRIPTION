@@ -18,7 +18,8 @@ Imports:
   plyr, 
   png,
   tools,    
-  utils
+  utils,
+  viridisLite
 Suggests:
   dplyr,
   ggplot2,

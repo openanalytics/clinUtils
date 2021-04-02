@@ -2,7 +2,7 @@
 title: "Vignette of the `clinUtils` package"
 author: "Laure Cougnaud"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
-output: glpgStyle::html_report
+output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{Introduction to the `clinUtils` package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -254,9 +254,6 @@ generated from the same chunk (`fig.height`/`fig.width`).
 
 ```{r knitPrintListPlots-static, out.width = "100%", warning = FALSE, results = "asis"}
 	
-	# same color palette for all plots:
-	colorPalette <- glpgStyle::getGLPGColorPalette(x = levels(dataLB$ANRIND))
-	
 	library(plyr)
 	
 	# create plots:
@@ -264,7 +261,6 @@ generated from the same chunk (`fig.height`/`fig.width`).
 		ggplot(data = data) +
 			geom_histogram(aes(fill = ANRIND, x = TRTA), stat = "count", position = "dodge") +
 			facet_wrap(~ PARAMCD) +
-			scale_fill_manual(values = colorPalette) + 
 			theme(axis.text.x = element_text(angle = -45, hjust = 0))
 	)
 	# n2mfrow: extract default dimensions for a specified number of plots
@@ -304,7 +300,7 @@ dataLB <- convertVarToFactor(data = dataLB,
 )
 listPlotsLB <- dlply(dataLB, "PARCAT1", function(dataParcat){
 	plot_ly(data = dataParcat, x = ~ TRTA, type = "histogram",
-		color = ~ ANRIND, colors = colorPalette,
+		color = ~ ANRIND, 
 		legendgroup = "color"
 	)
 })
