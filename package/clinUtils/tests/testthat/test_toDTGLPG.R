@@ -1,10 +1,5 @@
 context("Convert to DT GLPG wrapper")
 
-data(ADaMDataPelican)
-data <- head(ADaMDataPelican$ADSL)[, 1:15]
-data(labelVarsADaMPelican)
-labelVars <- labelVarsADaMPelican
-
 # require extra libraries
 library(dplyr) # for tibble
 
@@ -47,6 +42,13 @@ exportDTToPng <- function(dt, label){
 
 test_that("basic", {
 			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		SEX = c("F", "M", "F", "M", "F"),
+		stringsAsFactors = FALSE
+	)		
+		
 	expect_silent(dt <- toDTGLPG(data = data))
 	expect_is(dt, "datatables")	
 	expect_identical(object = dt$x$data, expected = data)
@@ -68,6 +70,13 @@ test_that("basic", {
 })
 
 test_that("SharedData", {
+	
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		SEX = c("F", "M", "F", "M", "F"),
+		stringsAsFactors = FALSE
+	)		
 			
 	# works
 	dataSD <- crosstalk::SharedData$new(data = data, key = as.formula("~USUBJID"))
@@ -80,16 +89,34 @@ test_that("SharedData", {
 })
 
 test_that("tibble", {
+		
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		SEX = c("F", "M", "F", "M", "F"),
+		stringsAsFactors = FALSE
+	)		
+			
 	dataTB <- data %>% group_by(USUBJID)
 	expect_silent(dt <- toDTGLPG(data = dataTB))
 	expect_identical(dt$x$data, data)
 })
 
 test_that("Colnames", {
+	
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		SEX = c("F", "M", "F", "M", "F"),
+		stringsAsFactors = FALSE
+	)
+	colnames <- c(
+		"Subject ID" = "USUBJID",
+		"Treatment" = "TRT",
+		"Sex" = "SEX"
+	)
 			
 	# correct
-	colnames <- labelVars[colnames(data)]
-	colnames <- setNames(names(colnames), colnames)
 	expect_silent(dt <- toDTGLPG(data = data, colnames = colnames))
 	tableJSON <- exportAndGetTableJSON(dt)
 	headerTh <- xml_find_all(read_html(tableJSON$x$container), "//th")
@@ -102,8 +129,15 @@ test_that("Colnames", {
 
 test_that("Specify non visible columns", {
 	
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		SEX = c("F", "M", "F", "M", "F"),
+		stringsAsFactors = FALSE
+	)		
+			
 	# compare files created with the 'nonVisible' and with removing column upfront
-	nonVisibleVar <- sample(colnames(data), 3, replace = TRUE)
+	nonVisibleVar <- sample(colnames(data), 1, replace = TRUE)
 	
 	# remove var (for comparison)
 	expect_silent(
@@ -168,6 +202,15 @@ test_that("Format percentage var", {
 })
 
 test_that("Barplot for a variable", {
+	
+	data <- data.frame(
+		USUBJID = as.character(sample.int(5)),
+		TRT = c("A", "A", "B", "B", "B"),
+		SEX = c("F", "M", "F", "M", "F"),
+		AGE = c(20, 40, 67, 36, 50),
+		WEIGHTBL = c(60, 45, 89, 120, 78),
+		stringsAsFactors = FALSE
+	)		
 			
 	# variable not available
 	expect_warning(toDTGLPG(data = data, barVar = "blabla"))
@@ -214,6 +257,12 @@ test_that("Barplot for a variable", {
 
 test_that("Filter boxes", {
 			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE	
+	)
+	
 	filters <- c("top", "none")
 	for(filter in filters){
 		
@@ -228,6 +277,12 @@ test_that("Filter boxes", {
 
 test_that("Search box", {
 			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE	
+	)
+			
 	for(includeSearchBox in c(TRUE, FALSE)){		
 			
 		dt <- toDTGLPG(data, searchBox = includeSearchBox)
@@ -239,6 +294,13 @@ test_that("Search box", {
 })
 
 test_that("Page length", {
+
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE	
+	)
+			
 	dt <- toDTGLPG(data, pageLength = 2)
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_equal(tableJSON$x$options$pageLength, 2) # page length properly set
@@ -246,13 +308,26 @@ test_that("Page length", {
 })
 
 test_that("Fixed columns", {
+	
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE	
+	)
+			
 	fC <- list(leftColumns = 2)
 	dt <- toDTGLPG(data, fixedColumns = fC)
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_equal(tableJSON$x$options$fixedColumns, fC)
 })
 
-test_that("Columns widths", {		
+test_that("Columns widths", {	
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
 		
 	widths <- sample(10, ncol(data), replace = TRUE)
 	dt <- toDTGLPG(data, columnsWidth = widths)
@@ -276,6 +351,12 @@ test_that("Columns widths", {
 
 test_that("Specification of extra options", {
 			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
+			
 	# specified options overwrites the default (with message)
 	expect_message(
 		dt <- toDTGLPG(data, options = list(pageLength = 20)),
@@ -295,13 +376,21 @@ test_that("Specification of extra options", {
 
 test_that("Expand variables", {
 			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE	
+	)
+			
 	# Expand mechanism done in Javascript
 	# so check at least than the HTML is well specified
 			
 	# test in combination of colnames
 	expandVar <- sample(colnames(data), ncol(data)/2)
-	colnames <- labelVars[colnames(data)]
-	colnames <- setNames(names(colnames), colnames)
+	colnames <- c(
+		"Subject ID" = "USUBJID",
+		"Treatment" = "TRT"
+	)
 	
 	expect_silent(dt <- toDTGLPG(data, expandVar = expandVar, colnames = colnames))
 	tableJSON <- exportAndGetTableJSON(dt)
@@ -322,6 +411,14 @@ test_that("Expand variables", {
 
 
 test_that("Expand variables with all column options", {
+	
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		SEX = c("F", "M", "F", "M", "F"),
+		AGE = c(20, 40, 67, 36, 50),
+		stringsAsFactors = FALSE
+	)		
 			
 	dataEscape <- cbind(
 		url = sprintf('<a href="customlink" target="_blank">%s</a>', data$USUBJID),
@@ -332,7 +429,7 @@ test_that("Expand variables with all column options", {
 	expandVar <- c("url", colnames(data)[c(1, ncol(data))])
 	nonVisibleVar <- colnames(data)[3]
 	barVar <- "AGE"
-	cAlignLeft <- 5 # 6th column
+	cAlignLeft <- 3 # 6th column
 	
 	expect_silent(dt <- 
 		toDTGLPG(
@@ -373,6 +470,13 @@ test_that("Expand variables with all column options", {
 
 
 test_that("Expand cells", {
+		
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		SEX = c("F", "M", "F", "M", "F"),
+		stringsAsFactors = FALSE
+	)			
 			
 	# Expand mechanism done in Javascript
 	# so check at least than the HTML is well specified
@@ -401,6 +505,12 @@ test_that("Expand cells", {
 })
 
 test_that("Escape cells", {
+		
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)	
 			
 	dataEscape <- cbind(
 		url = sprintf('<a href="customlink" target="_blank">%s</a>', data$USUBJID),
@@ -433,6 +543,14 @@ test_that("Escape cells", {
 
 test_that("Row grouping", {
 			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		STUDYID = rep("study1", each = 5),
+		SITEID = c("a", "b", "c", "a", "c"),
+		stringsAsFactors = FALSE
+	)	
+			
 	# Note: done in JS
 			
 	# properly done 
@@ -464,18 +582,38 @@ test_that("Row grouping", {
 })
 
 test_that("Vertical alignment", {
+	
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)	
+			
 	expect_silent(dt <- toDTGLPG(data, vAlign = "bottom"))
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_true(grepl("'vertical-align':'bottom'", tableJSON$x$options$rowCallback))
 })
 
 test_that("callback", {
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
+	
 	callback <- JS("testCallback")
 	expect_silent(dt <- toDTGLPG(data, callback = callback))
 	expect_true(grepl("testCallback", dt$x$callback))
 })
 
 test_that("Buttons", {
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
 			
 	# specify buttons
 	buttons <- "copy"
@@ -498,6 +636,12 @@ test_that("Buttons", {
 
 test_that("x-scrolling", {
 			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
+			
 	for(scrollX in c(TRUE, FALSE)){		
 		
 		dt <- toDTGLPG(data, scrollX = scrollX)
@@ -509,6 +653,12 @@ test_that("x-scrolling", {
 })
 
 test_that("Extra datatable parameters", {
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
 	
 	# internal default
 	expect_warning(toDTGLPG(data, rownames = TRUE))
@@ -521,6 +671,12 @@ test_that("Extra datatable parameters", {
 })
 
 test_that("Export", {
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
 			
 	# correct file format
 	file <- "test.html";unlink(file)
