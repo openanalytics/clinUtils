@@ -1,9 +1,8 @@
 context("Test miscellaneous functions")
 
-data(ADaMDataPelican)
-data <- ADaMDataPelican$ADSL
-
 test_that("createPatientProfileVar", {
+		
+	data <- data.frame(USUBJID = c("subj1", "subj2", "subj3"))		
 			
 	expect_error(
 		createPatientProfileVar(
@@ -41,6 +40,12 @@ test_that("createPatientProfileVar", {
 })
 
 test_that("Reorder columns", {
+	
+	data <- data.frame(
+		USUBJID = c("subj1", "subj2", "subj3"),
+		TRT = c("A", "B", "A"),
+		AGE = sample.int(n = 10, size = 3)
+	)
 			
 	expect_error(
 		reorderColumns(
@@ -67,6 +72,12 @@ test_that("Reorder columns", {
 })
 
 test_that("Extraction of column indices in Javascript", {
+	
+	data <- data.frame(
+		USUBJID = c("subj1", "subj2", "subj3"),
+		TRT = c("A", "B", "A"),
+		AGE = sample.int(n = 10, size = 3)
+	)		
 			
 	expect_equal(
 		getJavaScriptColumnsIdx(data, vars = colnames(data)[c(3, 1)]),
