@@ -16,7 +16,6 @@ typical Normal Reference Range Indicator variable:
 \item{"UNKNOWN" or 'NA': }{grey}
 \item{"NA": }{grey}
 }
-These colors are extracted from \code{\link[glpgStyle]{glpgColor}}
 }
 \usage{
 colorPaletteNRIND
