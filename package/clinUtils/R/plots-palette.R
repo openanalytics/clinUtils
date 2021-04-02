@@ -93,10 +93,10 @@ getPaletteCDISC <- function(x,
 	
 	standardPalette <- switch(type,
 		shape = switch(var, 
-			NRIND = glpgUtilityFct::shapePaletteNRIND
+			NRIND = clinUtils::shapePaletteNRIND
 		),
 		color = switch(var, 
-			NRIND = glpgUtilityFct::colorPaletteNRIND
+			NRIND = clinUtils::colorPaletteNRIND
 		)
 	)
 	
