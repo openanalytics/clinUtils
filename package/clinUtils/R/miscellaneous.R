@@ -132,8 +132,8 @@ getJavaScriptColumnsIdx <- function(...) getColumnsIdx(...) - 1
 #' the path to the patient profile and an hyperlink to it, respectively.
 #' @author Michela Pasetto
 #' @examples 
-#' data(ADaMDataPelican)
-#' data <- ADaMDataPelican$ADSL
+#' # Typical CDISC dataset contains universal subject ID (USUBJID)
+#' data <- data.frame(USUBJID = c("subj1", "subj2", "subj3"))
 #' dataWithPatientProfileVar <- createPatientProfileVar(
 #'   data = data, 
 #'   patientProfilePath = "pathProfiles", 
