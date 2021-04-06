@@ -33,3 +33,4 @@ Suggests:
 License: file LICENSE
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
+LazyData: true
