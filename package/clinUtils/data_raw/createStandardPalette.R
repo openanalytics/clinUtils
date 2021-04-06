@@ -1,4 +1,4 @@
-# Create standard palette
+# Create standard palette for CDISC variable
 # 
 # Author: Laure Cougnaud
 ###############################################################################
@@ -12,7 +12,7 @@ shapePaletteNRIND <- c(
 	'NA' = 3 # cross
 )
 
-save(shapePaletteNRIND, file = "../data/shapePaletteNRIND.RData")
+save(shapePaletteNRIND, version = 2, file = "../data/shapePaletteNRIND.RData")
 
 colorPaletteNRIND <- c(
 	LOW = "orange", 
@@ -22,4 +22,4 @@ colorPaletteNRIND <- c(
 	UNKNOWN = "grey",
 	'NA' = "grey"
 )
-save(colorPaletteNRIND, file = "../data/colorPaletteNRIND.RData")
+save(colorPaletteNRIND, version = 2, file = "../data/colorPaletteNRIND.RData")
