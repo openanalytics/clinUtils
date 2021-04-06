@@ -71,32 +71,6 @@ test_that("Reorder columns", {
 	
 })
 
-test_that("Extraction of column indices in Javascript", {
-	
-	data <- data.frame(
-		USUBJID = c("subj1", "subj2", "subj3"),
-		TRT = c("A", "B", "A"),
-		AGE = sample.int(n = 10, size = 3)
-	)		
-			
-	expect_equal(
-		getJavaScriptColumnsIdx(data, vars = colnames(data)[c(3, 1)]),
-		c(2, 0)
-	)
-			
-})
-
-test_that("Remove columns with all missing values", {
-			
-	data <- data.frame(A = seq_len(2), B = c(NA, 3), C = c(NA_character_, NA_character_))
-	
-	expect_identical(
-		removeNaCols(data),
-		data[, -3]
-	)
-			
-})
-
 test_that("Capitalization of first letter with 'simpleCap'", {
 	
 	expect_identical(

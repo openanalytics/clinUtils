@@ -73,41 +73,6 @@ roundCustom <- function(x, digits = 0, format = "number") {
 	
 }
 
-#' Remove columns with all missing values
-#' @param data data.frame or matrix
-#' @return data.frame without columns with all missing values
-#' @author Laure Cougnaud
-#' @examples 
-#' data <- data.frame(c(NA, NA), B = c("group1", "group2"), C = c(NA, 2))
-#' removeNaCols(data)
-#' @export
-removeNaCols <- function(data){
-	
-	idxNaCols <- which(colSums(is.na(data)) == nrow(data))
-	res <- if(length(idxNaCols)) data[, -idxNaCols]	else data
-	return(res)
-	
-}
-
-#' Extract position indices of columns in a data frame
-#' 
-#' @param df data frame
-#' @param vars character vector of columns of the data frame
-#' @author Michela Pasetto
-#' @export 
-getColumnsIdx <- function(df, vars)	match(vars, colnames(df))
-
-
-#' Extract position indices of columns in a data frame and subtract 1
-#' 
-#' This function is used for correspondance between R and javascript column indices 
-#' @inheritDotParams getColumnsIdx
-#' @author Michela Pasetto
-#' @export 
-#' @examples 
-#' getJavaScriptColumnsIdx(df = iris, vars = c("Sepal.Width", "Sepal.Length"))
-getJavaScriptColumnsIdx <- function(...) getColumnsIdx(...) - 1
-
 
 
 #' Create link to patient profile
