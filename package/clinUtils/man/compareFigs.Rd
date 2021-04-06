@@ -34,14 +34,16 @@ the difference is saved in the \code{outputDir} folder, under the name '[filenam
 \dontrun{
 
 # ImageMagick should be installed and available
-data(ADaMDataPelican)
+data(dataADaMCDISCP01)
 
 library(ggplot2)
+
+dataLB <- dataADaMCDISCP01$ADLBC
 
 # default ggplot2 behaviour
 pathFigRef <- "compareFigs_ref"
 dir.create(pathFigRef)
-gg1 <- ggplot(data = subset(dataLB, PARAMCD == "CRP"), 
+gg1 <- ggplot(data = subset(dataLB, PARAMCD == "CHOL"), 
 	aes(x = ADY, y = CHG, color = SUBJID)) +
 	geom_line(aes(linetype = SUBJID)) +
 	geom_point(aes(shape = SUBJID)) +

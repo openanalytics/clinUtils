@@ -20,12 +20,15 @@ named vector with variable labels
 Get label of the variables in SAS dataset(s)
 }
 \examples{
-data(ADaMDataPelican)
-# by default extracted from the data (if available)
-getLabelVars(ADaMDataPelican)
+data(dataADaMCDISCP01)
+labelVars <- attr(dataADaMCDISCP01, "labelVars")
+
+# extract label for all variables from specified datasets:
+getLabelVars(data = dataADaMCDISCP01[c("ADLB", "ADVS")], labelVars = labelVars)
+
 # extracted from specified labelVars, e.g. to specify custom label for specific variable(s)
 labelVarsCustom <- getLabelVars(
-  data = ADaMDataPelican, 
+  data = dataADaMCDISCP01, 
   labelVars = c(USUBJID = "Subject identifier for my study")
 )
 labelVarsCustom["USUBJID"]

@@ -163,17 +163,15 @@ convertToDateTime <- function(x, format = c("%Y-%m-%dT%H:%M", "%Y-%m-%d"),
 #' @author Laure Cougnaud
 #' @examples
 #' 
-#' data(ADaMDataPelican)
-#' labelVarsADaM <- attr(ADaMDataPelican, "labelVars")
+#' data(dataADaMCDISCP01)
+#' labelVars <- attr(dataADaMCDISCP01, "labelVars")
 #' 
-#' # upon reading the data: attributes are directly available in each column
-#' 	getLabelVar(data = ADaMDataPelican$ADAE, var = "AREL")
+#' # (upon reading the data with haven: attributes should directly available in each column)
+#' # getLabelVar(data = dataTibble, var = "AREL")
 #' 		
-#' # but when data is subsetted, label is lost:
-#' getLabelVar(data = subset(ADaMDataPelican$ADAE, AESEV == "MODERATE"), var = "AREL")
-#' 	
+#' # but if the data as data.frame is subsetted, label is lost 	
 #' # so better to use 'labelVars':
-#' getLabelVar(var = "AREL", labelVars = labelVarsADaM)
+#' getLabelVar(var = "AREL", labelVars = labelVars)
 #' @export
 getLabelVar <- function(var, data = NULL, labelVars = NULL, label = NULL){
 	
@@ -221,12 +219,15 @@ getLabelVar <- function(var, data = NULL, labelVars = NULL, label = NULL){
 #' @author Laure Cougnaud
 #' @importFrom plyr ddply
 #' @examples
-#' data(ADaMDataPelican)
-#' # by default extracted from the data (if available)
-#' getLabelVars(ADaMDataPelican)
+#' data(dataADaMCDISCP01)
+#' labelVars <- attr(dataADaMCDISCP01, "labelVars")
+#' 
+#' # extract label for all variables from specified datasets:
+#' getLabelVars(data = dataADaMCDISCP01[c("ADLB", "ADVS")], labelVars = labelVars)
+#' 
 #' # extracted from specified labelVars, e.g. to specify custom label for specific variable(s)
 #' labelVarsCustom <- getLabelVars(
-#'   data = ADaMDataPelican, 
+#'   data = dataADaMCDISCP01, 
 #'   labelVars = c(USUBJID = "Subject identifier for my study")
 #' )
 #' labelVarsCustom["USUBJID"]
@@ -284,13 +285,13 @@ getLabelVars <- function(data, labelVars = NULL, dataList){
 #' @author Laure Cougnaud
 #' @examples
 #' # for ADaM
-#' data(ADaMDataPelican)
-#' getLabelParamcd(paramcd = "CRP", data = ADaMDataPelican$ADLB)
+#' data(dataADaMCDISCP01)
+#' getLabelParamcd(paramcd = "CHOL", data = dataADaMCDISCP01$ADLB)
 #' # for SDTM
-#' data(SDTMDataPelican)
+#' data(dataSDTMCDISCP01)
 #' getLabelParamcd(
 #'   paramcd = "CRP", 
-#'   data = SDTMDataPelican$LB, 
+#'   data = dataSDTMCDISCP01$LB, 
 #'   paramcdVar = "LBTESTCD", 
 #'   paramVar = "LBTEST"
 #' )

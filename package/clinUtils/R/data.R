@@ -15,7 +15,7 @@
 #' @docType data
 #' @author Laure Cougnaud
 #' @source Original (and entire) datasets are available in: \cr
-#' \link{https://github.com/phuse-org/phuse-scripts/tree/master/data/sdtm/cdiscpilot01}
+#' \url{https://github.com/phuse-org/phuse-scripts/tree/master/data/sdtm/cdiscpilot01}
 #' See in particular the \emph{define.xml} file
 #' for further description of the
 #' datasets and variables name.
@@ -39,7 +39,7 @@ NULL
 #' @docType data
 #' @author Laure Cougnaud
 #' @source Original (and entire) datasets are available in: \cr
-#' \link{https://github.com/phuse-org/phuse-scripts/tree/master/data/adam/cdiscpilot01}
+#' \url{https://github.com/phuse-org/phuse-scripts/tree/master/data/adam/cdiscpilot01}
 #' See in particular the \emph{define.xml} file
 #' for further description of the
 #' datasets and variables name.

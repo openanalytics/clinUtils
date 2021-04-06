@@ -29,7 +29,8 @@ Suggests:
   rmarkdown,
   testthat,
   webshot,
-  xml2
+  xml2,
+  flextable
 License: file LICENSE
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr

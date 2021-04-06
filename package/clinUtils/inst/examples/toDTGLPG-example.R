@@ -1,11 +1,12 @@
 library(dplyr)
 
-data(ADaMDataPelican)
-data(labelVarsADaMPelican)
+data(dataADaMCDISCP01)
+labelVars <- attr(dataADaMCDISCP01, "labelVars")
 
 # example of simple adverse event table
-dataAE <- ADaMDataPelican$ADAE
-subjectsSafety <- subset(ADaMDataPelican$ADSL, SAFFL == "Y")$USUBJID
+dataAE <- dataADaMCDISCP01$ADAE
+
+subjectsSafety <- subset(dataADaMCDISCP01$ADSL, SAFFL == "Y")$USUBJID
 
 # add patient profiles link (if available)
 dataAE <- createPatientProfileVar(
@@ -17,7 +18,6 @@ dataAE <- createPatientProfileVar(
 # compute counts of subjects presenting each AE
 tableAE <- dataAE %>% 
 	group_by(AESOC, AEDECOD) %>% 
-	filter(USUBJID %in% subjectsSafety) %>%
 	summarise(
 		N = n_distinct(USUBJID),
 		perc = round(N/length(subjectsSafety)*100, 3),
@@ -29,7 +29,7 @@ tableAE <- dataAE %>%
 # extract new variables labels
 tableAELabels <- getLabelVar(
 	var = colnames(tableAE),
-	labelVars = labelVarsADaMPelican,
+	labelVars = labelVars,
 	label = c(N = '# subjects', perc = "% subjects")
 )
 # 'colnames' should be specified as c('new name' = 'old name', ...)

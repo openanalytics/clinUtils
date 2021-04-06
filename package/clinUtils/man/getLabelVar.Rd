@@ -36,17 +36,15 @@ If the label is not available, the input variable is returned.
 }
 \examples{
 
-data(ADaMDataPelican)
-labelVarsADaM <- attr(ADaMDataPelican, "labelVars")
+data(dataADaMCDISCP01)
+labelVars <- attr(dataADaMCDISCP01, "labelVars")
 
-# upon reading the data: attributes are directly available in each column
-	getLabelVar(data = ADaMDataPelican$ADAE, var = "AREL")
+# (upon reading the data with haven: attributes should directly available in each column)
+# getLabelVar(data = dataTibble, var = "AREL")
 		
-# but when data is subsetted, label is lost:
-getLabelVar(data = subset(ADaMDataPelican$ADAE, AESEV == "MODERATE"), var = "AREL")
-	
+# but if the data as data.frame is subsetted, label is lost 	
 # so better to use 'labelVars':
-getLabelVar(var = "AREL", labelVars = labelVarsADaM)
+getLabelVar(var = "AREL", labelVars = labelVars)
 }
 \author{
 Laure Cougnaud

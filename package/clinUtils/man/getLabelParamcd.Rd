@@ -26,13 +26,13 @@ Get label for a parameter code (extracted from the 'PARAM' column)
 }
 \examples{
 # for ADaM
-data(ADaMDataPelican)
-getLabelParamcd(paramcd = "CRP", data = ADaMDataPelican$ADLB)
+data(dataADaMCDISCP01)
+getLabelParamcd(paramcd = "CHOL", data = dataADaMCDISCP01$ADLB)
 # for SDTM
-data(SDTMDataPelican)
+data(dataSDTMCDISCP01)
 getLabelParamcd(
   paramcd = "CRP", 
-  data = SDTMDataPelican$LB, 
+  data = dataSDTMCDISCP01$LB, 
   paramcdVar = "LBTESTCD", 
   paramVar = "LBTEST"
 )

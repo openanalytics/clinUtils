@@ -39,8 +39,8 @@ The following workflow is used:
 \author{
 Laure Cougnaud
 library(ggplot2)
-data(ADaMDataPelican)
-dataAE <- ADaMDataPelican$ADAE
+data(dataADaMCDISCP01)
+dataAE <- dataADaMCDISCP01$ADAE
 
 # by default, groups are sorted alphabetically in ggplot2 (from bottom to top for an histogram)
 ggplot(data = dataAE, aes(y = AEDECOD, fill = AEBODSYS)) + geom_histogram(stat="count")
