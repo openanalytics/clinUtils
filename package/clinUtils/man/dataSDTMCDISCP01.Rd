@@ -5,7 +5,7 @@
 \alias{dataSDTMCDISCP01}
 \title{Example of SDTM datasets from the CDISC original Pilot 01 study}
 \format{
-List of data.frame containing the SDTM
+List of data.frames containing the SDTM
 dataset for each selected domain.\cr
 Labels for the different variables across datasets
 is available via the \code{labelVars} attribute.
@@ -21,9 +21,21 @@ datasets and variables name.
 This contains a subset of the CDISC original Pilot 01 study dataset for:
 \itemize{
 \item{a selected subset of subjects}
-\item{a selected subset of domains: demographics ('dm'),
- adverse event ('ae') and laboratory ('lb') data}
+\item{a selected subset of domains: 
+\itemize{
+\item{demographics ('dm')}
+\item{treatment exposure ('ex')}
+\item{concomitant medications ('cm')}
+\item{medical history ('mh')}
+\item{adverse event ('ae')}
+\item{laboratory ('lb')}
+\item{vital signs ('vs')}
+\item{subject visit ('sv')}
 }
+}
+}
+This dataset was created following the SDTM Version 1.1
+standard.
 }
 \seealso{
 \link{loadDataADaMSDTM}

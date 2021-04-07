@@ -5,7 +5,7 @@
 \alias{dataADaMCDISCP01}
 \title{Example of ADaM datasets from the CDISC original Pilot 01 study}
 \format{
-List of data.frame containing the ADaM
+List of data.frames containing the ADaM
 dataset for each selected domain.\cr
 Labels for the different variables across datasets
 is available via the \code{labelVars} attribute.
@@ -24,6 +24,8 @@ This contains a subset of the CDISC original Pilot 01 study dataset for:
 \item{a selected subset of domains: subject-level ('ADSL'),
  adverse event ('adae') and laboratory chemistry ('adlbc') data}
 }
+This dataset was created following the ADaM Version 2.0
+standard.
 }
 \seealso{
 \link{loadDataADaMSDTM}

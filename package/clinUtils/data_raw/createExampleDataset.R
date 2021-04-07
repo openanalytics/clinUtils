@@ -18,7 +18,9 @@ subjects <- c(
 	# serious event (not resulting in death)
 	"01-718-1371",
 	# UseR!2019 example for patient profiles presentation
-	"01-701-1148", "01-718-1427" 
+	"01-701-1148", "01-718-1427",
+	# example of patient with start of CM long before the study start
+	"01-701-1192"
 )
 
 # Domains of interest: Demography, Adverse Events and Laboratory
@@ -27,7 +29,7 @@ subjects <- c(
 
 sdtmPath <- "~/git/phuse-scripts/data/sdtm/cdiscpilot01"
 
-dataSDTMPath <- list.files(pattern = "^(dm|ae|lb).xpt$", path = sdtmPath, full.names = TRUE)
+dataSDTMPath <- list.files(pattern = "^(dm|ae|lb|cm|mh|ex|sv|vs).xpt$", path = sdtmPath, full.names = TRUE)
 dataSDTMCDISCP01 <- loadDataADaMSDTM(files = dataSDTMPath)
 labelVars <- attr(dataSDTMCDISCP01, "labelVars")
 dataSDTMCDISCP01 <- sapply(dataSDTMCDISCP01, subset, USUBJID %in% subjects, simplify = FALSE)
