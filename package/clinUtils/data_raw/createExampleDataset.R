@@ -1,7 +1,7 @@
 # Create example dataset for the package
 #
 # A subset of the CDISC Pilot 01 SDTM dataset, available from:
-# https://github.com/phuse-org/phuse-scripts/tree/master/data/sdtm/cdiscpilot01/
+# https://github.com/phuse-org/phuse-scripts/tree/master/data/[sdtm|adam]/cdiscpilot01/
 # is exported for demonstration purpose
 #
 # Author: Laure Cougnaud
@@ -41,7 +41,7 @@ save(dataSDTMCDISCP01, version = 2, file = "../data/dataSDTMCDISCP01.RData")
 
 adamPath <- "~/git/phuse-scripts/data/adam/cdiscpilot01"
 
-dataADaMPath <- list.files(pattern = "^(adsl|adae|adlbc).xpt$", path = adamPath, full.names = TRUE)
+dataADaMPath <- list.files(pattern = "^(adsl|adae|adlbc|advs).xpt$", path = adamPath, full.names = TRUE)
 dataADaMCDISCP01 <- loadDataADaMSDTM(files = dataADaMPath)
 labelVars <- attr(dataADaMCDISCP01, "labelVars")
 dataADaMCDISCP01 <- sapply(dataADaMCDISCP01, subset, USUBJID %in% subjects, simplify = FALSE)

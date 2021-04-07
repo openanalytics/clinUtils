@@ -16,7 +16,7 @@ save(shapePaletteNRIND, version = 2, file = "../data/shapePaletteNRIND.RData")
 
 colorPaletteNRIND <- c(
 	LOW = "orange", 
-	NORMAL = "green",
+	NORMAL = "green4",
 	HIGH = "orange",
 	ABNORMAL = "red",
 	UNKNOWN = "grey",

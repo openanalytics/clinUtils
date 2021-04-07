@@ -39,8 +39,13 @@ NULL
 #' This contains a subset of the CDISC original Pilot 01 study dataset for:
 #' \itemize{
 #' \item{a selected subset of subjects}
-#' \item{a selected subset of domains: subject-level ('ADSL'),
-#'  adverse event ('adae') and laboratory chemistry ('adlbc') data}
+#' \item{a selected subset of domains: 
+#'  \itemize{
+#'   \item{subject-level ('adsl')}
+#'   \item{adverse event ('adae')}
+#'   \item{laboratory chemistry data('adlbc')}
+#'   \item{vital signs ('advs')}
+#' }}
 #' }
 #' This dataset was created following the ADaM Version 2.0
 #' standard.

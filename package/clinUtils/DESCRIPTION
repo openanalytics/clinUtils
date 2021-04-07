@@ -5,7 +5,12 @@ Version: 0.0.1.999
 Date: 2021-04-01
 Author: Laure Cougnaud and Michela Pasetto
 Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>
-Description: This package contains general utility functions: for import, reporting and analysis of clinical data.
+Description: 
+ This package contains general utility functions to facilitate the import, 
+ the reporting and analysis of clinical data.
+ Example datasets in CDISC SDTM and ADaM format, containing a subset of patients/domain
+ from the CDISC Pilot 01 study are also available as R datasets to demonstrate
+ the package functionalities.
 Imports:
   crosstalk,
   data.table,

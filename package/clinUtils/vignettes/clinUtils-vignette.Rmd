@@ -75,7 +75,7 @@ a dedicated attribute.
 	
 	# Access labels for all variables
 	labelVars <- attr(data, "labelVars")
-	labelVars
+	head(labelVars)
 	# Access label for a particular variable: 
 	labelVars["USUBJID"]
 
@@ -98,7 +98,10 @@ study is available in the package as dataset.
 	pander(head(dataADaM$ADSL, 2))
 	pander(head(dataADaM$ADLBC, 2))
 	pander(head(dataADaM$ADAE, 2))
+	
+	# and variable labels
 	labelVarsADaM <- attr(dataADaM, "labelVars")
+	head(labelVarsADaM)
 	
 ```
 
@@ -113,7 +116,10 @@ study is available in the package as dataset.
 	pander(head(dataSDTM$DM, 2))
 	pander(head(dataSDTM$LB, 2))
 	pander(head(dataSDTM$AE, 2))
+	
+	# and variable labels
 	labelVarsSDTM <- attr(dataSDTM, "labelVars")
+	head(labelVarsSDTM)
 
 ```
 

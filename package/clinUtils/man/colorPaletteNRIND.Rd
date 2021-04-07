@@ -10,9 +10,9 @@ A named character vector with color for
 typical Normal Reference Range Indicator variable:
 \itemize{
 \item{"LOW": }{orange}
-\item{"NORMAL": }{filled circle (21)}
+\item{"NORMAL": }{green4}
 \item{"HIGH": }{orange}
-\item{"ABNORMAL": }{'signal red'}
+\item{"ABNORMAL": }{red}
 \item{"UNKNOWN" or 'NA': }{grey}
 \item{"NA": }{grey}
 }
