@@ -32,7 +32,11 @@ sdtmPath <- "~/git/phuse-scripts/data/sdtm/cdiscpilot01"
 dataSDTMPath <- list.files(pattern = "^(dm|ae|lb|cm|mh|ex|sv|vs).xpt$", path = sdtmPath, full.names = TRUE)
 dataSDTMCDISCP01 <- loadDataADaMSDTM(files = dataSDTMPath)
 labelVars <- attr(dataSDTMCDISCP01, "labelVars")
-dataSDTMCDISCP01 <- sapply(dataSDTMCDISCP01, subset, USUBJID %in% subjects, simplify = FALSE)
+dataSDTMCDISCP01 <- sapply(dataSDTMCDISCP01, function(data){
+	dataSubset <- subset(data, USUBJID %in% subjects)
+	rownames(dataSubset) <- NULL
+	dataSubset
+}, simplify = FALSE)
 attr(dataSDTMCDISCP01, "labelVars") <- labelVars
 
 save(dataSDTMCDISCP01, version = 2, file = "../data/dataSDTMCDISCP01.RData")
@@ -44,7 +48,11 @@ adamPath <- "~/git/phuse-scripts/data/adam/cdiscpilot01"
 dataADaMPath <- list.files(pattern = "^(adsl|adae|adlbc|advs).xpt$", path = adamPath, full.names = TRUE)
 dataADaMCDISCP01 <- loadDataADaMSDTM(files = dataADaMPath)
 labelVars <- attr(dataADaMCDISCP01, "labelVars")
-dataADaMCDISCP01 <- sapply(dataADaMCDISCP01, subset, USUBJID %in% subjects, simplify = FALSE)
+dataADaMCDISCP01 <- sapply(dataADaMCDISCP01, function(data){
+	dataSubset <- subset(data, USUBJID %in% subjects)
+	rownames(dataSubset) <- NULL
+	dataSubset
+}, simplify = FALSE)
 attr(dataADaMCDISCP01, "labelVars") <- labelVars
 
 save(dataADaMCDISCP01, version = 2, file = "../data/dataADaMCDISCP01.RData")
