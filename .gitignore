@@ -1,0 +1,6 @@
+*.project
+*.html
+/tests
+!package/clinUtils/tests
+*.tar.gz
+*.Rcheck
