@@ -2,17 +2,14 @@
 % Please edit documentation in R/plots-palettes.R
 \name{getShapePalette}
 \alias{getShapePalette}
-\title{Get a shape palette of specified length,
-either from a vector of names for the palette, or
-from a specified length.}
+\title{Get a shape palette}
 \usage{
 getShapePalette(
   n = NULL,
   x = NULL,
-  xPlacebo = NULL,
-  xComparator = NULL,
   includeNA = FALSE,
-  asText = FALSE
+  asText = FALSE,
+  defaultSettings = clinShapes
 )
 }
 \arguments{
@@ -23,12 +20,6 @@ If factor, the levels are used, otherwise the unique elements of the vector.
 Missing values are automatically removed, excepted if
 \code{includeNA} is set to TRUE.}
 
-\item{xPlacebo}{(optional) String with element of \code{x}
-containing placebo, for which 'plus' should be used.}
-
-\item{xComparator}{(optional) String with element of \code{x}
-containing comparator, for which 'square' should be used.}
-
 \item{includeNA}{Logical (FALSE by default), 
 should NA elements be retained in the palette in case
 \code{x} is specified.}
@@ -36,11 +27,19 @@ should NA elements be retained in the palette in case
 \item{asText}{Logical (FALSE by default), should the palette
 be expressed as integer (base R plot and ggplot2 compatible)
 or in text format (e.g. required if combined with unicode symbols in ggplot2)?}
+
+\item{defaultSettings}{A function or a vector, for custom shapes.
+Default is the \code{\link{clinShapes}} shape palette.}
 }
 \value{
 vector of shape values
 }
 \description{
+Get a shape palette of specified length,
+either from a vector of names for the palette, or
+from a specified length.
+}
+\details{
 Note that 19 unique symbols are available at maximum
 (replicated if necessary).
 }
@@ -51,9 +50,11 @@ getShapePalette(n = 19)
 getShapePalette(x = paste('treatment', 1:4))
 # include missing
 getShapePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
+# change default settings
+getShapePalette(x = paste('treatment', 1:2), defaultSettings = c("circle", "triangle"))
 # get symbols as 'text' (e.g. to be combined with Unicode in ggplot2)
 getShapePalette(x = paste('treatment', 1:4), asText = TRUE)
 }
 \author{
-Laure Cougnaud
+Laure Cougnaud and Michela Pasetto
 }

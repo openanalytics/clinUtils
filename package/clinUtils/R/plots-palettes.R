@@ -1,6 +1,36 @@
 #' @importFrom viridisLite viridis
 clinColors <- viridisLite::viridis
 
+clinShapes <- c(
+    "circle filled", 		# 21
+    "square filled", 		# 22
+    "diamond filled", 		# 23
+    "triangle filled", 		# 24
+    "triangle down filled", # 25
+    "square open", 			# 0
+    "circle open", 			# 1
+    "triangle open", 		# 2
+    "plus", 				# 3
+    "cross", 				# 4
+    "diamond open" , 		# 5
+    "triangle down open", 	# 6
+    "square cross", 		# 7
+    "asterisk", 			# 8
+    "diamond plus", 		# 9
+    "circle plus", 			# 10
+    "star", 				# 11
+    "square plus", 			# 12
+    "circle cross", 		# 13
+    "square triangle", 		# 14
+#	"triangle square" = 14
+    "square", 				# 15 (comparator)
+#	"circle small" = 16 # remove it: similar to 'circle'
+    "triangle", 			# 17
+    "diamond", 				# 18
+    "circle" 				# 19
+#	"bullet"                = 20 # remove it: similar to 'circle'
+)
+
 
 #' Get a color blind palette
 #' 
@@ -56,12 +86,7 @@ getColorPalette <- function(
   if(is.null(n)) n <- length(x)
   
   palette <- defaultSettings
-  palette <- if(is.function(palette)) {
-        palette(n)
-      } else {
-        rep(palette, length.out = n)
-      }
-  
+  palette <- evaluatePalette(palette = palette, n = n)
   
   if(!is.null(x)) {
     
@@ -85,22 +110,34 @@ getColorPalette <- function(
   
 }
 
+evaluatePalette <- function(palette, n) {
+  
+  if(is.function(palette)) {
+    paletteVect <- palette(n)
+  } else {
+    paletteVect <- rep(palette, length.out = n)
+  }
+  
+  return(paletteVect)
+  
+}
+
+#' Get a shape palette
+#' 
 #' Get a shape palette of specified length,
 #' either from a vector of names for the palette, or
 #' from a specified length.
 #' 
 #' Note that 19 unique symbols are available at maximum
 #' (replicated if necessary).
-#' @param xPlacebo (optional) String with element of \code{x}
-#' containing placebo, for which 'plus' should be used.
-#' @param xComparator (optional) String with element of \code{x}
-#' containing comparator, for which 'square' should be used.
+#' @param defaultSettings A function or a vector, for custom shapes.
+#' Default is the \code{\link{clinShapes}} shape palette.
 #' @param asText Logical (FALSE by default), should the palette
 #' be expressed as integer (base R plot and ggplot2 compatible)
 #' or in text format (e.g. required if combined with unicode symbols in ggplot2)?
 #' @inheritParams getColorPalette
 #' @return vector of shape values
-#' @author Laure Cougnaud
+#' @author Laure Cougnaud and Michela Pasetto
 #' @examples
 #' #' extract longest shape palette available
 #' getShapePalette(n = 19)
@@ -108,14 +145,17 @@ getColorPalette <- function(
 #' getShapePalette(x = paste('treatment', 1:4))
 #' # include missing
 #' getShapePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
+#' # change default settings
+#' getShapePalette(x = paste('treatment', 1:2), defaultSettings = c("circle", "triangle"))
 #' # get symbols as 'text' (e.g. to be combined with Unicode in ggplot2)
 #' getShapePalette(x = paste('treatment', 1:4), asText = TRUE)
 #' @export
 getShapePalette <- function(
     n = NULL, 
-    x = NULL, xPlacebo = NULL, xComparator = NULL,
+    x = NULL,
     includeNA = FALSE,
-    asText = FALSE
+    asText = FALSE,
+    defaultSettings = clinShapes
 ) {
   
   if(is.null(x) & is.null(n))
@@ -135,48 +175,26 @@ getShapePalette <- function(
   if(is.null(n)) n <- length(x)
   
   # entire palette
-  palette <- glpgShape()
-  
-  # if required, include correct palette for placebo and comparator
-  paletteReq <- c(
-      if(!is.null(xPlacebo)){
-        if(xPlacebo %in% x){
-          "plus"
-        }else	warning("'xPlacebo' is not available in 'x'.")
-      },
-      if(!is.null(xComparator)){
-        if(xComparator %in% x){
-          "square"
-        }else	warning("'xComparator' is not available in 'x'.")
-      }
-  )
-  palette <- c(palette[paletteReq], palette[which(!names(palette) %in% paletteReq)])
-  palette <- rep(palette, length.out = n)
-  
-  if(!is.null(x)){
+  palette <- defaultSettings
+  palette <- evaluatePalette(palette = palette, n = n)
+    
+  if(!is.null(x)) {
     
     # extract palette names (based on x)
     namesX <- rep(NA_character_, length = n)
-    
-    if(!is.null(xPlacebo) && !is.na(xPlacebo) && xPlacebo %in% x){
-      namesX[match("plus", names(palette))] <- xPlacebo
-    }	
-    if(!is.null(xComparator) && !is.na(xComparator) && xComparator %in% x){
-      namesX[match("square", names(palette))] <- xComparator
-    }
     namesX[which(is.na(namesX))] <- setdiff(x, namesX)
     
     # shape as text (if specified)
-    if(asText)	palette <- names(palette)
+    if(asText)	names(palette) <- palette # palette <- names(palette)
     
     # set palette names to x
     names(palette) <- namesX
     palette <- palette[match(x, names(palette))]
     
-  }else{
+  } else {
     
     # shape as text (if specified)
-    if(asText)	palette <- names(palette)
+    if(asText)	names(palette) <- palette # palette <- names(palette)
     
     # remove names
     palette <- unname(palette)

@@ -2,9 +2,7 @@
 % Please edit documentation in R/plots-palettes.R
 \name{getColorPalette}
 \alias{getColorPalette}
-\title{Get a color palette of specified length,
-either from a vector of names for the palette, or
-from a specified length.}
+\title{Get a color blind palette}
 \usage{
 getColorPalette(
   n = NULL,
@@ -25,24 +23,11 @@ Missing values are automatically removed, excepted if
 should NA elements be retained in the palette in case
 \code{x} is specified.}
 
-\item{xPlacebo}{(optional) String with element of \code{x}
-containing placebo, for which 'grey' should be used.}
-
-\item{xComparator}{(optional) String with element of \code{x}
-containing comparator, for which 'red' should be used.}
-
-\item{type}{String with type of palette used,
-either:
-\itemize{
-\item{'viridis' }{color-blinded friendly palette}
-}}
-
-\item{replaceGrey}{Logical, if TRUE (FALSE by default) use
-darker grey (rgb(102, 102, 102)).
-Kept for backward compatibility of the package.}
+\item{defaultSettings}{A function or a vector, for custom colors.
+Default is the \code{\link[viridisLite]{viridis}} color palette.}
 }
 \value{
-Vector of Galapagos colors,
+Vector of colors,
 named with the elements in \code{x} if \code{x} is specified.
 }
 \description{
@@ -55,13 +40,11 @@ from a specified length.
 getColorPalette(n = 11)
 # extract palette for a vector
 getColorPalette(x = paste('treatment', 1:4))
-# color-blinded palette
-getColorPalette(n = 10, type = "viridis")
 # possibility to include missing values:
 getColorPalette(x = c(NA_character_, "group1"), includeNA = TRUE)
-# use more-readable grey color
-getColorPalette(n = 10, replaceGrey = TRUE)
+# change default settings
+getColorPalette(n = 3, defaultSettings = c("red", "green", "grey"))
 }
 \author{
-Laure Cougnaud
+Laure Cougnaud and Michela Pasetto
 }
