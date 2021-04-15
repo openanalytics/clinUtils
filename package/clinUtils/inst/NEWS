@@ -2,3 +2,4 @@
     o initial version
     o fix knit print when figure opts are character
     o add 'roundHalfUp' functionalities
+    o add color palettes
