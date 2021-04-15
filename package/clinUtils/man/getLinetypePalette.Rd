@@ -2,16 +2,13 @@
 % Please edit documentation in R/plots-palettes.R
 \name{getLinetypePalette}
 \alias{getLinetypePalette}
-\title{Get a linetype palette of specified length,
-either from a vector of names for the palette, or
-from a specified length.}
+\title{Get a linetype palette}
 \usage{
 getLinetypePalette(
   n = NULL,
   x = NULL,
-  xPlacebo = NULL,
-  xComparator = NULL,
-  includeNA = FALSE
+  includeNA = FALSE,
+  defaultSettings = clinLinetypes
 )
 }
 \arguments{
@@ -22,20 +19,22 @@ If factor, the levels are used, otherwise the unique elements of the vector.
 Missing values are automatically removed, excepted if
 \code{includeNA} is set to TRUE.}
 
-\item{xPlacebo}{(optional) String with element of \code{x}
-containing placebo, for which 'longdash' should be used.}
-
-\item{xComparator}{(optional) String with element of \code{x}
-containing comparator, for which 'dotted' should be used.}
-
 \item{includeNA}{Logical (FALSE by default), 
 should NA elements be retained in the palette in case
 \code{x} is specified.}
+
+\item{defaultSettings}{A function or a vector, for custom linetypes.
+Default is the \code{\link{clinLinetypes}} linetype palette.}
 }
 \value{
 character vector values with linetype
 }
 \description{
+Get a linetype palette of specified length,
+either from a vector of names for the palette, or
+from a specified length.
+}
+\details{
 Note that 7 unique symbols are available at maximum
 (replicated if necessary).
 }
@@ -48,5 +47,5 @@ getLinetypePalette(x = paste('treatment', 1:4))
 getLinetypePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
 }
 \author{
-Laure Cougnaud
+Laure Cougnaud and Michela Pasetto
 }

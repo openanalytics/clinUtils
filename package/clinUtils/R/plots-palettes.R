@@ -31,6 +31,10 @@ clinShapes <- c(
 #	"bullet"                = 20 # remove it: similar to 'circle'
 )
 
+clinLinetypes <- c(
+    "solid", "dashed", "dotdash",
+    "twodash", "dotted", "longdash"
+) 
 
 #' Get a color blind palette
 #' 
@@ -177,7 +181,7 @@ getShapePalette <- function(
   # entire palette
   palette <- defaultSettings
   palette <- evaluatePalette(palette = palette, n = n)
-    
+  
   if(!is.null(x)) {
     
     # extract palette names (based on x)
@@ -205,19 +209,19 @@ getShapePalette <- function(
   
 }
 
+#' Get a linetype palette
+#'
 #' Get a linetype palette of specified length,
 #' either from a vector of names for the palette, or
 #' from a specified length.
 #' 
 #' Note that 7 unique symbols are available at maximum
 #' (replicated if necessary).
-#' @param xPlacebo (optional) String with element of \code{x}
-#' containing placebo, for which 'longdash' should be used.
-#' @param xComparator (optional) String with element of \code{x}
-#' containing comparator, for which 'dotted' should be used.
 #' @inheritParams getColorPalette
+#' @param defaultSettings A function or a vector, for custom linetypes.
+#' Default is the \code{\link{clinLinetypes}} linetype palette.
 #' @return character vector values with linetype
-#' @author Laure Cougnaud
+#' @author Laure Cougnaud and Michela Pasetto
 #' @examples
 #' # extract longest linetype palette available
 #' getLinetypePalette(n = 6)
@@ -225,11 +229,14 @@ getShapePalette <- function(
 #' getLinetypePalette(x = paste('treatment', 1:4))
 #' # include missing
 #' getLinetypePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
+#' # set custom linetypes
+#' getColorPalette(n = 2, defaultSettings = c("twodash", "dashed"))
 #' @export
 getLinetypePalette <- function(
     n = NULL, 
-    x = NULL, xPlacebo = NULL, xComparator = NULL,
-    includeNA = FALSE
+    x = NULL,
+    includeNA = FALSE,
+    defaultSettings = clinLinetypes
 ) {
   
   if(is.null(x) & is.null(n))
@@ -248,45 +255,21 @@ getLinetypePalette <- function(
   
   if(is.null(n)) n <- length(x)
   
-  palette <- c("solid", "dashed", "dotdash", "twodash", "dotted", "longdash") 
+  palette <- defaultSettings
+  palette <- evaluatePalette(palette = palette, n = n)
   
-  # if required, include correct palette for placebo and comparator
-  if(!is.null(x)){
-    paletteReq <- c(
-        if(!is.null(xPlacebo)){
-          if(xPlacebo %in% x){
-            "longdash"
-          }else	warning("'xPlacebo' is not available in 'x'.")
-        },
-        if(!is.null(xComparator)){
-          if(xComparator %in% x){
-            "dotted"
-          }else	warning("'xComparator' is not available in 'x'.")
-        }
-    )
-    palette <- c(paletteReq, setdiff(palette, paletteReq))
-  }
-  
-  palette <- rep(palette, length.out = n)
-  
-  if(!is.null(x)){
+  if(!is.null(x)) {
     
     # extract palette names (based on x)
     namesX <- rep(NA_character_, length = n)
     
-    if(!is.null(xPlacebo) && !is.na(xPlacebo) && xPlacebo %in% x){
-      namesX[match("longdash", palette)] <- xPlacebo
-    }	
-    if(!is.null(xComparator) && !is.na(xComparator) && xComparator %in% x){
-      namesX[match("dotted", palette)] <- xComparator
-    }
     namesX[which(is.na(namesX))] <- setdiff(x, namesX)
     
     # set palette names to x
     names(palette) <- namesX
     palette <- palette[match(x, names(palette))]
     
-  }else{
+  } else {
     palette <- unname(palette)
   }
   
