@@ -1,6 +1,7 @@
 #' @importFrom viridisLite viridis
 clinColors <- viridisLite::viridis
 
+# see: ggplot2:::translate_shape_string
 clinShapes <- c(
     "circle filled", 		# 21
     "square filled", 		# 22
@@ -36,7 +37,8 @@ clinLinetypes <- c(
     "twodash", "dotted", "longdash"
 ) 
 
-#' Get a color blind palette
+#' Get a color palette for clinical
+#' visualizations.
 #' 
 #' Get a color palette of specified length,
 #' either from a vector of names for the palette, or
@@ -50,7 +52,8 @@ clinLinetypes <- c(
 #' should NA elements be retained in the palette in case
 #' \code{x} is specified.
 #' @param defaultSettings A function or a vector, for custom colors.
-#' Default is the \code{\link[viridisLite]{viridis}} color palette.
+#' Default is the the colorblind 
+#' \code{\link[viridisLite]{viridis}} color palette.
 #' @return Vector of colors,
 #' named with the elements in \code{x} if \code{x} is specified.
 #' @author Laure Cougnaud and Michela Pasetto
@@ -89,8 +92,7 @@ getColorPalette <- function(
   
   if(is.null(n)) n <- length(x)
   
-  palette <- defaultSettings
-  palette <- evaluatePalette(palette = palette, n = n)
+  palette <- evaluatePalette(palette = defaultSettings, n = n)
   
   if(!is.null(x)) {
     
@@ -118,15 +120,16 @@ evaluatePalette <- function(palette, n) {
   
   if(is.function(palette)) {
     paletteVect <- palette(n)
-  } else {
+  } else if(is.vector(palette)){
     paletteVect <- rep(palette, length.out = n)
-  }
+  }else	stop("'palette' should be a vector or a function.")
   
   return(paletteVect)
   
 }
 
-#' Get a shape palette
+#' Get a shape palette for clinical
+#' visualizations.
 #' 
 #' Get a shape palette of specified length,
 #' either from a vector of names for the palette, or
@@ -163,7 +166,7 @@ getShapePalette <- function(
 ) {
   
   if(is.null(x) & is.null(n))
-    stop("A vector ('x') or number of colors ('n') ",
+    stop("A vector ('x') or number of shapes ('n') ",
         "should be specified.")
   
   if(!is.null(x)){
@@ -179,8 +182,7 @@ getShapePalette <- function(
   if(is.null(n)) n <- length(x)
   
   # entire palette
-  palette <- defaultSettings
-  palette <- evaluatePalette(palette = palette, n = n)
+  palette <- evaluatePalette(palette = defaultSettings, n = n)
   
   if(!is.null(x)) {
     
@@ -209,7 +211,8 @@ getShapePalette <- function(
   
 }
 
-#' Get a linetype palette
+#' Get a linetype palette for clinical
+#' visualizations.
 #'
 #' Get a linetype palette of specified length,
 #' either from a vector of names for the palette, or
@@ -240,7 +243,7 @@ getLinetypePalette <- function(
 ) {
   
   if(is.null(x) & is.null(n))
-    stop("A vector ('x') or number of colors ('n') ",
+    stop("A vector ('x') or number of linetypes ('n') ",
         "should be specified.")
   
   if(!is.null(x)){
@@ -255,8 +258,7 @@ getLinetypePalette <- function(
   
   if(is.null(n)) n <- length(x)
   
-  palette <- defaultSettings
-  palette <- evaluatePalette(palette = palette, n = n)
+  palette <- evaluatePalette(palette = defaultSettings, n = n)
   
   if(!is.null(x)) {
     
