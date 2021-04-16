@@ -1,3 +1,6 @@
+#'@importFrom utils globalVariables
+utils::globalVariables(c("shapePaletteNRIND", "colorPaletteNRIND"))
+
 #' Shape palette for a standard CDISC Normal/Reference
 #' Range Indicator.
 #' 

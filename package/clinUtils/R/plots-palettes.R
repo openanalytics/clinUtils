@@ -1,3 +1,8 @@
+#' Colors of 'clinUtils'
+#' 
+#' Default color palette is the color-blind viridis palette.
+#' See documentation of \code{\link[viridisLite]{viridis}}.
+#' @inheritParams viridisLite::viridis
 #' @importFrom viridisLite viridis
 clinColors <- viridisLite::viridis
 
@@ -33,14 +38,24 @@ pch_table <- c(
 	"triangle down filled"  = 25
 )
 
+#' Shapes of 'clinUtils'
+#' 
+#' A set of default shapes are available as named vector.
 clinShapes <- c(
 	# filled symbols
 	seq(from = 21, to = 25), 
 	# other symbols
 	setdiff(seq(from = 0, to = 19), 16)
 )
+
+#' Shapes of 'clinUtils' as text
+#' 
+#' A set of default shapes are available as character vector.
 clinShapesText <- names(pch_table)[match(clinShapes, pch_table)]
-		
+
+#' Linetypes of 'clinUtils'
+#' 
+#' A set of default linetypes are available as a vector.
 clinLinetypes <- c(
     "solid", "dashed", "dotdash",
     "twodash", "dotted", "longdash"
