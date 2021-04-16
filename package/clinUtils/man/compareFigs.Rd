@@ -53,7 +53,7 @@ ggsave(filename = file.path(pathFigRef, "example1.png"), plot = gg1)
 ggsave(filename = file.path(pathFigRef, "example2.png"), plot = gg1)
 ggsave(filename = file.path(pathFigRef, "example3.png"), plot = gg1)
 
-# use GLPG-color, and linetype/shape palette with enough elements:
+# use default-color, and linetype/shape palette with enough elements:
 pathFigNew <- "compareFigs_new"
 dir.create(pathFigNew)
 ggsave(
@@ -66,7 +66,7 @@ ggsave(
 )
 ggsave(
 	filename = file.path(pathFigNew, "example3.png"), 
-	plot = gg1 + scale_color_manual(values = getGLPGColorPalette(x = dataLB$SUBJID))
+	plot = gg1 + scale_color_manual(values = getColorPalette(x = dataLB$SUBJID))
 )
 
 compareFigs(pathFigRef = pathFigRef, pathFigNew = pathFigNew)

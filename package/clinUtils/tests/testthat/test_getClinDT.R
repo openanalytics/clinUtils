@@ -1,4 +1,4 @@
-context("Convert to DT GLPG wrapper")
+context("Convert to DT wrapper")
 
 # require extra libraries
 library(dplyr) # for tibble
