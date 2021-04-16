@@ -31,50 +31,6 @@ simpleCap <- function(x, onlyFirst = TRUE, rev = FALSE) {
 	return(res)
 }
 
-#' Custom round function, with 'rounding up' strategy 
-#' for rounding off a 5.
-#' 
-#' This function rounds a number up to the nearest number,
-#' for a specified number of digits.
-#' The default R \code{\link{round}} function rounds to the
-#' 'even digit' in case of rounding off a 5 
-#' (see 'Details' section in \code{? round}).
-#' This function rounds up to the nearest number in this case,
-#' to mimic a similar rounding strategy used in SAS.
-#' @param x Numeric vector to round.
-#' @param digits Integer with number of digits to consider, 0 by default.
-#' @param format String with format for the number. Only 'number' is allowed.
-#' The option 'format = text' has been deprecated.
-#' @return Rounded numeric vector.
-#' @author stackoverflow question 6461209
-#' @examples
-#' # numbers are rounded to the closest even number in case of .5 
-#' # with the round 'base' function
-#' round(0.45, 1)
-#' # 'roundCustom' always round to the next highest number in case of .5
-#' roundCustom(0.45, 1)
-#' # rounding is the same for uneven number:
-#' round(0.55, 1)
-#' roundCustom(0.55)
-#' # other examples
-#' round(1.456e-2, digits = 3)
-#' round(1.456e-2, digits = 2)
-#' round(1.456e-2, digits = 1)
-#' @export
-roundCustom <- function(x, digits = 0, format = "number") {
-	
-	#format <- match.arg(format)
-	if(format == "text") stop("The 'format = text' is deprecated. Only numeric output is possible. \n You might consider to use 'roundCustomText' from the 'inTextSummaryTable' package")
-	
-	x <- x + abs(x) * sign(x) * .Machine$double.eps
-	z <- round(x, digits = digits)
-	
-	return(z)
-	
-}
-
-
-
 #' Create link to patient profile
 #' 
 #' Create a link to a patient profile directory

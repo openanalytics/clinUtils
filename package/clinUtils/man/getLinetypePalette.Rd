@@ -45,6 +45,8 @@ getLinetypePalette(n = 6)
 getLinetypePalette(x = paste('treatment', 1:4))
 # include missing
 getLinetypePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
+# set custom linetypes
+getColorPalette(n = 2, defaultSettings = c("twodash", "dashed"))
 }
 \author{
 Laure Cougnaud and Michela Pasetto
