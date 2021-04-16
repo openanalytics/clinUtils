@@ -2,7 +2,8 @@
 % Please edit documentation in R/plots-palettes.R
 \name{getLinetypePalette}
 \alias{getLinetypePalette}
-\title{Get a linetype palette}
+\title{Get a linetype palette for clinical
+visualizations.}
 \usage{
 getLinetypePalette(
   n = NULL,
@@ -21,13 +22,14 @@ Missing values are automatically removed, excepted if
 
 \item{includeNA}{Logical (FALSE by default), 
 should NA elements be retained in the palette in case
-\code{x} is specified.}
+\code{x} is specified?}
 
 \item{defaultSettings}{A function or a vector, for custom linetypes.
 Default is the \code{\link{clinLinetypes}} linetype palette.}
 }
 \value{
-character vector values with linetype
+Vector with linetypes,
+named with the elements in \code{x} if \code{x} is specified.
 }
 \description{
 Get a linetype palette of specified length,
@@ -45,8 +47,9 @@ getLinetypePalette(n = 6)
 getLinetypePalette(x = paste('treatment', 1:4))
 # include missing
 getLinetypePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
+getLinetypePalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 # set custom linetypes
-getColorPalette(n = 2, defaultSettings = c("twodash", "dashed"))
+lty <- getColorPalette(n = 3, defaultSettings = c("twodash", "dashed"))
 }
 \author{
 Laure Cougnaud and Michela Pasetto

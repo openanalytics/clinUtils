@@ -2,7 +2,8 @@
 % Please edit documentation in R/plots-palettes.R
 \name{getColorPalette}
 \alias{getColorPalette}
-\title{Get a color blind palette}
+\title{Get a color palette for clinical
+visualizations.}
 \usage{
 getColorPalette(
   n = NULL,
@@ -21,10 +22,11 @@ Missing values are automatically removed, excepted if
 
 \item{includeNA}{Logical (FALSE by default), 
 should NA elements be retained in the palette in case
-\code{x} is specified.}
+\code{x} is specified?}
 
 \item{defaultSettings}{A function or a vector, for custom colors.
-Default is the \code{\link[viridisLite]{viridis}} color palette.}
+Default is the the colorblind 
+\code{\link[viridisLite]{viridis}} color palette.}
 }
 \value{
 Vector of colors,
@@ -41,6 +43,7 @@ getColorPalette(n = 11)
 # extract palette for a vector
 getColorPalette(x = paste('treatment', 1:4))
 # possibility to include missing values:
+getColorPalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 getColorPalette(x = c(NA_character_, "group1"), includeNA = TRUE)
 # change default settings
 getColorPalette(n = 3, defaultSettings = c("red", "green", "grey"))

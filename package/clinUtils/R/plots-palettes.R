@@ -2,47 +2,51 @@
 clinColors <- viridisLite::viridis
 
 # see: ggplot2:::translate_shape_string
-clinShapes <- c(
-    "circle filled", 		# 21
-    "square filled", 		# 22
-    "diamond filled", 		# 23
-    "triangle filled", 		# 24
-    "triangle down filled", # 25
-    "square open", 			# 0
-    "circle open", 			# 1
-    "triangle open", 		# 2
-    "plus", 				# 3
-    "cross", 				# 4
-    "diamond open" , 		# 5
-    "triangle down open", 	# 6
-    "square cross", 		# 7
-    "asterisk", 			# 8
-    "diamond plus", 		# 9
-    "circle plus", 			# 10
-    "star", 				# 11
-    "square plus", 			# 12
-    "circle cross", 		# 13
-    "square triangle", 		# 14
-#	"triangle square" = 14
-    "square", 				# 15 (comparator)
-#	"circle small" = 16 # remove it: similar to 'circle'
-    "triangle", 			# 17
-    "diamond", 				# 18
-    "circle" 				# 19
-#	"bullet"                = 20 # remove it: similar to 'circle'
+pch_table <- c(
+	"square open"           = 0,
+	"circle open"           = 1,
+	"triangle open"         = 2,
+	"plus"                  = 3,
+	"cross"                 = 4, 
+	"diamond open"          = 5,
+	"triangle down open"    = 6,
+	"square cross"          = 7,
+	"asterisk"              = 8,
+	"diamond plus"          = 9,
+	"circle plus"           = 10,
+	"star"                  = 11,
+	"square plus"           = 12,
+	"circle cross"          = 13,
+	"square triangle"       = 14,
+#	"triangle square"       = 14,
+	"square"                = 15, 
+	"circle small"          = 16, # remove it: similar to 'circle'
+	"triangle"              = 17,
+	"diamond"               = 18,
+	"circle"                = 19,
+	"bullet"                = 20, # remove it: similar to 'circle'
+	# filled symbols
+	"circle filled"         = 21,
+	"square filled"         = 22,
+	"diamond filled"        = 23,
+	"triangle filled"       = 24,
+	"triangle down filled"  = 25
 )
 
+clinShapes <- c(
+	# filled symbols
+	seq(from = 21, to = 25), 
+	# other symbols
+	setdiff(seq(from = 0, to = 19), 16)
+)
+clinShapesText <- names(pch_table)[match(clinShapes, pch_table)]
+		
 clinLinetypes <- c(
     "solid", "dashed", "dotdash",
     "twodash", "dotted", "longdash"
 ) 
 
-#' Get a color palette for clinical
-#' visualizations.
-#' 
-#' Get a color palette of specified length,
-#' either from a vector of names for the palette, or
-#' from a specified length.
+#' Parameters for all patient profiles visualization palette functions.
 #' @param n Integer of length 1, number of elements in palette.
 #' @param x Vector with elements used for palette.
 #' If factor, the levels are used, otherwise the unique elements of the vector.
@@ -50,10 +54,20 @@ clinLinetypes <- c(
 #' \code{includeNA} is set to TRUE.
 #' @param includeNA Logical (FALSE by default), 
 #' should NA elements be retained in the palette in case
-#' \code{x} is specified.
+#' \code{x} is specified?
+#' @name clinUtils-palette
+NULL
+
+#' Get a color palette for clinical
+#' visualizations.
+#' 
+#' Get a color palette of specified length,
+#' either from a vector of names for the palette, or
+#' from a specified length.
 #' @param defaultSettings A function or a vector, for custom colors.
 #' Default is the the colorblind 
 #' \code{\link[viridisLite]{viridis}} color palette.
+#' @inheritParams clinUtils-palette
 #' @return Vector of colors,
 #' named with the elements in \code{x} if \code{x} is specified.
 #' @author Laure Cougnaud and Michela Pasetto
@@ -63,6 +77,7 @@ clinLinetypes <- c(
 #' # extract palette for a vector
 #' getColorPalette(x = paste('treatment', 1:4))
 #' # possibility to include missing values:
+#' getColorPalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 #' getColorPalette(x = c(NA_character_, "group1"), includeNA = TRUE)
 #' # change default settings
 #' getColorPalette(n = 3, defaultSettings = c("red", "green", "grey"))
@@ -95,21 +110,11 @@ getColorPalette <- function(
   palette <- evaluatePalette(palette = defaultSettings, n = n)
   
   if(!is.null(x)) {
-    
-    # extract palette names (based on x)
-    namesX <- rep(NA_character_, length = n)
-    
-    namesX[which(is.na(namesX))] <- setdiff(x, namesX)
-    
-    # set palette names to x
-    names(palette) <- namesX
-    palette <- palette[match(x, names(palette))]
-    
+	# set palette names to x
+    names(palette) <- x
   } else {
-    
     # remove names
     palette <- unname(palette)
-    
   }
   
   return(palette)
@@ -120,6 +125,10 @@ evaluatePalette <- function(palette, n) {
   
   if(is.function(palette)) {
     paletteVect <- palette(n)
+	if(length(paletteVect) != n)
+		stop(paste("If 'palette' is specified as a function",
+			"it should return a vector of length 'n'",
+			"with n the input number."))
   } else if(is.vector(palette)){
     paletteVect <- rep(palette, length.out = n)
   }else	stop("'palette' should be a vector or a function.")
@@ -137,13 +146,17 @@ evaluatePalette <- function(palette, n) {
 #' 
 #' Note that 19 unique symbols are available at maximum
 #' (replicated if necessary).
-#' @param defaultSettings A function or a vector, for custom shapes.
-#' Default is the \code{\link{clinShapes}} shape palette.
+#' @param defaultSettings A function or a vector, for custom shapes.\cr
+#' The vector should be a character if \code{asText} is set to TRUE.\cr
+#' Default is the \code{\link{clinShapes}} shape palette,
+#' or \code{\link{clinShapesText}} is \code{asText} is set to TRUE.
 #' @param asText Logical (FALSE by default), should the palette
 #' be expressed as integer (base R plot and ggplot2 compatible)
-#' or in text format (e.g. required if combined with unicode symbols in ggplot2)?
-#' @inheritParams getColorPalette
-#' @return vector of shape values
+#' or in text format 
+#' (e.g. required if combined with unicode symbols in ggplot2)?
+#' @inheritParams clinUtils-palette
+#' @return Vector of shapes,
+#' named with the elements in \code{x} if \code{x} is specified.
 #' @author Laure Cougnaud and Michela Pasetto
 #' @examples
 #' #' extract longest shape palette available
@@ -152,8 +165,9 @@ evaluatePalette <- function(palette, n) {
 #' getShapePalette(x = paste('treatment', 1:4))
 #' # include missing
 #' getShapePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
+#' getShapePalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 #' # change default settings
-#' getShapePalette(x = paste('treatment', 1:2), defaultSettings = c("circle", "triangle"))
+#' getShapePalette(x = paste('treatment', 1:3), defaultSettings = c("circle", "triangle"))
 #' # get symbols as 'text' (e.g. to be combined with Unicode in ggplot2)
 #' getShapePalette(x = paste('treatment', 1:4), asText = TRUE)
 #' @export
@@ -162,7 +176,7 @@ getShapePalette <- function(
     x = NULL,
     includeNA = FALSE,
     asText = FALSE,
-    defaultSettings = clinShapes
+    defaultSettings = if(asText){clinShapesText}else{clinShapes}
 ) {
   
   if(is.null(x) & is.null(n))
@@ -184,27 +198,17 @@ getShapePalette <- function(
   # entire palette
   palette <- evaluatePalette(palette = defaultSettings, n = n)
   
+  # shape as text (if specified)
+  if(asText && !is.character(palette))
+	stop(paste("'palette' should be a character vector",
+		"if 'asText' is set to TRUE."))
+  
   if(!is.null(x)) {
-    
-    # extract palette names (based on x)
-    namesX <- rep(NA_character_, length = n)
-    namesX[which(is.na(namesX))] <- setdiff(x, namesX)
-    
-    # shape as text (if specified)
-    if(asText)	names(palette) <- palette # palette <- names(palette)
-    
     # set palette names to x
-    names(palette) <- namesX
-    palette <- palette[match(x, names(palette))]
-    
+    names(palette) <- x
   } else {
-    
-    # shape as text (if specified)
-    if(asText)	names(palette) <- palette # palette <- names(palette)
-    
     # remove names
     palette <- unname(palette)
-    
   }
   
   return(palette)
@@ -220,10 +224,11 @@ getShapePalette <- function(
 #' 
 #' Note that 7 unique symbols are available at maximum
 #' (replicated if necessary).
-#' @inheritParams getColorPalette
 #' @param defaultSettings A function or a vector, for custom linetypes.
 #' Default is the \code{\link{clinLinetypes}} linetype palette.
-#' @return character vector values with linetype
+#' @inheritParams clinUtils-palette
+#' @return Vector with linetypes,
+#' named with the elements in \code{x} if \code{x} is specified.
 #' @author Laure Cougnaud and Michela Pasetto
 #' @examples
 #' # extract longest linetype palette available
@@ -232,8 +237,9 @@ getShapePalette <- function(
 #' getLinetypePalette(x = paste('treatment', 1:4))
 #' # include missing
 #' getLinetypePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
+#' getLinetypePalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 #' # set custom linetypes
-#' getColorPalette(n = 2, defaultSettings = c("twodash", "dashed"))
+#' lty <- getColorPalette(n = 3, defaultSettings = c("twodash", "dashed"))
 #' @export
 getLinetypePalette <- function(
     n = NULL, 
@@ -261,17 +267,10 @@ getLinetypePalette <- function(
   palette <- evaluatePalette(palette = defaultSettings, n = n)
   
   if(!is.null(x)) {
-    
-    # extract palette names (based on x)
-    namesX <- rep(NA_character_, length = n)
-    
-    namesX[which(is.na(namesX))] <- setdiff(x, namesX)
-    
     # set palette names to x
-    names(palette) <- namesX
-    palette <- palette[match(x, names(palette))]
-    
+    names(palette) <- x
   } else {
+	# remove names  
     palette <- unname(palette)
   }
   

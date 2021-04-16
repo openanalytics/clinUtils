@@ -2,14 +2,15 @@
 % Please edit documentation in R/plots-palettes.R
 \name{getShapePalette}
 \alias{getShapePalette}
-\title{Get a shape palette}
+\title{Get a shape palette for clinical
+visualizations.}
 \usage{
 getShapePalette(
   n = NULL,
   x = NULL,
   includeNA = FALSE,
   asText = FALSE,
-  defaultSettings = clinShapes
+  defaultSettings = if (asText) {     clinShapesText } else {     clinShapes }
 )
 }
 \arguments{
@@ -22,17 +23,21 @@ Missing values are automatically removed, excepted if
 
 \item{includeNA}{Logical (FALSE by default), 
 should NA elements be retained in the palette in case
-\code{x} is specified.}
+\code{x} is specified?}
 
 \item{asText}{Logical (FALSE by default), should the palette
 be expressed as integer (base R plot and ggplot2 compatible)
-or in text format (e.g. required if combined with unicode symbols in ggplot2)?}
+or in text format 
+(e.g. required if combined with unicode symbols in ggplot2)?}
 
-\item{defaultSettings}{A function or a vector, for custom shapes.
-Default is the \code{\link{clinShapes}} shape palette.}
+\item{defaultSettings}{A function or a vector, for custom shapes.\cr
+The vector should be a character if \code{asText} is set to TRUE.\cr
+Default is the \code{\link{clinShapes}} shape palette,
+or \code{\link{clinShapesText}} is \code{asText} is set to TRUE.}
 }
 \value{
-vector of shape values
+Vector of shapes,
+named with the elements in \code{x} if \code{x} is specified.
 }
 \description{
 Get a shape palette of specified length,
@@ -50,8 +55,9 @@ getShapePalette(n = 19)
 getShapePalette(x = paste('treatment', 1:4))
 # include missing
 getShapePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
+getShapePalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 # change default settings
-getShapePalette(x = paste('treatment', 1:2), defaultSettings = c("circle", "triangle"))
+getShapePalette(x = paste('treatment', 1:3), defaultSettings = c("circle", "triangle"))
 # get symbols as 'text' (e.g. to be combined with Unicode in ggplot2)
 getShapePalette(x = paste('treatment', 1:4), asText = TRUE)
 }
