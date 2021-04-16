@@ -8,13 +8,6 @@ dataAE <- dataADaMCDISCP01$ADAE
 
 subjectsSafety <- subset(dataADaMCDISCP01$ADSL, SAFFL == "Y")$USUBJID
 
-# add patient profiles link (if available)
-dataAE <- createPatientProfileVar(
-	data = dataAE, 
-	patientProfilePath = "patientProfiles", 
-	checkExist = FALSE
-)
-
 # compute counts of subjects presenting each AE
 tableAE <- dataAE %>% 
 	group_by(AESOC, AEDECOD) %>% 

@@ -252,23 +252,12 @@ row variable(s), to include bar visualization, ...
 	)
 	colnamesTEAE <- setNames(names(labelVarsTEAE), labelVarsTEAE)
 	
-	# add patient profiles link (if available)
-	# TODO: this will be moved to the medicalMonitoring package
-	dataTEAE <- createPatientProfileVar(
-		data = dataTEAE, 
-		patientProfilePath = "patientProfiles", 
-		checkExist = FALSE
-	)
 	dataTEAE <- dataTEAE[order(dataTEAE$AESOC), ]
 	
 	getClinDT(
 		dataTEAE, 
 		colnames = colnamesTEAE, 
 		rowGroupVar = c("AESOC"),
-		expandVar = c("patientProfileLink"),
-		nonVisibleVar = c("patientProfilePath"),
-		# patient profile URL should be considered as raw HTML
-		escape = -grep("patientProfileLink", colnames(dataTEAE)),
 		barVar = "AGE",
 		barRange = c(0, 100),
 		caption = "Listing of treatment-emergent adverse events on the safety analysis set"
