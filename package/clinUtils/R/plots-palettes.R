@@ -64,7 +64,7 @@ NULL
 #' Get a color palette of specified length,
 #' either from a vector of names for the palette, or
 #' from a specified length.
-#' @param defaultSettings A function or a vector, for custom colors.
+#' @param palette A function or a vector, for custom colors.
 #' Default is the the colorblind 
 #' \code{\link[viridisLite]{viridis}} color palette.
 #' @inheritParams clinUtils-palette
@@ -80,14 +80,14 @@ NULL
 #' getColorPalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 #' getColorPalette(x = c(NA_character_, "group1"), includeNA = TRUE)
 #' # change default settings
-#' getColorPalette(n = 3, defaultSettings = c("red", "green", "grey"))
+#' getColorPalette(n = 3, palette = c("red", "green", "grey"))
 #' @importFrom viridisLite viridis
 #' @export
 getColorPalette <- function(
     n = NULL, 
     x = NULL,
     includeNA = FALSE,
-    defaultSettings = clinColors
+    palette = clinColors
 )
 {
   
@@ -107,7 +107,7 @@ getColorPalette <- function(
   
   if(is.null(n)) n <- length(x)
   
-  palette <- evaluatePalette(palette = defaultSettings, n = n)
+  palette <- evaluatePalette(palette = palette, n = n)
   
   if(!is.null(x)) {
 	# set palette names to x
@@ -146,7 +146,7 @@ evaluatePalette <- function(palette, n) {
 #' 
 #' Note that 19 unique symbols are available at maximum
 #' (replicated if necessary).
-#' @param defaultSettings A function or a vector, for custom shapes.\cr
+#' @param palette A function or a vector, for custom shapes.\cr
 #' The vector should be a character if \code{asText} is set to TRUE.\cr
 #' Default is the \code{\link{clinShapes}} shape palette,
 #' or \code{\link{clinShapesText}} is \code{asText} is set to TRUE.
@@ -167,7 +167,7 @@ evaluatePalette <- function(palette, n) {
 #' getShapePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
 #' getShapePalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 #' # change default settings
-#' getShapePalette(x = paste('treatment', 1:3), defaultSettings = c("circle", "triangle"))
+#' getShapePalette(x = paste('treatment', 1:3), palette = c("circle", "triangle"))
 #' # get symbols as 'text' (e.g. to be combined with Unicode in ggplot2)
 #' getShapePalette(x = paste('treatment', 1:4), asText = TRUE)
 #' @export
@@ -176,7 +176,7 @@ getShapePalette <- function(
     x = NULL,
     includeNA = FALSE,
     asText = FALSE,
-    defaultSettings = if(asText){clinShapesText}else{clinShapes}
+    palette = if(asText){clinShapesText}else{clinShapes}
 ) {
   
   if(is.null(x) & is.null(n))
@@ -196,7 +196,7 @@ getShapePalette <- function(
   if(is.null(n)) n <- length(x)
   
   # entire palette
-  palette <- evaluatePalette(palette = defaultSettings, n = n)
+  palette <- evaluatePalette(palette = palette, n = n)
   
   # shape as text (if specified)
   if(asText && !is.character(palette))
@@ -224,7 +224,7 @@ getShapePalette <- function(
 #' 
 #' Note that 7 unique symbols are available at maximum
 #' (replicated if necessary).
-#' @param defaultSettings A function or a vector, for custom linetypes.
+#' @param palette A function or a vector, for custom linetypes.
 #' Default is the \code{\link{clinLinetypes}} linetype palette.
 #' @inheritParams clinUtils-palette
 #' @return Vector with linetypes,
@@ -239,13 +239,13 @@ getShapePalette <- function(
 #' getLinetypePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
 #' getLinetypePalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 #' # set custom linetypes
-#' lty <- getColorPalette(n = 3, defaultSettings = c("twodash", "dashed"))
+#' lty <- getColorPalette(n = 3, palette = c("twodash", "dashed"))
 #' @export
 getLinetypePalette <- function(
     n = NULL, 
     x = NULL,
     includeNA = FALSE,
-    defaultSettings = clinLinetypes
+    palette = clinLinetypes
 ) {
   
   if(is.null(x) & is.null(n))
@@ -264,7 +264,7 @@ getLinetypePalette <- function(
   
   if(is.null(n)) n <- length(x)
   
-  palette <- evaluatePalette(palette = defaultSettings, n = n)
+  palette <- evaluatePalette(palette = palette, n = n)
   
   if(!is.null(x)) {
     # set palette names to x

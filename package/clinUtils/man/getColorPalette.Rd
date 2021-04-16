@@ -5,12 +5,7 @@
 \title{Get a color palette for clinical
 visualizations.}
 \usage{
-getColorPalette(
-  n = NULL,
-  x = NULL,
-  includeNA = FALSE,
-  defaultSettings = clinColors
-)
+getColorPalette(n = NULL, x = NULL, includeNA = FALSE, palette = clinColors)
 }
 \arguments{
 \item{n}{Integer of length 1, number of elements in palette.}
@@ -24,7 +19,7 @@ Missing values are automatically removed, excepted if
 should NA elements be retained in the palette in case
 \code{x} is specified?}
 
-\item{defaultSettings}{A function or a vector, for custom colors.
+\item{palette}{A function or a vector, for custom colors.
 Default is the the colorblind 
 \code{\link[viridisLite]{viridis}} color palette.}
 }
@@ -46,7 +41,7 @@ getColorPalette(x = paste('treatment', 1:4))
 getColorPalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 getColorPalette(x = c(NA_character_, "group1"), includeNA = TRUE)
 # change default settings
-getColorPalette(n = 3, defaultSettings = c("red", "green", "grey"))
+getColorPalette(n = 3, palette = c("red", "green", "grey"))
 }
 \author{
 Laure Cougnaud and Michela Pasetto

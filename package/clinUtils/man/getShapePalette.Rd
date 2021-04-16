@@ -10,7 +10,7 @@ getShapePalette(
   x = NULL,
   includeNA = FALSE,
   asText = FALSE,
-  defaultSettings = if (asText) {     clinShapesText } else {     clinShapes }
+  palette = if (asText) {     clinShapesText } else {     clinShapes }
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ be expressed as integer (base R plot and ggplot2 compatible)
 or in text format 
 (e.g. required if combined with unicode symbols in ggplot2)?}
 
-\item{defaultSettings}{A function or a vector, for custom shapes.\cr
+\item{palette}{A function or a vector, for custom shapes.\cr
 The vector should be a character if \code{asText} is set to TRUE.\cr
 Default is the \code{\link{clinShapes}} shape palette,
 or \code{\link{clinShapesText}} is \code{asText} is set to TRUE.}
@@ -57,7 +57,7 @@ getShapePalette(x = paste('treatment', 1:4))
 getShapePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
 getShapePalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 # change default settings
-getShapePalette(x = paste('treatment', 1:3), defaultSettings = c("circle", "triangle"))
+getShapePalette(x = paste('treatment', 1:3), palette = c("circle", "triangle"))
 # get symbols as 'text' (e.g. to be combined with Unicode in ggplot2)
 getShapePalette(x = paste('treatment', 1:4), asText = TRUE)
 }

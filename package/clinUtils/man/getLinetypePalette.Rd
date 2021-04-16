@@ -9,7 +9,7 @@ getLinetypePalette(
   n = NULL,
   x = NULL,
   includeNA = FALSE,
-  defaultSettings = clinLinetypes
+  palette = clinLinetypes
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ Missing values are automatically removed, excepted if
 should NA elements be retained in the palette in case
 \code{x} is specified?}
 
-\item{defaultSettings}{A function or a vector, for custom linetypes.
+\item{palette}{A function or a vector, for custom linetypes.
 Default is the \code{\link{clinLinetypes}} linetype palette.}
 }
 \value{
@@ -49,7 +49,7 @@ getLinetypePalette(x = paste('treatment', 1:4))
 getLinetypePalette(x = c(NA_character_, "group1"), includeNA = TRUE)
 getLinetypePalette(x = c(NA_character_, "group1"), includeNA = FALSE)
 # set custom linetypes
-lty <- getColorPalette(n = 3, defaultSettings = c("twodash", "dashed"))
+lty <- getColorPalette(n = 3, palette = c("twodash", "dashed"))
 }
 \author{
 Laure Cougnaud and Michela Pasetto
