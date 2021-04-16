@@ -4,6 +4,7 @@
 #' See documentation of \code{\link[viridisLite]{viridis}}.
 #' @inheritParams viridisLite::viridis
 #' @importFrom viridisLite viridis
+#' @export
 clinColors <- viridisLite::viridis
 
 # see: ggplot2:::translate_shape_string
@@ -41,6 +42,7 @@ pch_table <- c(
 #' Shapes of 'clinUtils'
 #' 
 #' A set of default shapes are available as named vector.
+#' @export
 clinShapes <- c(
 	# filled symbols
 	seq(from = 21, to = 25), 
@@ -51,11 +53,13 @@ clinShapes <- c(
 #' Shapes of 'clinUtils' as text
 #' 
 #' A set of default shapes are available as character vector.
+#' @export
 clinShapesText <- names(pch_table)[match(clinShapes, pch_table)]
 
 #' Linetypes of 'clinUtils'
 #' 
 #' A set of default linetypes are available as a vector.
+#' @export
 clinLinetypes <- c(
     "solid", "dashed", "dotdash",
     "twodash", "dotted", "longdash"
