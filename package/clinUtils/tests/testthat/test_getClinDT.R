@@ -49,7 +49,7 @@ test_that("basic", {
 		stringsAsFactors = FALSE
 	)		
 		
-	expect_silent(dt <- toDTGLPG(data = data))
+	expect_silent(dt <- getClinDT(data = data))
 	expect_is(dt, "datatables")	
 	expect_identical(object = dt$x$data, expected = data)
 	
@@ -65,7 +65,7 @@ test_that("basic", {
 	unlink(file)
 	
 	# wrong type
-	expect_error(toDTGLPG(data = TRUE))
+	expect_error(getClinDT(data = TRUE))
 	
 })
 
@@ -80,11 +80,11 @@ test_that("SharedData", {
 			
 	# works
 	dataSD <- crosstalk::SharedData$new(data = data, key = as.formula("~USUBJID"))
-	expect_silent(dt <- toDTGLPG(data = dataSD))
+	expect_silent(dt <- getClinDT(data = dataSD))
 	expect_identical(dt$x$data, data)
 	
 	# incorrect
-	expect_error(dt <- toDTGLPG(crosstalk::SharedData$new(data = data, key = "test")))
+	expect_error(dt <- getClinDT(crosstalk::SharedData$new(data = data, key = "test")))
 	
 })
 
@@ -98,7 +98,7 @@ test_that("tibble", {
 	)		
 			
 	dataTB <- data %>% group_by(USUBJID)
-	expect_silent(dt <- toDTGLPG(data = dataTB))
+	expect_silent(dt <- getClinDT(data = dataTB))
 	expect_identical(dt$x$data, data)
 })
 
@@ -117,13 +117,13 @@ test_that("Colnames", {
 	)
 			
 	# correct
-	expect_silent(dt <- toDTGLPG(data = data, colnames = colnames))
+	expect_silent(dt <- getClinDT(data = data, colnames = colnames))
 	tableJSON <- exportAndGetTableJSON(dt)
 	headerTh <- xml_find_all(read_html(tableJSON$x$container), "//th")
 	expect_identical(sapply(headerTh, xml_text), names(colnames))
 	
 	# wrong
-	expect_warning(dt <- toDTGLPG(data = data, colnames = c(TEST = "TEST")))
+	expect_warning(dt <- getClinDT(data = data, colnames = c(TEST = "TEST")))
 			
 })
 
@@ -141,13 +141,13 @@ test_that("Specify non visible columns", {
 	
 	# remove var (for comparison)
 	expect_silent(
-		dt <- toDTGLPG(data = data[, setdiff(colnames(data), nonVisibleVar)])
+		dt <- getClinDT(data = data[, setdiff(colnames(data), nonVisibleVar)])
 	)
 	filePngRemoveCol <- exportDTToPng(dt = dt, label = "removeCol")
 	
 	# old spec
 	expect_warning(
-		dt <- toDTGLPG(
+		dt <- getClinDT(
 			data = data, 
 			nonVisible = match(nonVisibleVar, colnames(data))-1
 		),
@@ -161,7 +161,7 @@ test_that("Specify non visible columns", {
 
 	# new spec
 	expect_silent(
-		dt <- toDTGLPG(
+		dt <- getClinDT(
 			data = data, 
 			nonVisibleVar = nonVisibleVar
 		)
@@ -176,7 +176,7 @@ test_that("Specify non visible columns", {
 	unlink(c(filePngRemoveCol, filePngNonVisible, filePngNonVisibleVar, "compareFigs"), recursive = TRUE)
 	
 	# in case JS indices not used
-	expect_error(toDTGLPG(data = data, nonVisible = ncol(data)))
+	expect_error(getClinDT(data = data, nonVisible = ncol(data)))
 	
 })
 
@@ -184,15 +184,15 @@ test_that("Format percentage var", {
 			
 	# Compare screenshot of table created with 'percVar' and 
 	# and table created from manually formatted percentage variable
-	toDTGLPGWithAlign <- function(...)
-		toDTGLPG(..., options = list(columnDefs = list(list(className = 'dt-center', targets="_all"))))
+	getClinDTWithAlign <- function(...)
+		getClinDT(..., options = list(columnDefs = list(list(className = 'dt-center', targets="_all"))))
 			
 	perc <- c(0.06, 0.001, 0.65, 0.99, 1)
-	expect_silent(dt <- toDTGLPGWithAlign(data = data.frame(perc = perc), percVar = "perc"))
+	expect_silent(dt <- getClinDTWithAlign(data = data.frame(perc = perc), percVar = "perc"))
 	filePercVar <- exportDTToPng(dt, label = "percentage-percVar")
 	
 	percST <- paste0(formatC(round(perc*100, 2), digits = 2, format = "f", flag = "0"), "%")
-	expect_silent(dt <- toDTGLPGWithAlign(data = data.frame(perc = percST)))
+	expect_silent(dt <- getClinDTWithAlign(data = data.frame(perc = percST)))
 	fileManFormat <- exportDTToPng(dt, label = "percentage-manFormat")
 	
 	expect_message(compareFigOne(filePercVar, fileManFormat), "ok!", label = "percVar")	
@@ -213,32 +213,32 @@ test_that("Barplot for a variable", {
 	)		
 			
 	# variable not available
-	expect_warning(toDTGLPG(data = data, barVar = "blabla"))
+	expect_warning(getClinDT(data = data, barVar = "blabla"))
 
 	# Note: coloring done in JS, not available in HTML file
 	# so check if input parameters have an effect on the created image
 	
-	dt <- toDTGLPG(data = data)
+	dt <- getClinDT(data = data)
 	file <- exportDTToPng(dt, label = "basic")
 			
 	# specification of barVar
-	expect_silent(dt <- toDTGLPG(data = data, barVar = "AGE"))
+	expect_silent(dt <- getClinDT(data = data, barVar = "AGE"))
 	fileBarVar <- exportDTToPng(dt, label = "bar-barVar")
 	expect_message(compareFigOne(file, fileBarVar), "DIFFERENT!", label = "barVar")
 	
 	# specification of barColorThr
-	expect_silent(dt <- toDTGLPG(data = data, barVar = "AGE", barColorThr = 28))
+	expect_silent(dt <- getClinDT(data = data, barVar = "AGE", barColorThr = 28))
 	fileBarColorThr <- exportDTToPng(dt, label = "bar-barColorThr")
 	expect_message(compareFigOne(fileBarColorThr, fileBarVar), "DIFFERENT!", label = "barColorThr")	
 	
 	# specification of barRange
-	expect_silent(dt <- toDTGLPG(data = data, barVar = "AGE", barRange = c(0, 100)))
+	expect_silent(dt <- getClinDT(data = data, barVar = "AGE", barRange = c(0, 100)))
 	fileBarColorRange <- exportDTToPng(dt, label = "bar-barRange")
 	expect_message(compareFigOne(fileBarColorRange, fileBarVar), "DIFFERENT!", label = "barRange")	
 			
 	# multiple variables
 	expect_silent(
-		dt <- toDTGLPG(
+		dt <- getClinDT(
 			data = data, 
 			barVar = c("AGE", "WEIGHTBL"),
 			barColorThr = c(AGE = 50),
@@ -249,7 +249,7 @@ test_that("Barplot for a variable", {
 	expect_message(compareFigOne(fileBarMultiple, fileBarVar), "DIFFERENT!", label = "multiple bar variables")	
 	
 	# wrong types
-	expect_warning(dt <- toDTGLPG(data = data, barVar = "USUBJID"))
+	expect_warning(dt <- getClinDT(data = data, barVar = "USUBJID"))
 			
 	unlink(c(file, fileBarVar, fileBarColorThr, fileBarColorRange, fileBarMultiple, "compareFigs"), recursive = TRUE)
 	
@@ -266,7 +266,7 @@ test_that("Filter boxes", {
 	filters <- c("top", "none")
 	for(filter in filters){
 		
-		dt <- toDTGLPG(data, filter = filter)
+		dt <- getClinDT(data, filter = filter)
 		tableJSON <- exportAndGetTableJSON(dt)
 		tableFilter <- tableJSON$x$filter
 		expect_identical(tableFilter, filter)
@@ -285,7 +285,7 @@ test_that("Search box", {
 			
 	for(includeSearchBox in c(TRUE, FALSE)){		
 			
-		dt <- toDTGLPG(data, searchBox = includeSearchBox)
+		dt <- getClinDT(data, searchBox = includeSearchBox)
 		tableJSON <- exportAndGetTableJSON(dt)
 		expect_equal(grepl("f", tableJSON$x$options$dom), includeSearchBox)
 		
@@ -301,7 +301,7 @@ test_that("Page length", {
 		stringsAsFactors = FALSE	
 	)
 			
-	dt <- toDTGLPG(data, pageLength = 2)
+	dt <- getClinDT(data, pageLength = 2)
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_equal(tableJSON$x$options$pageLength, 2) # page length properly set
 	expect_true(grepl("p", tableJSON$x$options$dom)) # include pagination control
@@ -316,7 +316,7 @@ test_that("Fixed columns", {
 	)
 			
 	fC <- list(leftColumns = 2)
-	dt <- toDTGLPG(data, fixedColumns = fC)
+	dt <- getClinDT(data, fixedColumns = fC)
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_equal(tableJSON$x$options$fixedColumns, fC)
 })
@@ -330,7 +330,7 @@ test_that("Columns widths", {
 	)
 		
 	widths <- sample(10, ncol(data), replace = TRUE)
-	dt <- toDTGLPG(data, columnsWidth = widths)
+	dt <- getClinDT(data, columnsWidth = widths)
 	tableJSON <- exportAndGetTableJSON(dt)
 	
 	# extract column defs
@@ -359,14 +359,14 @@ test_that("Specification of extra options", {
 			
 	# specified options overwrites the default (with message)
 	expect_message(
-		dt <- toDTGLPG(data, options = list(pageLength = 20)),
+		dt <- getClinDT(data, options = list(pageLength = 20)),
 		regexp = "overwrites the default"
 	)
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_equal(tableJSON$x$options$pageLength, 20) # page length properly set
 	
 	# extra options not available in the function
-	expect_silent(dt <- toDTGLPG(data, options = list(lengthChange = 20)))
+	expect_silent(dt <- getClinDT(data, options = list(lengthChange = 20)))
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_equal(tableJSON$x$options[["lengthChange"]], 20)
 	
@@ -392,7 +392,7 @@ test_that("Expand variables", {
 		"Treatment" = "TRT"
 	)
 	
-	expect_silent(dt <- toDTGLPG(data, expandVar = expandVar, colnames = colnames))
+	expect_silent(dt <- getClinDT(data, expandVar = expandVar, colnames = colnames))
 	tableJSON <- exportAndGetTableJSON(dt)
 	cDefs <- tableJSON$x$options$columnDefs
 	
@@ -405,7 +405,7 @@ test_that("Expand variables", {
 	expect_true(all(sapply(expandVarLab, grepl, tableJSON$x$callback, fixed = TRUE)))
 	
 	# wrong variable
-	expect_warning(dt <- toDTGLPG(data, expandVar = "blabla"))
+	expect_warning(dt <- getClinDT(data, expandVar = "blabla"))
 			
 })
 
@@ -432,7 +432,7 @@ test_that("Expand variables with all column options", {
 	cAlignLeft <- 3 # 6th column
 	
 	expect_silent(dt <- 
-		toDTGLPG(
+		getClinDT(
 			data = dataEscape, 
 			expandVar = expandVar, 
 			escape = -1,
@@ -482,13 +482,13 @@ test_that("Expand cells", {
 	# so check at least than the HTML is well specified
 	
 	# wrong spec
-	expect_error(dt <- toDTGLPG(data, expandIdx = list()))
+	expect_error(dt <- getClinDT(data, expandIdx = list()))
 	
 	# correct spec
 	idxRow <- c(1, 2)
 	idxCol <- c(2, 2)
 	expandIdx <- cbind(row = idxRow, col = idxCol)
-	expect_silent(dt <- toDTGLPG(data, expandIdx = expandIdx))
+	expect_silent(dt <- getClinDT(data, expandIdx = expandIdx))
 	tableJSON <- exportAndGetTableJSON(dt)
 	cDefs <- tableJSON$x$options$columnDefs
 	
@@ -519,25 +519,25 @@ test_that("Escape cells", {
 	)
 	
 	# no escape
-	expect_silent(dt <- toDTGLPG(dataEscape))
+	expect_silent(dt <- getClinDT(dataEscape))
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_false(tableJSON$x$data[[1]][1] == dataEscape[1, "url"])
 	
 	# as logical
-	expect_silent(dt <- toDTGLPG(dataEscape, escape = FALSE))
+	expect_silent(dt <- getClinDT(dataEscape, escape = FALSE))
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_identical(tableJSON$x$data[[1]], dataEscape[, "url"])
 	
-	expect_error(toDTGLPG(dataEscape, escape = c(TRUE, FALSE)))
+	expect_error(getClinDT(dataEscape, escape = c(TRUE, FALSE)))
 	
 	# as negative integer
-	expect_silent(dt <- toDTGLPG(dataEscape, escape = -1))
+	expect_silent(dt <- getClinDT(dataEscape, escape = -1))
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_identical(tableJSON$x$data[[1]], dataEscape[, "url"])
 	
 	# wrong spec
-	expect_error(dt <- toDTGLPG(dataEscape, escape = "blabla"))
-	expect_error(dt <- toDTGLPG(dataEscape, escape = ncol(dataEscape) * 2))
+	expect_error(dt <- getClinDT(dataEscape, escape = "blabla"))
+	expect_error(dt <- getClinDT(dataEscape, escape = ncol(dataEscape) * 2))
 	
 })
 
@@ -555,7 +555,7 @@ test_that("Row grouping", {
 			
 	# properly done 
 	rowGroupVars <- c("STUDYID", "SITEID")
-	expect_silent(dt <- toDTGLPG(data, rowGroupVar = rowGroupVars))	
+	expect_silent(dt <- getClinDT(data, rowGroupVar = rowGroupVars))	
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_equal(
 		object = tableJSON$x$options$rowGroup$dataSrc, 
@@ -564,13 +564,13 @@ test_that("Row grouping", {
 	
 	# variable not available in the data
 	expect_warning(
-		dt <- toDTGLPG(data, rowGroupVar = "blabla"),
+		dt <- getClinDT(data, rowGroupVar = "blabla"),
 		"not available in the data."
 	)
 	
 	# old spec
 	expect_warning(
-		dt <- toDTGLPG(data, rowGroup = rowGroupVars),
+		dt <- getClinDT(data, rowGroup = rowGroupVars),
 		"deprecated"
 	)
 	tableJSON <- exportAndGetTableJSON(dt)
@@ -589,7 +589,7 @@ test_that("Vertical alignment", {
 		stringsAsFactors = FALSE
 	)	
 			
-	expect_silent(dt <- toDTGLPG(data, vAlign = "bottom"))
+	expect_silent(dt <- getClinDT(data, vAlign = "bottom"))
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_true(grepl("'vertical-align':'bottom'", tableJSON$x$options$rowCallback))
 })
@@ -603,7 +603,7 @@ test_that("callback", {
 	)
 	
 	callback <- JS("testCallback")
-	expect_silent(dt <- toDTGLPG(data, callback = callback))
+	expect_silent(dt <- getClinDT(data, callback = callback))
 	expect_true(grepl("testCallback", dt$x$callback))
 })
 
@@ -617,14 +617,14 @@ test_that("Buttons", {
 			
 	# specify buttons
 	buttons <- "copy"
-	expect_silent(dt <- toDTGLPG(data, buttons = buttons))
+	expect_silent(dt <- getClinDT(data, buttons = buttons))
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_setequal(tableJSON$x$options$buttons, buttons)
 	expect_true(grepl("B", tableJSON$x$options$dom)) # in DOM
 	expect_true("Buttons" %in% tableJSON$x$extensions) # Js extension specified
 	
 	# no buttons
-	expect_silent(dt <- toDTGLPG(data, buttons = NULL))
+	expect_silent(dt <- getClinDT(data, buttons = NULL))
 	tableJSON <- exportAndGetTableJSON(dt)
 	expect_length(tableJSON$x$options$buttons, 0)
 	expect_false(grepl("B", tableJSON$x$options$dom))
@@ -644,7 +644,7 @@ test_that("x-scrolling", {
 			
 	for(scrollX in c(TRUE, FALSE)){		
 		
-		dt <- toDTGLPG(data, scrollX = scrollX)
+		dt <- getClinDT(data, scrollX = scrollX)
 		tableJSON <- exportAndGetTableJSON(dt)
 		expect_equal(tableJSON$x$options$scrollX, scrollX)
 		
@@ -661,11 +661,11 @@ test_that("Extra datatable parameters", {
 	)
 	
 	# internal default
-	expect_warning(toDTGLPG(data, rownames = TRUE))
+	expect_warning(getClinDT(data, rownames = TRUE))
 	
 	# extra parameter
 	width <- "10px"
-	expect_silent(dt <- toDTGLPG(data, width = width))
+	expect_silent(dt <- getClinDT(data, width = width))
 	expect_equal(dt$width, width)
 				
 })
@@ -680,11 +680,11 @@ test_that("Export", {
 			
 	# correct file format
 	file <- "test.html";unlink(file)
-	expect_silent(dt <- toDTGLPG(data, file = file))
+	expect_silent(dt <- getClinDT(data, file = file))
 	expect_true(file.exists(file))
 	unlink(file)
 	
 	# incorrect file format
-	expect_error(dt <- toDTGLPG(data, file = "test.csv"), pattern = "extension")
+	expect_error(dt <- getClinDT(data, file = "test.csv"), pattern = "extension")
 	
 })

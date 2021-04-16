@@ -429,7 +429,7 @@ mergeInputDiff <- function(
 #' currently only: \code{DT} is available to export to
 #' a \code{\link[DT]{datatable}} object.
 #' @param ... Extra parameters besides 'data' and 'nonVisibleVars',
-#' currently passed to the \code{\link{toDTGLPG}} function.
+#' currently passed to the \code{\link{getClinDT}} function.
 #' @inheritParams comparisonTables-common-args
 #' @return Depending on the \code{to} parameter:
 #' \itemize{
@@ -459,14 +459,14 @@ exportDiffData <- function(
   
   to <- match.arg(to)
   
-  argsToDTGLPG <- list(...)
+  argsGetClinDT <- list(...)
   
   diffData <- convertToDatatable(diffData)
     
   # placeholder in case there is no records in the diff data
   if(nrow(diffData) == 0 & (missing(newDataDiff) | missing(oldDataDiff))) {
-    if(is.null(argsToDTGLPG$options$language$zeroRecords)) {
-      argsToDTGLPG$options <- c(argsToDTGLPG$options,
+    if(is.null(argsGetClinDT$options$language$zeroRecords)) {
+      argsGetClinDT$options <- c(argsGetClinDT$options,
           list(
               language = list(
                   zeroRecords = paste(
@@ -516,15 +516,15 @@ exportDiffData <- function(
   
   # convert diffData to data.table
   # couldn't we use DT::datatable directly?
-  argsToDTGLPG$data <- diffDataDetails
-  nonVisibleVar <- c(argsToDTGLPG$nonVisibleVar, diffCols)
-  argsToDTGLPG$nonVisibleVar <- nonVisibleVar
+  argsGetClinDT$data <- diffDataDetails
+  nonVisibleVar <- c(argsGetClinDT$nonVisibleVar, diffCols)
+  argsGetClinDT$nonVisibleVar <- nonVisibleVar
   
   # 'diff' columns should not be included in the export:
   # -1 -> JS notation (start at 0)
   colsToExport <- setdiff(colnames(diffDataDetails), nonVisibleVar)
   idxColToExportJS <- match(colsToExport, colnames(diffDataDetails))-1
-  argsToDTGLPG$options$buttons <- c(argsToDTGLPG$options$buttons,
+  argsGetClinDT$options$buttons <- c(argsGetClinDT$options$buttons,
 		lapply(c("copy", "csv", "excel", "pdf", "print"), function(btn)
 			list(
 				extend = btn, 
@@ -532,14 +532,14 @@ exportDiffData <- function(
 			)
   	)
  )
-	argsToDTGLPG$verbose <- FALSE
+	argsGetClinDT$verbose <- FALSE
   
-  diffDataDt <- do.call(toDTGLPG, argsToDTGLPG)
+  diffDataDt <- do.call(getClinDT, argsGetClinDT)
   
   # if column names have been renamed, the new column names
   # should be specified in formatStyle:
-  if("colnames" %in% names(argsToDTGLPG)){
-    labelVars <- setNames(names(argsToDTGLPG$colnames), argsToDTGLPG$colnames)
+  if("colnames" %in% names(argsGetClinDT)){
+    labelVars <- setNames(names(argsGetClinDT$colnames), argsGetClinDT$colnames)
     names(diffCols) <- getLabelVar(var = names(diffCols), label = labelVars)
   }
   

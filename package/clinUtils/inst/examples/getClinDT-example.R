@@ -40,14 +40,14 @@ tableAEBase <- tableAE[, setdiff(colnames(tableAE), "USUBJID")]
 ## create table with bar
 
 # default:
-toDTGLPG(
+getClinDT(
 	data = tableAEBase,
 	barVar = "perc",
 	colnames = tableAELabelsDT
 )
 
 # specify range for the bar
-toDTGLPG(
+getClinDT(
 	data = tableAEBase,
 	filter = "none",
 	barVar = "perc",
@@ -56,7 +56,7 @@ toDTGLPG(
 )
 
 # change color according to thresold
-toDTGLPG(
+getClinDT(
 	data = tableAEBase,
 	filter = "none",
 	barVar = "perc",
@@ -71,7 +71,7 @@ tableAEGroup <- tableAEBase %>%
 	arrange(desc(NAESOC), AESOC, desc(perc)) %>%
 	select(-NAESOC)
 	
-toDTGLPG(
+getClinDT(
 	data = tableAEGroup,
 	filter = "none",
 	barVar = "perc",
@@ -85,7 +85,7 @@ toDTGLPG(
 # be accessible when clicking on the '+' button
 # Format URL correctly with: 'escape',
 # please note that indexing starts at 0!
-toDTGLPG(
+getClinDT(
 	data = tableAE,
 	barVar = "perc",
 	colnames = tableAELabelsDT,
@@ -94,7 +94,7 @@ toDTGLPG(
 )
 
 # with fixed columns:
-toDTGLPG(
+getClinDT(
 	data = tableAEGroup,
 	colnames = tableAELabelsDT,
 	fixedColumns = list(leftColumns = 1),
@@ -103,7 +103,7 @@ toDTGLPG(
 )
 
 # change default buttons
-toDTGLPG(
+getClinDT(
 	data = tableAEGroup,
 	colnames = tableAELabelsDT,
 	# remove general filter
@@ -115,7 +115,7 @@ toDTGLPG(
 )
 
 # hide the first column:
-toDTGLPG(
+getClinDT(
 	data = tableAEGroup,
 	nonVisibleVar = "AESOC"
 )
@@ -130,7 +130,7 @@ caption <- tags$caption(
 		"received a first study treatment."
 	)
 )
-toDTGLPG(
+getClinDT(
 	data = tableAEGroup,
 	filter = "none",
 	barVar = "perc",

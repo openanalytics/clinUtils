@@ -236,12 +236,12 @@ interactive table in HTML format.
 Such interactivity includes the possibilities to wrap long tables,
 filter columns.
 
-The `toDTGLPG` function is an utility function containing sensitive default settings
+The `getClinDT` function is an utility function containing sensitive default settings
 and extra common
 functionalities to include in this table, e.g. possibility to expand
 row variable(s), to include bar visualization, ...
 
-```{r toDTGLPG}
+```{r getClinDT}
 
 	dataTEAE <- subset(dataADaM$ADAE, SAFFL == "Y" & TRTEMFL == "Y")
 	
@@ -261,7 +261,7 @@ row variable(s), to include bar visualization, ...
 	)
 	dataTEAE <- dataTEAE[order(dataTEAE$AESOC), ]
 	
-	toDTGLPG(
+	getClinDT(
 		dataTEAE, 
 		colnames = colnamesTEAE, 
 		rowGroupVar = c("AESOC"),

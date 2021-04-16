@@ -43,7 +43,7 @@ currently only: \code{DT} is available to export to
 a \code{\link[DT]{datatable}} object.}
 
 \item{...}{Extra parameters besides 'data' and 'nonVisibleVars',
-currently passed to the \code{\link{toDTGLPG}} function.}
+currently passed to the \code{\link{getClinDT}} function.}
 }
 \value{
 Depending on the \code{to} parameter:

@@ -68,11 +68,11 @@
 #' @importFrom stats na.omit
 #' @importFrom crosstalk SharedData
 #' @importFrom tools file_ext
-#' @example inst/examples/toDTGLPG-example.R
+#' @example inst/examples/getClinDT-example.R
 #' @return \code{\link[DT]{datatable}} object.
 #' @author Laure Cougnaud
 #' @export
-toDTGLPG <- function(data, 
+getClinDT <- function(data, 
 	nonVisibleVar = NULL, nonVisible = NULL,
 	percVar = NULL,
 	barVar = NULL,

@@ -168,7 +168,7 @@ compareTables(
 	referenceVars = "a", changeableVars = c("c", "d"), 
 )
 
-## with labels in the interactive format, see ? toDTGLPG
+## with labels in the interactive format, see ? getClinDT
 
 newData <- data.frame(
 	"a" = c(7, 1, 2, 3, 4),
