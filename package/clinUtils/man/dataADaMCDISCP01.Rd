@@ -12,25 +12,41 @@ is available via the \code{labelVars} attribute.
 }
 \source{
 Original (and entire) datasets are available in: \cr
-\url{https://github.com/phuse-org/phuse-scripts/tree/master/data/adam/cdiscpilot01}
+\url{https://github.com/phuse-org/phuse-scripts/tree/master/data/adam/cdisc}
 See in particular the \emph{define.xml} file
 for further description of the
 datasets and variables name.
 }
 \description{
-This contains a subset of the CDISC original Pilot 01 study dataset for:
+This contains a subset of the CDISC Pilot 01 study dataset for:
 \itemize{
 \item{a selected subset of subjects}
 \item{a selected subset of domains: 
- \itemize{
-  \item{subject-level ('adsl')}
-  \item{adverse event ('adae')}
-  \item{laboratory chemistry data('adlbc')}
-  \item{vital signs ('advs')}
+\itemize{
+\item{subject-level ('adsl')}
+\item{adverse event ('adae')}
+\item{laboratory chemistry data('adlbc')}
+\item{vital signs ('advs')}
+\item{concomitant medications ('adcm')}
+\item{efficacy: 
+\itemize{
+\item{ADAS-COG Data ('adqsadas'), containing one of the 
+  primary endpoint: ADAS-Cog (11)\cr
+  (Alzheimer's Disease Assessment Scale - Cognitive Subscale}
+\item{CIBIC+ questionnaire data ('adqscibc'), containing one 
+of the primary endpoint: CIBIC+\cr
+(Video-referenced Clinician's Interview-based Impression of Change)}
+}
+}
+\item{pharmacokinetic parameters ('adpp')\cr
+Please note that this dataset contains different sets 
+of subjects than the other example datasets.}
 }}
 }
 This dataset was created following the ADaM Version 2.0
 standard.
+This dataset contains the 'Modified \& augmented version 
+of cdiscpilot01' dataset.
 }
 \seealso{
 \link{loadDataADaMSDTM}

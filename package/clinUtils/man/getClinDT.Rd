@@ -158,8 +158,7 @@ tableAE <- dataAE \%>\%
 	group_by(AESOC, AEDECOD) \%>\% 
 	summarise(
 		N = n_distinct(USUBJID),
-		perc = round(N/length(subjectsSafety)*100, 3),
-		USUBJID = toString(patientProfileLink)
+		perc = round(N/length(subjectsSafety)*100, 3)
 	) \%>\%
 	arrange(desc(perc))
 
