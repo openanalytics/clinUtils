@@ -19,6 +19,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# install PhantomJS (for webshot pkg)
+ADD https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 /usr/local/share
+RUN cd /usr/local/share;tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2
+RUN ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
+RUN phantomjs --version # check
+
 RUN R -e "cat(\"local(options(repos = c(CRAN = 'https://cloud.r-project.org')))\n\", file = R.home('etc/Rprofile.site'), append = TRUE)"
 
 # install dependencies
