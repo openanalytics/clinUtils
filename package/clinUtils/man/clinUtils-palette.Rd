@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots-palettes.R
 \name{clinUtils-palette}
 \alias{clinUtils-palette}
-\title{Parameters for all patient profiles visualization palette functions.}
+\title{Parameters for all palette functions for clinical visualizations.}
 \arguments{
 \item{n}{Integer of length 1, number of elements in palette.}
 
@@ -16,5 +16,5 @@ should NA elements be retained in the palette in case
 \code{x} is specified?}
 }
 \description{
-Parameters for all patient profiles visualization palette functions.
+Parameters for all palette functions for clinical visualizations.
 }

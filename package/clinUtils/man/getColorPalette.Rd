@@ -19,7 +19,9 @@ Missing values are automatically removed, excepted if
 should NA elements be retained in the palette in case
 \code{x} is specified?}
 
-\item{palette}{A function or a vector, for custom colors.
+\item{palette}{A vector of custom colors,
+or a function returning this vector from a specific
+number of colors.\cr
 Default is the the colorblind 
 \code{\link[viridisLite]{viridis}} color palette.}
 }

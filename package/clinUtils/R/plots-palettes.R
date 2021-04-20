@@ -65,7 +65,7 @@ clinLinetypes <- c(
     "twodash", "dotted", "longdash"
 ) 
 
-#' Parameters for all patient profiles visualization palette functions.
+#' Parameters for all palette functions for clinical visualizations.
 #' @param n Integer of length 1, number of elements in palette.
 #' @param x Vector with elements used for palette.
 #' If factor, the levels are used, otherwise the unique elements of the vector.
@@ -83,7 +83,9 @@ NULL
 #' Get a color palette of specified length,
 #' either from a vector of names for the palette, or
 #' from a specified length.
-#' @param palette A function or a vector, for custom colors.
+#' @param palette A vector of custom colors,
+#' or a function returning this vector from a specific
+#' number of colors.\cr
 #' Default is the the colorblind 
 #' \code{\link[viridisLite]{viridis}} color palette.
 #' @inheritParams clinUtils-palette
@@ -165,10 +167,12 @@ evaluatePalette <- function(palette, n) {
 #' 
 #' Note that 19 unique symbols are available at maximum
 #' (replicated if necessary).
-#' @param palette A function or a vector, for custom shapes.\cr
+#' @param palette A vector of custom shapes,
+#' or a function returning this vector from a specific
+#' number of shapes.\cr
 #' The vector should be a character if \code{asText} is set to TRUE.\cr
 #' Default is the \code{\link{clinShapes}} shape palette,
-#' or \code{\link{clinShapesText}} is \code{asText} is set to TRUE.
+#' or \code{\link{clinShapesText}} if \code{asText} is set to TRUE.
 #' @param asText Logical (FALSE by default), should the palette
 #' be expressed as integer (base R plot and ggplot2 compatible)
 #' or in text format 
@@ -243,7 +247,9 @@ getShapePalette <- function(
 #' 
 #' Note that 7 unique symbols are available at maximum
 #' (replicated if necessary).
-#' @param palette A function or a vector, for custom linetypes.
+#' @param palette A vector of custom linetypes,
+#' or a function returning this vector from a specific
+#' number of linetypes.\cr
 #' Default is the \code{\link{clinLinetypes}} linetype palette.
 #' @inheritParams clinUtils-palette
 #' @return Vector with linetypes,

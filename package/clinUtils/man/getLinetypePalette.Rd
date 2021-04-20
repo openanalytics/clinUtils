@@ -24,7 +24,9 @@ Missing values are automatically removed, excepted if
 should NA elements be retained in the palette in case
 \code{x} is specified?}
 
-\item{palette}{A function or a vector, for custom linetypes.
+\item{palette}{A vector of custom linetypes,
+or a function returning this vector from a specific
+number of linetypes.\cr
 Default is the \code{\link{clinLinetypes}} linetype palette.}
 }
 \value{
