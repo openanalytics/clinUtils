@@ -2,8 +2,8 @@
 % Please edit documentation in R/plots-utility.R
 \name{formatVarForPlotLabel}
 \alias{formatVarForPlotLabel}
-\title{Format parameter variable, to be displayed 
-in the labels of a plot.}
+\title{Format parameter variable to be displayed 
+in the labels of a plot}
 \usage{
 formatVarForPlotLabel(
   data,

@@ -2,8 +2,7 @@
 % Please edit documentation in R/plots-utility.R
 \name{formatLongLabel}
 \alias{formatLongLabel}
-\title{Format a variable with long labels, by wrapping
-its elements into multiple lines.}
+\title{Format a variable with long labels}
 \usage{
 formatLongLabel(x, width = 20)
 }
@@ -17,7 +16,7 @@ longer that this width won't be split (see \code{\link{strwrap}}).}
 vector with formatted labels
 }
 \description{
-Format a variable with long labels, by wrapping
+This function formats a variable with long labels by wrapping
 its elements into multiple lines.
 }
 \author{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/roundHalfUp.R
 \name{roundHalfUpTextFormat}
 \alias{roundHalfUpTextFormat}
-\title{Round a number with 'round-up' strategy in text format.}
+\title{Round a number with 'round-up' strategy for rounding off a 5 in text format}
 \usage{
 roundHalfUpTextFormat(x, digits = 0)
 }
@@ -17,7 +17,8 @@ NA values are returned as 'NA' as string.
 }
 \description{
 This function rounds numbers with a 'round-up' strategy 
-for a specific number of digits,
+for rounding off a 5. 
+The function rounds for a specified number of digits
 and format number to a: 'xxx.xxx' text.
 }
 \details{

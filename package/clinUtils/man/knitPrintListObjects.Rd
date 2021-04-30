@@ -2,8 +2,7 @@
 % Please edit documentation in R/knitPrintListPlots.R
 \name{knitPrintListObjects}
 \alias{knitPrintListObjects}
-\title{Include a list of objects with possibly different chunk options
-in a knitr document (e.g. \code{flextable} object).}
+\title{Include a list of objects in a knitr document}
 \usage{
 knitPrintListObjects(
   xList,
@@ -46,6 +45,11 @@ See \code{\link{knitr}[opts_chunk]} for further details on available options.}
 no returned value, a text is printed with chunk content
 }
 \description{
+This functions includes a list of objects in a knitr document 
+allowing different chunk options
+(e.g. \code{flextable} object).
+}
+\details{
 Note: the chunk in which this function is called should be 
 set with the following option: \strong{\code{results = 'asis'}}.
 }

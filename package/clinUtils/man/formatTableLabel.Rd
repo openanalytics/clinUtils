@@ -2,7 +2,7 @@
 % Please edit documentation in R/label.R
 \name{formatTableLabel}
 \alias{formatTableLabel}
-\title{concatenate and format text strings to table label for \code{bookdown} package}
+\title{Concatenate and format text strings to a label of a table}
 \usage{
 formatTableLabel(...)
 }
@@ -13,7 +13,8 @@ formatTableLabel(...)
 string with chunk label
 }
 \description{
-concatenate and format text strings to table label for \code{bookdown} package
+This function concatenates and formats 
+text strings to a label of a table for \code{bookdown} package
 }
 \author{
 Laure Cougnaud

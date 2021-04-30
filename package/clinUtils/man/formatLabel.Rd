@@ -2,7 +2,7 @@
 % Please edit documentation in R/label.R
 \name{formatLabel}
 \alias{formatLabel}
-\title{concatenate and format text strings to a label, e.g to use for chunk and table/figures}
+\title{Concatenate and format text strings to a label}
 \usage{
 formatLabel(...)
 }
@@ -16,7 +16,8 @@ different columns are collapsed to form one label.}
 string with chunk label
 }
 \description{
-concatenate and format text strings to a label, e.g to use for chunk and table/figures
+This function concatenates and formats 
+text strings to a label e.g to use for chunk and table/figures
 }
 \author{
 Laure Cougnaud

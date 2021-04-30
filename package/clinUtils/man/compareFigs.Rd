@@ -2,10 +2,7 @@
 % Please edit documentation in R/compareFigs.R
 \name{compareFigs}
 \alias{compareFigs}
-\title{Compare reference with new figures in png format with similar names.
-The figures are mapped based on filename and only the 
-figures present both in \code{pathFigRef} and \code{pathFigNew}
-are considered.}
+\title{Compare reference with new figures in png format with similar names.}
 \usage{
 compareFigs(pathFigRef, pathFigNew, outputDir = "./compareFigs", ...)
 }
@@ -27,6 +24,11 @@ No returned value, message is printed in the current
 console with 'ok!' if no difference, otherwise: 'DIFFERENT!'
 }
 \description{
+The figures are mapped based on filename and only the 
+figures present both in \code{pathFigRef} and \code{pathFigNew}
+are considered.
+}
+\details{
 If \href{https://imagemagick.org/}{ImageMagick} is available, in case the figures differ, the figures with
 the difference is saved in the \code{outputDir} folder, under the name '[filename]-diff.png'
 }

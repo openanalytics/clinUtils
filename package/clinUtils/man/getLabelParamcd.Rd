@@ -2,7 +2,7 @@
 % Please edit documentation in R/loadDataADaMSDTM.R
 \name{getLabelParamcd}
 \alias{getLabelParamcd}
-\title{Get label for a parameter code (extracted from the 'PARAM' column)}
+\title{Get label for a parameter code}
 \usage{
 getLabelParamcd(paramcd, data, paramcdVar = "PARAMCD", paramVar = "PARAM")
 }
@@ -22,7 +22,8 @@ Named character vector with label for parameter code or
 \code{paramcd} if label is missing.
 }
 \description{
-Get label for a parameter code (extracted from the 'PARAM' column)
+This function gets the labele for a parameter code 
+extracted from the 'PARAM' column.
 }
 \examples{
 # for ADaM

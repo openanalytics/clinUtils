@@ -2,9 +2,7 @@
 % Please edit documentation in R/knitPrintListPlots.R
 \name{knitPrintListPlots}
 \alias{knitPrintListPlots}
-\title{Include a list of plots with different figure height, 
-size, label in a knitr document.
-Reason: fig.height and fig.width options are not vectorized.}
+\title{Include a list of plots in a knitr document}
 \usage{
 knitPrintListPlots(
   plotsList,
@@ -30,6 +28,12 @@ Only use if \code{labels} is not specified.}
 no returned value, a text is printed with chunk content
 }
 \description{
+This function includes a list of plots with different figure height, 
+size, label in a knitr document.
+The reason is that the chunck options 
+\code{fig.height} and \code{fig.width} are not vectorized.
+}
+\details{
 Note: the chunk in which this function is called should be 
 set with the following option: \strong{\code{results = 'asis'}}.\cr
 Note that a (one-level) list of \code{plotly} plots can also be included directly via

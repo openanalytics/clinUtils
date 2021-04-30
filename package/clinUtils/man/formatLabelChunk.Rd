@@ -2,7 +2,7 @@
 % Please edit documentation in R/label.R
 \name{formatLabelChunk}
 \alias{formatLabelChunk}
-\title{concatenate and format text strings to a chunk label}
+\title{Concatenate and format text strings to a chunk label}
 \usage{
 formatLabelChunk(...)
 }
@@ -13,7 +13,7 @@ formatLabelChunk(...)
 string with chunk label
 }
 \description{
-concatenate and format text strings to a chunk label
+Concatenate and format text strings to a chunk label
 }
 \author{
 Laure Cougnaud

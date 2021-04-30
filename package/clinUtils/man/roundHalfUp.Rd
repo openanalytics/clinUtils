@@ -2,8 +2,8 @@
 % Please edit documentation in R/roundHalfUp.R
 \name{roundHalfUp}
 \alias{roundHalfUp}
-\title{Custom round function, with 'rounding up' strategy 
-for rounding off a 5.}
+\title{Round a number with 'rounding up' strategy 
+for rounding off a 5}
 \usage{
 roundHalfUp(x, digits = 0)
 }

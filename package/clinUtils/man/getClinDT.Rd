@@ -2,8 +2,7 @@
 % Please edit documentation in R/table-getClinDT.R
 \name{getClinDT}
 \alias{getClinDT}
-\title{Convert a data.frame as \code{\link[DT]{datatable}} object,
-with sensitive defaults.}
+\title{Convert a data.frame into interactive table}
 \usage{
 getClinDT(
   data,
@@ -139,7 +138,13 @@ e.g table width.}
 \code{\link[DT]{datatable}} object.
 }
 \description{
-Columns/cells of interest can be collapsed/expanded via
+This function converts a \code{data.frame} from R into 
+\code{\link[DT]{datatable}} object
+with sensitive defaults.
+}
+\details{
+The defaults set in this function allow to create specific interactive tables 
+where columns/cells of interest can be collapsed/expanded via
 the \code{expandVar}/\code{expandIdx} parameters.
 }
 \examples{
