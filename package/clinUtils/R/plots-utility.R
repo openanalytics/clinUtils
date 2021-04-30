@@ -1,5 +1,5 @@
-#' Format parameter variable, to be displayed 
-#' in the labels of a plot. 
+#' Format parameter variable to be displayed 
+#' in the labels of a plot
 #' 
 #' The following workflow is used:
 #' \enumerate{
@@ -96,7 +96,9 @@ formatVarForPlotLabel <- function(data,
 	
 }
 
-#' Format a variable with long labels, by wrapping
+#' Format a variable with long labels
+#' 
+#' This function formats a variable with long labels by wrapping
 #' its elements into multiple lines.
 #' @param x character vector with labels to format
 #' @param width target maximum size. Note: a word

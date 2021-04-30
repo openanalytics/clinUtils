@@ -1,4 +1,7 @@
-#' concatenate and format text strings to table label for \code{bookdown} package
+#' Concatenate and format text strings to a label of a table
+#' 
+#' This function concatenates and formats 
+#' text strings to a label of a table for \code{bookdown} package
 #' @param ... string to be concatenated to form label
 #' @return string with chunk label
 #' @author Laure Cougnaud
@@ -10,7 +13,8 @@ formatTableLabel <- function(...){
 	
 }
 
-#' concatenate and format text strings to a chunk label
+#' Concatenate and format text strings to a chunk label
+#' 
 #' @param ... string to be concatenated to form chunk label
 #' @return string with chunk label
 #' @author Laure Cougnaud
@@ -18,7 +22,10 @@ formatTableLabel <- function(...){
 formatLabelChunk <- function(...)
 	formatLabel(...)
 
-#' concatenate and format text strings to a label, e.g to use for chunk and table/figures
+#' Concatenate and format text strings to a label
+#' 
+#' This function concatenates and formats 
+#' text strings to a label e.g to use for chunk and table/figures
 #' @param ... string(s) to be concatenated to form label
 #' or data.frame with only one row.
 #' If an unique data.frame is specified, the

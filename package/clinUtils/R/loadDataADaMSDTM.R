@@ -1,7 +1,13 @@
 #' Load data from ADaM/SDTM file(s).
 #' 
-#' This converts also date/time variable to R date/time class 
+#' Load data set from SAS format into R data.frames.
+#' 
+#' While creating the R data.frames, if date/time variables are present, 
+#' those are converted into to R date/time class 
 #' (see \code{\link{convertToDateTime}}) function.
+#' 
+#' The labels of the ADaM/SDTM data sets are attached as attributes 
+#' of the R data.frame.
 #' @param files Character vector with path to ADaM or SDTM file(s).
 #' Currently only import of files with extension: 'sas7bdat' or 'xpt' are supported.
 #' @param convertToDate logical, if TRUE columns with date/time are converted to 
@@ -16,9 +22,9 @@
 #' 'UTF-8' by default.
 #' @param ... Additional parameters for the \code{\link[haven]{read_sas}} or
 #' \code{\link[haven]{read_xpt}} functions, depending on the input file type.
-#' @return list of data.frame with data of each ADAM file (if not empty),
+#' @return List of data.frame with data of each ADAM file (if not empty),
 #' with special attributes 'labelVars': named vector with label of the variables.
-#' Each data.frame contains an additional column: 'dataset' specifying the name of the 
+#' Each data.frame contains an additional column called 'dataset' specifying the name of the 
 #' \code{files} it was read from.
 #' @author Laure Cougnaud
 #' @importFrom tools file_path_sans_ext
@@ -95,6 +101,7 @@ loadDataADaMSDTM <- function(files,
 }
 
 #' Convert character vector to date/time object
+#' 
 #' @param x character vector to convert to date/time
 #' @param format string with possible format(s) of the input date/time in the ADaM dataset.
 #' If multiple are specified, each format is tested successively, until at least one
@@ -212,6 +219,7 @@ getLabelVar <- function(var, data = NULL, labelVars = NULL, label = NULL){
 }
 
 #' Get label of the variables in SAS dataset(s)
+#' 
 #' @param dataList This parameter is deprecated, use \code{data} instead.
 #' @param data Data.frame with SAS dataset(s) or list of those.
 #' @param labelVars (optional) Named character vector with additional labels.
@@ -273,7 +281,10 @@ getLabelVars <- function(data, labelVars = NULL, dataList){
 }
 
 
-#' Get label for a parameter code (extracted from the 'PARAM' column)
+#' Get label for a parameter code
+#' 
+#' This function gets the labele for a parameter code 
+#' extracted from the 'PARAM' column.
 #' @param paramcd Character vector with parameter code(s).
 #' @param data Data.frame with data.
 #' @param paramcdVar String with column containing the \code{paramcd} parameter,

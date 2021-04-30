@@ -1,7 +1,8 @@
-#' Round a number with 'round-up' strategy in text format.
+#' Round a number with 'round-up' strategy for rounding off a 5 in text format 
 #' 
 #' This function rounds numbers with a 'round-up' strategy 
-#' for a specific number of digits,
+#' for rounding off a 5. 
+#' The function rounds for a specified number of digits
 #' and format number to a: 'xxx.xxx' text.
 #' 
 #' The following workflow is used:
@@ -37,8 +38,8 @@ roundHalfUpTextFormat <- function(x, digits = 0) {
   
 }
 
-#' Custom round function, with 'rounding up' strategy 
-#' for rounding off a 5.
+#' Round a number with 'rounding up' strategy 
+#' for rounding off a 5
 #' 
 #' This function rounds a number for a specified number of digits.
 #' It rounds off to the highest number for a 5.

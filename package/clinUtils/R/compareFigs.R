@@ -1,4 +1,5 @@
 #' Compare reference with new figures in png format with similar names.
+#' 
 #' The figures are mapped based on filename and only the 
 #' figures present both in \code{pathFigRef} and \code{pathFigNew}
 #' are considered.

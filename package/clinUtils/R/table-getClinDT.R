@@ -1,8 +1,13 @@
-#' Convert a data.frame as \code{\link[DT]{datatable}} object,
+#' Convert a data.frame into interactive table
+#' 
+#' This function converts a \code{data.frame} from R into 
+#' \code{\link[DT]{datatable}} object
 #' with sensitive defaults.
 #' 
-#' Columns/cells of interest can be collapsed/expanded via
+#' The defaults set in this function allow to create specific interactive tables 
+#' where columns/cells of interest can be collapsed/expanded via
 #' the \code{expandVar}/\code{expandIdx} parameters.
+#' 
 #' @param data Data.frame, matrix or \code{\link[crosstalk]{SharedData}}
 #' object with input data for the table.
 #' @param nonVisibleVar Character vector with column(s) in \code{data} to 

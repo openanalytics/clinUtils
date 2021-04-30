@@ -1,5 +1,3 @@
-
-
 #' General parameters used for the comparison table functionality
 #' 
 #' @name comparisonTables-common-args

@@ -35,14 +35,21 @@ By default all columns ending with 'DTC' are used (dateVars is: 'DTC$').}
 \code{\link[haven]{read_xpt}} functions, depending on the input file type.}
 }
 \value{
-list of data.frame with data of each ADAM file (if not empty),
+List of data.frame with data of each ADAM file (if not empty),
 with special attributes 'labelVars': named vector with label of the variables.
-Each data.frame contains an additional column: 'dataset' specifying the name of the 
+Each data.frame contains an additional column called 'dataset' specifying the name of the 
 \code{files} it was read from.
 }
 \description{
-This converts also date/time variable to R date/time class 
+Load data set from SAS format into R data.frames.
+}
+\details{
+While creating the R data.frames, if date/time variables are present, 
+those are converted into to R date/time class 
 (see \code{\link{convertToDateTime}}) function.
+
+The labels of the ADaM/SDTM data sets are attached as attributes 
+of the R data.frame.
 }
 \examples{
 \dontrun{

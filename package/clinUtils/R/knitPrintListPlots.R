@@ -1,6 +1,9 @@
-#' Include a list of plots with different figure height, 
+#' Include a list of plots in a knitr document
+#' 
+#' This function includes a list of plots with different figure height, 
 #' size, label in a knitr document.
-#' Reason: fig.height and fig.width options are not vectorized.
+#' The reason is that the chunck options 
+#' \code{fig.height} and \code{fig.width} are not vectorized.
 #' 
 #' Note: the chunk in which this function is called should be 
 #' set with the following option: \strong{\code{results = 'asis'}}.\cr
@@ -84,8 +87,11 @@ knitPrintListPlots <- function(
 	
 }
 
-#' Include a list of objects with possibly different chunk options
-#' in a knitr document (e.g. \code{flextable} object).
+#' Include a list of objects in a knitr document
+#' 
+#' This functions includes a list of objects in a knitr document 
+#' allowing different chunk options
+#' (e.g. \code{flextable} object).
 #' 
 #' Note: the chunk in which this function is called should be 
 #' set with the following option: \strong{\code{results = 'asis'}}.
