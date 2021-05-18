@@ -4,17 +4,15 @@
 \alias{getLabelVars}
 \title{Get label of the variables in SAS dataset(s)}
 \usage{
-getLabelVars(data, labelVars = NULL, dataList)
+getLabelVars(data, labelVars = NULL)
 }
 \arguments{
 \item{data}{Data.frame with SAS dataset(s) or list of those.}
 
 \item{labelVars}{(optional) Named character vector with additional labels.}
-
-\item{dataList}{This parameter is deprecated, use \code{data} instead.}
 }
 \value{
-named vector with variable labels
+Named vector with variable labels.
 }
 \description{
 Get label of the variables in SAS dataset(s)

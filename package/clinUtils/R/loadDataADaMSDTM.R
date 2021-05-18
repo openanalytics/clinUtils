@@ -220,10 +220,9 @@ getLabelVar <- function(var, data = NULL, labelVars = NULL, label = NULL){
 
 #' Get label of the variables in SAS dataset(s)
 #' 
-#' @param dataList This parameter is deprecated, use \code{data} instead.
 #' @param data Data.frame with SAS dataset(s) or list of those.
 #' @param labelVars (optional) Named character vector with additional labels.
-#' @return named vector with variable labels
+#' @return Named vector with variable labels.
 #' @author Laure Cougnaud
 #' @importFrom plyr ddply
 #' @examples
@@ -240,13 +239,8 @@ getLabelVar <- function(var, data = NULL, labelVars = NULL, label = NULL){
 #' )
 #' labelVarsCustom["USUBJID"]
 #' @export
-getLabelVars <- function(data, labelVars = NULL, dataList){
-	
-	if(!missing(dataList)){
-		warning("'dataList' is deprecated, please use: 'data' instead.")
-		data <- dataList
-	}
-	
+getLabelVars <- function(data, labelVars = NULL) {
+
 	if(!missing(data)){
 	
 		if(!is.data.frame(data)){
