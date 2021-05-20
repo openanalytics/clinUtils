@@ -95,7 +95,7 @@ test_that("Get label of all variables in datasets", {
 	allVars <- setdiff(unlist(sapply(dataList, names)), "DATASET")
 	expect_setequal(allVars, names(dataListLabels))
 	
-	expect_warning(getLabelVars(dataList = dataList))
+	#expect_warning(getLabelVars(dataList = dataList))
 		
 })
 		
