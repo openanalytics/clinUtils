@@ -1,10 +1,14 @@
 Package: clinUtils
 Type: Package
 Title: General utility functions for analysis of clinical data
-Version: 0.0.1.999
-Date: 2021-04-19
-Author: Laure Cougnaud and Michela Pasetto
-Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>
+Version: 0.0.1
+Date: 2021-05-21
+Authors@R: c(
+  person(given = "Laure", family = "Cougnaud", role = "aut",
+  email = "laure.cougnaud@openanalytics.eu"),
+  person(given = "Michela", family = "Pasetto", role = c("aut", "cre"),
+  email = "michela.pasetto@openanalytics.eu")
+  )
 Description: 
  This package contains general utility functions to facilitate the import, 
  the reporting and analysis of clinical data.

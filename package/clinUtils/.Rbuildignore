@@ -1,10 +1,6 @@
-data_raw/
+dataGeneration_scripts
 figures_vignette/
 vignettes/clinUtils-vignette.html
-vignettes/compareWords/
-examples/compareFigs/
-examples/compareFigs_new/
-examples/compareFigs_ref/
 ^.*\.docx
 
 

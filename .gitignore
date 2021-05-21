@@ -4,3 +4,4 @@
 !package/clinUtils/tests
 *.tar.gz
 *.Rcheck
+*.png
