@@ -62,7 +62,7 @@ a dedicated attribute.
 ```{r loadData}
 
 	pathExampleDatasets <- list.files(
-		path = system.file("extdata", "cdiscpilot01", package = "clinUtils"), 
+		path = system.file("extdata", "cdiscpilot01", "SDTM", package = "clinUtils"), 
 		pattern = "*.xpt", 
 		full.names = TRUE
 	)
@@ -227,19 +227,66 @@ gg +
 	scale_shape_manual(values = shapePalette, limits = names(colorPalette))
 ```
 
-# Reporting
+### Get a palette for a specific vector
 
-## Utility function for interactive table
+Default palettes for visualizations are included in the package.
 
-The [DT](https://cran.r-project.org/package=DT) package enables to create
-interactive table in HTML format.
-Such interactivity includes the possibilities to wrap long tables,
-filter columns.
+Palettes can be extracted based on a variable, or number of elements.
 
-The `getClinDT` function is an utility function containing sensitive default settings
-and extra common
-functionalities to include in this table, e.g. possibility to expand
-row variable(s), to include bar visualization, ...
+These packages are included for consistency across the
+entire suite of R packages.
+
+```{r palettes}
+
+dataPlot <- subset(dataADaM$ADLB, PARAMCD == "CHOL")
+
+# extract palettes
+colorPalette <- getColorPalette(x = dataPlot$USUBJID)
+shapePalette <- getShapePalette(x = dataPlot$USUBJID)
+linetypePalette <- getLinetypePalette(x = dataPlot$USUBJID)
+
+# create the plot
+ggplot(data = dataPlot, aes(x = ADY, y = CHG, color = USUBJID)) +
+	geom_point(aes(shape = USUBJID)) +
+	geom_line(aes(linetype = USUBJID, group = USUBJID)) +
+	scale_color_manual(values = colorPalette) +
+	scale_shape_manual(values = shapePalette) +
+	scale_linetype_manual(values = linetypePalette) +
+	labs(x = "Relative day", y = "Change from baseline",
+		title = "Profile plot of cholesterol change from baseline") 
+```
+
+Custom palettes can be specified via the `palette` parameter.
+
+# Tables
+
+## Rounding
+
+In R, numbers are by default rounded to the even digit for rounding 
+off a 5.
+
+Numbers can be rounded based on the 'rounding up' strategy for
+rounding off a 5 with `roundHalfUp` & `roundHalfUpTextFormat`.
+This is useful when statistics created with the `SAS` software
+should be reproduced in R.
+
+```{r roundHalfUp}
+# round up
+roundHalfUp(c(0.45, 0.55), 1)
+# versus R default:
+round(c(0.45, 0.55), 1)
+```
+
+## Visualize data in an interactive table
+
+The `getClinDT` function is an utility function, based on the
+the [DT](https://cran.r-project.org/package=DT) package, with sensitive 
+default settings and extra common functionalities of interest
+for data in clinical trials, as listing or summary tables of
+ descriptive statistics.
+ 
+ There are built-in functionalities to expand row variable(s)
+to display patient-specific information or include bar visualization.
 
 ```{r getClinDT}
 
@@ -265,6 +312,55 @@ row variable(s), to include bar visualization, ...
 
 ```
 
+## Comparison of tables
+
+In clinical trials, datasets are typically delivered in successive batches,
+depending on the patient recruitment and the different milestones of the study.
+
+The changes between successive data deliveries can be compared with the `compareTables`
+function.
+
+```{r compareTables}
+
+# Build example dataset with treatment-emergent adverse events
+# of multiple batches
+
+varsListing <- c("USUBJID", "AESOC", "AEDECOD", "ASTDT", "AESEV", "AEOUT")
+dataTEAEListing <- dataTEAE[, varsListing]
+
+# simulate removal of observations in new batch
+dataTEAENew <- dataTEAE[-sample.int(n = nrow(dataTEAEListing), size = 3), ]
+
+# simulate addition of observations in new batch
+dataTEAEOld <- dataTEAE[-sample.int(n = nrow(dataTEAEListing), size = 3), ]
+
+# simulate change of observations		
+dataTEAEOld[seq_len(2), "AESEV"] <- "SEVERE"
+
+refVars <- c("USUBJID", "AESOC", "AEDECOD", "ASTDT")
+tableComparison <- compareTables(
+	newData = dataTEAENew, 
+	oldData = dataTEAEOld, 
+	referenceVars = refVars,
+	changeableVars = setdiff(colnames(dataTEAEListing), refVars),
+	# parameters passed to datatable
+	colnames = setNames(names(labelVarsADaM), labelVarsADaM)
+)
+
+```
+
+The new, old datasets with change information, or the difference
+between datasets are extracted.
+See documentation of `outputType` parameter for further details.
+
+The table below highlight the differences between the datasets:
+
+```{r compareTables-table-comparison-interactive}
+tableComparison$`table-comparison-interactive`
+```
+
+# Reporting
+
 ## Include list of objects in a _Rmarkdown_ document
 
 Dedicated functions: `knitPrintListPlots` and `knitPrintListObjects`
@@ -280,14 +376,14 @@ can be specified for each object.
 Please note that this function should be used within 
 a chunk having the option: **`results = 'asis'`**.
 
-### Static figures with `ggplot2`
+### Static figures (`ggplot2`)
 
 For example, by default in knitr the options to specify figure dimensions 
 should be the same for all plots generated from the same chunk (`fig.height`/`fig.width`).
 
 Plots can be included with different specified dimension with: `knitPrintListPlots`.
 
-```{r knitPrintListPlots-static, out.width = "100%", warning = FALSE, results = "asis"}
+```{r figure-static-knitPrintListPlots, out.width = "100%", warning = FALSE, results = "asis"}
 
 dataLB <- subset(dataSDTM$LB, 
 	LBTESTCD %in% c("ALB", "ALT", "CHOL", "HCT", "KETONES", "PH")
@@ -321,38 +417,25 @@ knitPrintListPlots(
 
 ```
 
-### Interactive figures with `plotly`
+### Interactive figures (`plotly`)
 
-A list of interactive figures can be included within a _Rmarkdown_
-document with the `htmltools::tagList` function.
+A list of interactive figures is created with the `plotly` package:
 
-The function `knitPrintListPlots` with the `type`
-set to 'plotly' enables to include additionally e.g. a caption or a title.
+```{r figure-interactive-creation}
 
-```{r knitPrintListPlots-interactive, warning = FALSE, results = "asis"}
-	
 library(plotly)
-listPlotsInteractiveLB <- sapply(listPlotsLB, ggplotly, simplify = FALSE)
-
-knitPrintListPlots(
-	plotsList = listPlotsInteractiveLB, 
-	generalLabel = "lab-hist-interactive",
-	type = "plotly",
-	# include title before each visualization
-	titles = simpleCap(tolower(names(listPlotsInteractiveLB))),
-	titleLevel = 5
-)
+listPlotsInteractiveLB <- sapply(listPlotsLB, function(ggplot)
+	ggplotly(ggplot) %>% partial_bundle()
+, simplify = FALSE)
 
 ```
 
-### `htmltools::tagList` solution
+#### `htmltools::tagList`
 
-Please note that the `tagList` function of the `htmltools` package 
-can also be used to include multiple interactive plots with an associated 
-title in a Rmarkdown report.   
-However, in this case the titles are not automatically numbered.
+A list of interactive figures can be included within a 
+_Rmarkdown_ document with the `tagList` function of the `htmltools` package.
 
-```{r knitPrintListObjects-tagList, warning = FALSE, results = "asis"}
+```{r figure-interactive-tagList, warning = FALSE, results = "asis"}
 	
 	tagListArgs <- mapply(list,
 		# section header
@@ -366,7 +449,25 @@ However, in this case the titles are not automatically numbered.
 
 ```
 
-### flextable objects
+#### Inclusion in a separated chunk
+
+The function `knitPrintListPlots` with the `type`
+set to 'plotly' enables to include additionally e.g. a caption or a title.
+
+```{r figure-interactive-knitPrintListPlots, warning = FALSE, results = "asis"}
+
+knitPrintListPlots(
+	plotsList = listPlotsInteractiveLB, 
+	generalLabel = "lab-hist-interactive",
+	type = "plotly",
+	# include title before each visualization
+	titles = simpleCap(tolower(names(listPlotsInteractiveLB))),
+	titleLevel = 5
+)
+
+```
+
+### Tables (`flextable`)
 
 The [`flextable`](https://CRAN.R-project.org/package=flextable)
 package enables to create highly customizable tables for Word/PowerPoint
@@ -377,7 +478,7 @@ a **list of `flextable` objects** within a single chunk.
 
 Please note that the following chunk option should be used: **`results = 'asis'`**.
 
-```{r knitPrintListObjects-flextable, warning = FALSE, results = "asis"}
+```{r table-flextable-knitPrintListObjects, warning = FALSE, results = "asis"}
 	
 	library(flextable)
 	listFtLB <- plyr::dlply(dataLB, "LBCAT", function(dataParcat){
