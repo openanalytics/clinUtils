@@ -40,7 +40,7 @@ Suggests:
   webshot,
   xml2,
   flextable
-License: file LICENSE
+License: GPL-3
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 LazyData: true
