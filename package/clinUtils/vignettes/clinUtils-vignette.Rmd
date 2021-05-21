@@ -62,7 +62,7 @@ a dedicated attribute.
 ```{r loadData}
 
 	pathExampleDatasets <- list.files(
-		path = system.file("extdata", "cdiscpilot01", package = "clinUtils"), 
+		path = system.file("extdata", "cdiscpilot01", "SDTM", package = "clinUtils"), 
 		pattern = "*.xpt", 
 		full.names = TRUE
 	)
