@@ -1,6 +1,6 @@
 Package: clinUtils
 Type: Package
-Title: General utility functions for analysis of clinical data
+Title: General Utility Functions for Analysis of Clinical Data
 Version: 0.0.1
 Date: 2021-05-21
 Authors@R: c(
@@ -10,9 +10,9 @@ Authors@R: c(
   email = "michela.pasetto@openanalytics.eu")
   )
 Description: 
- This package contains general utility functions to facilitate the import, 
+ Utility functions to facilitate the import, 
  the reporting and analysis of clinical data.
- Example datasets in CDISC SDTM and ADaM format, containing a subset of patients/domain
+ Example datasets in CDISC SDTM and ADaM format, containing a subset of patients/domains
  from the CDISC Pilot 01 study are also available as R datasets to demonstrate
  the package functionalities.
 Imports:
