@@ -25,7 +25,8 @@ test_that("addition is correctly detected", {
       diffTableRef <- data.frame(
           `Comparison type` = "Addition", Version = "Current", 
           id = 1, a = 1, b = 2,
-          check.names = FALSE
+          check.names = FALSE,
+		  stringsAsFactors = TRUE
       )
       expect_equal(diffTable, diffTableRef, check.attributes = FALSE)
       
@@ -41,7 +42,10 @@ test_that("removal is correctly detected", {
       )
       expect_s3_class(diffTable, "data.frame")
       diffTableRef <- data.frame(
-          `Comparison type` = "Removal", Version = "Previous", 
+          `Comparison type` = factor("Removal", 
+				levels = c("Addition", "Change", "Removal")
+			),
+			Version = factor("Previous", levels = c("Current", "Previous")),
           id = 1, a = 1, b = 2,
           check.names = FALSE
       )
@@ -60,17 +64,19 @@ test_that("change is correctly detected", {
       expect_s3_class(diffTable, "data.frame")
       diffTableRef <- rbind(
           cbind(
-              data.frame(`Comparison type` = "Change", Version = "Current", check.names = FALSE), 
+              data.frame(`Comparison type` = "Change", Version = "Current", check.names = FALSE,  stringsAsFactors = TRUE), 
               newData
           ),
           cbind(
-              data.frame(`Comparison type` = "Change", Version = "Previous", check.names = FALSE), 
+              data.frame(`Comparison type` = "Change", Version = "Previous", check.names = FALSE,  stringsAsFactors = TRUE), 
               oldData
           )
       )
+	  diffTableRef$`Comparison type` <- factor(diffTableRef$`Comparison type`,
+			 levels = c("Addition", "Change", "Removal"))
       expect_equal(diffTable, diffTableRef, check.attributes = FALSE)
       
-    })
+})
 
 test_that("comparison with duplicated records in newData is successful", {
       
@@ -84,7 +90,8 @@ test_that("comparison with duplicated records in newData is successful", {
       diffTableRef <- data.frame(
           `Comparison type` = "Addition", Version = "Current", 
           id = 1, a = 1, b = 3,
-          check.names = FALSE
+          check.names = FALSE,
+		  stringsAsFactors = TRUE
       )
       expect_equal(diffTable, diffTableRef, check.attributes = FALSE)
       
