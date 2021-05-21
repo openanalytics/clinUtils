@@ -15,7 +15,7 @@
 #' @inheritParams compareFigOne
 #' @inherit compareFigOne return
 #' @importFrom utils file_test
-#' @example inst/examples/compareFigs.R
+#' @example inst/examples/compareFigs-example.R
 #' @author Laure Cougnaud
 #' @export
 compareFigs <- function(
