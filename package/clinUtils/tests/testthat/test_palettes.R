@@ -15,21 +15,21 @@ test_that("Error is returned if the number of elements is missing or empty", {
       
       expect_error(
           getColorPalette(),
-          "A vector ('x') or number of colors ('n') should be specified."
+          "A vector .+ or number of colors .+ should be specified."
       )  
       expect_error(getColorPalette(n = NA_integer_))
       expect_error(getColorPalette(n = integer()))
       
       expect_error(
           getShapePalette(),
-          "A vector ('x') or number of colors ('n') should be specified."
+          "A vector .+ or number of colors .+ should be specified."
       ) 
       expect_error(getShapePalette(n = NA_integer_))
       expect_error(getShapePalette(n = integer()))
       
       expect_error(
           getLinetypePalette(),
-          "A vector ('x') or number of colors ('n') should be specified."
+          "A vector .+ or number of colors .+ should be specified."
       )
       expect_error(getLinetypePalette(n = NA_integer_))
       expect_error(getLinetypePalette(n = integer()))
