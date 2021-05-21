@@ -42,6 +42,8 @@ title and/or change chunk option(s).
 Each plot will be included in a separated chunk.\cr
 }
 \examples{
+\dontrun{
+
 # Note: the following code should be included within a chunk of a knitr (e.g. RMarkdown) document
 # to include/export a list of figures in the Rmarkdown output
 data(iris)
@@ -88,6 +90,8 @@ knitPrintListPlots(
   titles = names(plotsListInteractive), 
   titleLevel = 3
 )
+
+}
 }
 \author{
 Laure Cougnaud
