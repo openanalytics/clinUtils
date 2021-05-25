@@ -1,7 +1,6 @@
 dataGeneration_scripts
 figures_vignette/
 vignettes/clinUtils-vignette.html
-^.*\.docx
 
 
 
