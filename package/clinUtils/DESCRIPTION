@@ -40,6 +40,8 @@ Suggests:
   webshot,
   xml2,
   flextable
+URL: https://github.com/openanalytics/clinUtils
+BugReports: https://github.com/openanalytics/clinUtils/issues
 License: MIT + file LICENSE
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
