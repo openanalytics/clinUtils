@@ -64,18 +64,18 @@ test_that("Empty values in palette are retained", {
       
     })
 
-test_that("Combination of Unicode and GLPG standard palettes is successful",{
+test_that("Combination of Unicode and standard palettes is successful",{
       
       data(iris)
       gg <- ggplot(data = iris, 
           aes(x = `Sepal.Length`, y = `Sepal.Width`, shape = Species)
       ) + geom_point() 
       
-      shapePaletteGLPGText <- getShapePalette(x = iris$Species, asText = TRUE)
-      shapePaletteGLPGText[1] <- '\u25C0'
+      shapePaletteText <- getShapePalette(x = iris$Species, asText = TRUE)
+      shapePaletteText[1] <- '\u25C0'
       
       # Note: produce warnings in R CMD check
-      gg <- gg + scale_shape_manual(values = shapePaletteGLPGText)
+      gg <- gg + scale_shape_manual(values = shapePaletteText)
       expect_error(
           ggplot2::ggsave(gg, filename = 'test.pdf', device = grDevices::cairo_pdf),
           NA
