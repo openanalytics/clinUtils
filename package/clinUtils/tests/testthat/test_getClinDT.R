@@ -3,11 +3,9 @@ context("Convert to DT wrapper")
 # require extra libraries
 library(dplyr) # for tibble
 
-library(htmlwidgets)
 library(crosstalk)
 library(xml2)
 library(jsonlite)
-library(webshot)
 
 # utility function to get JSON table from exported HTML file
 getTableJSON <- function(file){
@@ -29,15 +27,6 @@ exportAndGetTableJSON <- function(dt){
 	tableJSON <- getTableJSON(file = file)
 	unlink(file)
 	return(tableJSON)
-}
-
-exportDTToPng <- function(dt, label){
-	file <- paste0("table-", label, ".html")
-	filePng <- sub("html", "png", file)
-	htmlwidgets::saveWidget(dt, file = file) # export to html file
-	webshot::webshot(url = file, file = filePng, debug = TRUE) # screenshot of html file
-#	unlink(file)
-	return(filePng)
 }
 
 test_that("basic", {
@@ -136,14 +125,7 @@ test_that("Specify non visible columns", {
 		stringsAsFactors = FALSE
 	)		
 			
-	# compare files created with the 'nonVisible' and with removing column upfront
-	nonVisibleVar <- sample(colnames(data), 1, replace = TRUE)
-	
-	# remove var (for comparison)
-	expect_silent(
-		dt <- getClinDT(data = data[, setdiff(colnames(data), nonVisibleVar)])
-	)
-	filePngRemoveCol <- exportDTToPng(dt = dt, label = "removeCol")
+	nonVisibleVar <- "TRT"
 	
 	# old spec
 	expect_warning(
@@ -153,11 +135,6 @@ test_that("Specify non visible columns", {
 		),
 		regex = "deprecated"
 	)
-	filePngNonVisible <- exportDTToPng(dt = dt, label = "nonVisible")
-	expect_message(
-		compareFigOne(filePngNonVisible, filePngRemoveCol),
-		"Comparing: .* ok!"
-	)
 
 	# new spec
 	expect_silent(
@@ -166,14 +143,10 @@ test_that("Specify non visible columns", {
 			nonVisibleVar = nonVisibleVar
 		)
 	)
-	filePngNonVisibleVar <- exportDTToPng(dt = dt, label = "nonVisibleVar")
-	expect_message(
-		compareFigOne(filePngNonVisibleVar, filePngRemoveCol),
-		"Comparing: .* ok!"
-	)
-	
-	# clean
-	unlink(c(filePngRemoveCol, filePngNonVisible, filePngNonVisibleVar, "compareFigs"), recursive = TRUE)
+	cDefs <- dt$x$options$columnDefs
+	cDefsNonVisible <- sapply(cDefs, function(x) isFALSE(x$visible))
+	expect_true(any(cDefsNonVisible))
+	expect(cDefs[[which(cDefsNonVisible)]]$targets, 1)
 	
 	# in case JS indices not used
 	expect_error(getClinDT(data = data, nonVisible = ncol(data)))
@@ -182,23 +155,20 @@ test_that("Specify non visible columns", {
 
 test_that("Format percentage var", {
 			
-	# Compare screenshot of table created with 'percVar' and 
-	# and table created from manually formatted percentage variable
-	getClinDTWithAlign <- function(...)
-		getClinDT(..., options = list(columnDefs = list(list(className = 'dt-center', targets="_all"))))
-			
-	perc <- c(0.06, 0.001, 0.65, 0.99, 1)
-	expect_silent(dt <- getClinDTWithAlign(data = data.frame(perc = perc), percVar = "perc"))
-	filePercVar <- exportDTToPng(dt, label = "percentage-percVar")
+	expect_silent(
+		dt <- getClinDT(
+			data = data.frame(
+				USUBJID = seq.int(5),
+				perc = c(0.06, 0.001, 0.65, 0.99, 1)
+			), 
+			percVar = "perc",
+		)
+	)
+	cDefs <- dt$x$options$columnDefs
+	cDefsFmtPercentage <- sapply(cDefs, function(x) "render" %in% names(x) && grepl("formatPercentage", x$render))
+	expect_true(any(cDefsFmtPercentage))
+	expect(cDefs[[which(cDefsFmtPercentage)]]$targets, 1)		
 	
-	percST <- paste0(formatC(round(perc*100, 2), digits = 2, format = "f", flag = "0"), "%")
-	expect_silent(dt <- getClinDTWithAlign(data = data.frame(perc = percST)))
-	fileManFormat <- exportDTToPng(dt, label = "percentage-manFormat")
-	
-	expect_message(compareFigOne(filePercVar, fileManFormat), "ok!", label = "percVar")	
-	
-	unlink(c(filePercVar, fileManFormat))
-			
 })
 
 test_that("Barplot for a variable", {
@@ -214,28 +184,23 @@ test_that("Barplot for a variable", {
 			
 	# variable not available
 	expect_warning(getClinDT(data = data, barVar = "blabla"))
-
-	# Note: coloring done in JS, not available in HTML file
-	# so check if input parameters have an effect on the created image
-	
-	dt <- getClinDT(data = data)
-	file <- exportDTToPng(dt, label = "basic")
-			
-	# specification of barVar
+		
+	# specification of variable for the bar
 	expect_silent(dt <- getClinDT(data = data, barVar = "AGE"))
-	fileBarVar <- exportDTToPng(dt, label = "bar-barVar")
-	expect_message(compareFigOne(file, fileBarVar), "DIFFERENT!", label = "barVar")
-	
-	# specification of barColorThr
+	rCB <- dt$x$options$rowCallback
+	expect_match(object = rCB, regex = ".*color.*")
+	expect_match(object = rCB, regexp = "data[3]", fixed = TRUE)
+
+	# specification of color threshold for the bar
 	expect_silent(dt <- getClinDT(data = data, barVar = "AGE", barColorThr = 28))
-	fileBarColorThr <- exportDTToPng(dt, label = "bar-barColorThr")
-	expect_message(compareFigOne(fileBarColorThr, fileBarVar), "DIFFERENT!", label = "barColorThr")	
+	rCB <- dt$x$options$rowCallback
+	expect_match(object = rCB, regex = ".*data\\[3\\].*28.*")
 	
-	# specification of barRange
+	# specification of range for the bar
 	expect_silent(dt <- getClinDT(data = data, barVar = "AGE", barRange = c(0, 100)))
-	fileBarColorRange <- exportDTToPng(dt, label = "bar-barRange")
-	expect_message(compareFigOne(fileBarColorRange, fileBarVar), "DIFFERENT!", label = "barRange")	
-			
+	rCB <- dt$x$options$rowCallback
+	expect_match(object = rCB, regex = "100")
+	
 	# multiple variables
 	expect_silent(
 		dt <- getClinDT(
@@ -245,13 +210,11 @@ test_that("Barplot for a variable", {
 			barRange = list(AGE = c(0, 100), WEIGHTBL = range(data$WEIGHTBL))
 		)
 	)
-	fileBarMultiple <- exportDTToPng(dt, label = "bar-multiple")
-	expect_message(compareFigOne(fileBarMultiple, fileBarVar), "DIFFERENT!", label = "multiple bar variables")	
-	
+	rCB <- dt$x$options$rowCallback
+	expect_match(object = rCB, regex = ".*data\\[3\\].*data\\[4\\]")
+
 	# wrong types
 	expect_warning(dt <- getClinDT(data = data, barVar = "USUBJID"))
-			
-	unlink(c(file, fileBarVar, fileBarColorThr, fileBarColorRange, fileBarMultiple, "compareFigs"), recursive = TRUE)
 	
 })
 

@@ -135,7 +135,7 @@ getClinDT <- function(data,
 
 	# non-visible columns
 	if(!is.null(nonVisible))
-		warning("'nonVisibleVar' is deprecated, please use: 'nonVisible' instead.")		
+		warning("'nonVisible' is deprecated, please use: 'nonVisibleVar' instead.")		
 	nonVisibleVar <- checkVarInData(var = nonVisibleVar, data = dataContent, label = "non-visible")
 	if(!is.null(nonVisibleVar)){
 		if(!is.null(nonVisible))

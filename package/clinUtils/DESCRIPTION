@@ -37,7 +37,6 @@ Suggests:
   pander,
   rmarkdown,
   testthat,
-  webshot,
   xml2,
   flextable
 URL: https://github.com/openanalytics/clinUtils
