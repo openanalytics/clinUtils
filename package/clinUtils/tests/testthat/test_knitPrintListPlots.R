@@ -17,7 +17,7 @@ tmpdir <- tempdir()
 
 test_that("Knitting list of plots with labels", {	
       
-      figDir <- file.path(tmpdir, "knitPrintListPlots-labels")
+      figDir <- paste0(file.path(tmpdir, "knitPrintListPlots-labels"), "/")
       dir.create(figDir)
       knitr::opts_chunk$set(fig.path = figDir)
       
@@ -47,7 +47,7 @@ test_that("Knitting list of plots with labels", {
 
 test_that("Knitting list of plots with general label", {
       
-      figDir <- file.path(tmpdir, "knitPrintListPlots-generalLabel")
+      figDir <- paste0(file.path(tmpdir, "knitPrintListPlots-generalLabel"), "/")
       dir.create(figDir)
       knitr::opts_chunk$set(fig.path = figDir)
       
@@ -71,8 +71,9 @@ test_that("Knitting list of plots with general label", {
 
 test_that("Knitting list of plots with titles", {
       
-      figDir <- tmpdir
-      knitr::opts_chunk$set(fig.path = figDir)
+	figDir <- paste0(file.path(tmpdir, "knitPrintListPlots-titles"), "/")
+	dir.create(figDir)
+	knitr::opts_chunk$set(fig.path = figDir)
       
       titles <- paste("Visualization:", names(plotsListStatic))
       expect_silent(
@@ -92,7 +93,9 @@ test_that("Knitting list of plots with titles", {
 
 test_that("Specify valid custom knitr option", {
       
-      knitr::opts_chunk$set(fig.path = tmpdir)
+	figDir <- paste0(file.path(tmpdir, "knitPrintListPlots-captions"), "/")
+	dir.create(figDir)
+	knitr::opts_chunk$set(fig.path = figDir)
       
       captions <- paste("Caption:", seq_along(plotsListStatic))
       expect_silent(
