@@ -497,15 +497,3 @@ Please note that the following chunk option should be used: **`results = 'asis'`
 ```
 
 Please note that the table alignment option is more visible in a Word output format.
-
-
-# Appendix
-
-## Session information
-
-```{r includeSessionInfo, echo = FALSE}
-
-	library(pander)
-	pander(sessionInfo())
-
-```
