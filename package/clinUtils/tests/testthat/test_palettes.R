@@ -77,7 +77,11 @@ test_that("Combination of Unicode and standard palettes is successful",{
       # Note: produce warnings in R CMD check
       gg <- gg + scale_shape_manual(values = shapePaletteText)
       expect_error(
-          ggplot2::ggsave(gg, filename = 'test.pdf', device = grDevices::cairo_pdf),
+          ggplot2::ggsave(
+              gg,
+              filename = file.path(tempdir(), "test.pdf"),
+              device = grDevices::cairo_pdf
+          ),
           NA
       )
       
