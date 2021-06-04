@@ -34,7 +34,7 @@
 #' @examples
 #' \dontrun{
 #' dataFromSAS7bdat <- loadDataADaMSDTM(files = "ae.sas7bdat")
-#'  attr(dataFromSAS7bdat, "labelVars") # column labels
+#' attr(dataFromSAS7bdat, "labelVars") # column labels
 #' dataFromXpt <- loadDataADaMSDTM(files = c("ae.xpt", "dm.xpt"))
 #' attr(dataFromXpt, "labelVars") # column labels
 #' }
@@ -174,11 +174,11 @@ convertToDateTime <- function(x, format = c("%Y-%m-%dT%H:%M", "%Y-%m-%d"),
 #' labelVars <- attr(dataADaMCDISCP01, "labelVars")
 #' 
 #' # (upon reading the data with haven: attributes should directly available in each column)
-#' # getLabelVar(data = dataTibble, var = "AREL")
+#' getLabelVar(data = dataADaMCDISCP01, var = "AEREL")
 #' 		
 #' # but if the data as data.frame is subsetted, label is lost 	
 #' # so better to use 'labelVars':
-#' getLabelVar(var = "AREL", labelVars = labelVars)
+#' getLabelVar(var = "AEREL", labelVars = labelVars)
 #' @export
 getLabelVar <- function(var, data = NULL, labelVars = NULL, label = NULL){
 	
@@ -230,7 +230,7 @@ getLabelVar <- function(var, data = NULL, labelVars = NULL, label = NULL){
 #' labelVars <- attr(dataADaMCDISCP01, "labelVars")
 #' 
 #' # extract label for all variables from specified datasets:
-#' getLabelVars(data = dataADaMCDISCP01[c("ADLB", "ADVS")], labelVars = labelVars)
+#' getLabelVars(data = dataADaMCDISCP01[c("ADLBC", "ADVS")], labelVars = labelVars)
 #' 
 #' # extracted from specified labelVars, e.g. to specify custom label for specific variable(s)
 #' labelVarsCustom <- getLabelVars(
@@ -291,11 +291,11 @@ getLabelVars <- function(data, labelVars = NULL) {
 #' @examples
 #' # for ADaM
 #' data(dataADaMCDISCP01)
-#' getLabelParamcd(paramcd = "CHOL", data = dataADaMCDISCP01$ADLB)
+#' getLabelParamcd(paramcd = "CHOL", data = dataADaMCDISCP01$ADLBC)
 #' # for SDTM
 #' data(dataSDTMCDISCP01)
 #' getLabelParamcd(
-#'   paramcd = "CRP", 
+#'   paramcd = "ALB", 
 #'   data = dataSDTMCDISCP01$LB, 
 #'   paramcdVar = "LBTESTCD", 
 #'   paramVar = "LBTEST"

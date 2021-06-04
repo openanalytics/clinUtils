@@ -22,7 +22,7 @@ data(dataADaMCDISCP01)
 labelVars <- attr(dataADaMCDISCP01, "labelVars")
 
 # extract label for all variables from specified datasets:
-getLabelVars(data = dataADaMCDISCP01[c("ADLB", "ADVS")], labelVars = labelVars)
+getLabelVars(data = dataADaMCDISCP01[c("ADLBC", "ADVS")], labelVars = labelVars)
 
 # extracted from specified labelVars, e.g. to specify custom label for specific variable(s)
 labelVarsCustom <- getLabelVars(

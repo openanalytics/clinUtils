@@ -40,11 +40,11 @@ data(dataADaMCDISCP01)
 labelVars <- attr(dataADaMCDISCP01, "labelVars")
 
 # (upon reading the data with haven: attributes should directly available in each column)
-# getLabelVar(data = dataTibble, var = "AREL")
+getLabelVar(data = dataADaMCDISCP01, var = "AEREL")
 		
 # but if the data as data.frame is subsetted, label is lost 	
 # so better to use 'labelVars':
-getLabelVar(var = "AREL", labelVars = labelVars)
+getLabelVar(var = "AEREL", labelVars = labelVars)
 }
 \author{
 Laure Cougnaud

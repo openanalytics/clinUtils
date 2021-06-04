@@ -54,7 +54,7 @@ of the R data.frame.
 \examples{
 \dontrun{
 dataFromSAS7bdat <- loadDataADaMSDTM(files = "ae.sas7bdat")
- attr(dataFromSAS7bdat, "labelVars") # column labels
+attr(dataFromSAS7bdat, "labelVars") # column labels
 dataFromXpt <- loadDataADaMSDTM(files = c("ae.xpt", "dm.xpt"))
 attr(dataFromXpt, "labelVars") # column labels
 }

@@ -28,11 +28,11 @@ extracted from the 'PARAM' column.
 \examples{
 # for ADaM
 data(dataADaMCDISCP01)
-getLabelParamcd(paramcd = "CHOL", data = dataADaMCDISCP01$ADLB)
+getLabelParamcd(paramcd = "CHOL", data = dataADaMCDISCP01$ADLBC)
 # for SDTM
 data(dataSDTMCDISCP01)
 getLabelParamcd(
-  paramcd = "CRP", 
+  paramcd = "ALB", 
   data = dataSDTMCDISCP01$LB, 
   paramcdVar = "LBTESTCD", 
   paramVar = "LBTEST"
