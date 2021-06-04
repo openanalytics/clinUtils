@@ -54,7 +54,7 @@ with:
 \item{highlighting depending on the difference between datasets:
 \itemize{
 \item{'Addition' in green}
-\item{'Removal' in red}
+\item{'Removal' in yellow}
 \item{'Change' in lightblue}
 \item{'Identical' are not highlighted}
 }

@@ -10,7 +10,7 @@ formatTableLabel(...)
 \item{...}{string to be concatenated to form label}
 }
 \value{
-string with chunk label
+String with chunk label
 }
 \description{
 This function concatenates and formats 

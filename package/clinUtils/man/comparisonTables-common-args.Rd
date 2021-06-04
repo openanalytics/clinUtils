@@ -35,6 +35,9 @@ containing the information if each record differs in the old/new datasets respec
 See output of \code{\link{exportDiffData}}.}
 }}
 }
+\value{
+The comparison of the two input tables.
+}
 \description{
 General parameters used for the comparison table functionality
 }

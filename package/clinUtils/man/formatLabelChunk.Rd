@@ -10,7 +10,7 @@ formatLabelChunk(...)
 \item{...}{string to be concatenated to form chunk label}
 }
 \value{
-string with chunk label
+String with chunk label
 }
 \description{
 Concatenate and format text strings to a chunk label

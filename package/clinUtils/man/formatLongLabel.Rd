@@ -13,7 +13,7 @@ formatLongLabel(x, width = 20)
 longer that this width won't be split (see \code{\link{strwrap}}).}
 }
 \value{
-vector with formatted labels
+Vector with formatted labels
 }
 \description{
 This function formats a variable with long labels by wrapping

@@ -42,7 +42,7 @@ internally.
 See \code{\link{knitr}[opts_chunk]} for further details on available options.}
 }
 \value{
-no returned value, a text is printed with chunk content
+No returned value, a text is printed with chunk content
 }
 \description{
 This functions includes a list of objects in a knitr document 

@@ -135,7 +135,7 @@ internal default.}
 e.g table width.}
 }
 \value{
-\code{\link[DT]{datatable}} object.
+A \code{\link[DT]{datatable}} object.
 }
 \description{
 This function converts a \code{data.frame} from R into 

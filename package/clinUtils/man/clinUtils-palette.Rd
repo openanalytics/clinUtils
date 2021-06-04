@@ -15,6 +15,9 @@ Missing values are automatically removed, excepted if
 should NA elements be retained in the palette in case
 \code{x} is specified?}
 }
+\value{
+Specific palettes used in \code{clinUtils}.
+}
 \description{
 Parameters for all palette functions for clinical visualizations.
 }

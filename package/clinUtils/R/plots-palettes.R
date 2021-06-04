@@ -2,6 +2,7 @@
 #' 
 #' Default color palette is the color-blind viridis palette.
 #' See documentation of \code{\link[viridisLite]{viridis}}.
+#' @return The \code{\link[viridisLite]{viridis}} function.
 #' @inheritParams viridisLite::viridis
 #' @importFrom viridisLite viridis
 #' @export
@@ -42,6 +43,7 @@ pch_table <- c(
 #' Shapes of 'clinUtils'
 #' 
 #' A set of default shapes are available as named vector.
+#' @return A numeric vector of shapes.
 #' @export
 clinShapes <- c(
 	# filled symbols
@@ -53,12 +55,14 @@ clinShapes <- c(
 #' Shapes of 'clinUtils' as text
 #' 
 #' A set of default shapes are available as character vector.
+#' @return A character vector of shapes.
 #' @export
 clinShapesText <- names(pch_table)[match(clinShapes, pch_table)]
 
 #' Linetypes of 'clinUtils'
 #' 
 #' A set of default linetypes are available as a vector.
+#' @return A character vector of linetypes.
 #' @export
 clinLinetypes <- c(
     "solid", "dashed", "dotdash",
@@ -75,6 +79,7 @@ clinLinetypes <- c(
 #' should NA elements be retained in the palette in case
 #' \code{x} is specified?
 #' @name clinUtils-palette
+#' @return Specific palettes used in \code{clinUtils}.
 NULL
 
 #' Get a color palette for clinical

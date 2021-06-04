@@ -10,6 +10,9 @@ An object of class \code{character} of length 24.
 \usage{
 clinShapesText
 }
+\value{
+A character vector of shapes.
+}
 \description{
 A set of default shapes are available as character vector.
 }

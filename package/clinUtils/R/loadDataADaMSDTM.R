@@ -112,7 +112,7 @@ loadDataADaMSDTM <- function(files,
 #' for more information about this format.
 #' @param colName string with name of column, used in message (if any).
 #' @param verbose logical, if TRUE (by default) progress messages are printed during execution
-#' @return vector of class \code{\link{POSIXct}}
+#' @return Vector of class \code{\link{POSIXct}}
 #' @author Laure Cougnaud
 #' @export
 convertToDateTime <- function(x, format = c("%Y-%m-%dT%H:%M", "%Y-%m-%d"), 

@@ -26,7 +26,7 @@
 #' internally.
 #' See \code{\link{knitr}[opts_chunk]} for further details on available options.
 #' @example inst/examples/knitPrintListPlots-example.R
-#' @return no returned value, a text is printed with chunk content
+#' @return No returned value, a text is printed with chunk content
 #' @author Laure Cougnaud
 #' @importFrom knitr knit_expand knit
 #' @example inst/examples/knitPrintListObjects-example.R

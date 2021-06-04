@@ -10,6 +10,9 @@ An object of class \code{character} of length 6.
 \usage{
 clinLinetypes
 }
+\value{
+A character vector of linetypes.
+}
 \description{
 A set of default linetypes are available as a vector.
 }

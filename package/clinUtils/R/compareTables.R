@@ -26,6 +26,7 @@
 #' containing the information if each record differs in the old/new datasets respectively.
 #' See output of \code{\link{exportDiffData}}.}
 #' }
+#' @return The comparison of the two input tables.
 NULL
 
 #' Compare tables
@@ -437,7 +438,7 @@ mergeInputDiff <- function(
 #' \item{highlighting depending on the difference between datasets:
 #' \itemize{
 #' \item{'Addition' in green}
-#' \item{'Removal' in red}
+#' \item{'Removal' in yellow}
 #' \item{'Change' in lightblue}
 #' \item{'Identical' are not highlighted}
 #' }

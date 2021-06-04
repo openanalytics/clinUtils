@@ -23,6 +23,9 @@ are ordered from darkest to lightest. If -1, the order of colors is reversed.}
 options are available: "magma" (or "A"), "inferno" (or "B"), "plasma" (or "C"),
 "viridis" (or "D", the default option) and "cividis" (or "E").}
 }
+\value{
+The \code{\link[viridisLite]{viridis}} function.
+}
 \description{
 Default color palette is the color-blind viridis palette.
 See documentation of \code{\link[viridisLite]{viridis}}.

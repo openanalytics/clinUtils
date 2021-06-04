@@ -25,7 +25,7 @@ Only use if \code{labels} is not specified.}
 \item{...}{Additional parameters for the \code{\link{knitPrintListObjects}} function.}
 }
 \value{
-no returned value, a text is printed with chunk content
+No returned value, a text is printed with chunk content
 }
 \description{
 This function includes a list of plots with different figure height, 

@@ -74,7 +74,7 @@
 #' @importFrom crosstalk SharedData
 #' @importFrom tools file_ext
 #' @example inst/examples/getClinDT-example.R
-#' @return \code{\link[DT]{datatable}} object.
+#' @return A \code{\link[DT]{datatable}} object.
 #' @author Laure Cougnaud
 #' @export
 getClinDT <- function(data, 

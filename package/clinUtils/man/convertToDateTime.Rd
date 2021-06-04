@@ -27,7 +27,7 @@ for more information about this format.}
 \item{verbose}{logical, if TRUE (by default) progress messages are printed during execution}
 }
 \value{
-vector of class \code{\link{POSIXct}}
+Vector of class \code{\link{POSIXct}}
 }
 \description{
 Convert character vector to date/time object

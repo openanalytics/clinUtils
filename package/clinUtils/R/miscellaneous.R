@@ -33,8 +33,11 @@ simpleCap <- function(x, onlyFirst = TRUE, rev = FALSE) {
 
 #' Function for reordering columns
 #' 
-#' @param data a data.frame
-#' @param vars named vector indicating the position in the data frame of the specified variable
+#' @param data A \code{data.frame}
+#' @param vars Named vector indicating the position 
+#' in the data frame of the specified variable
+#' @return The same \code{data.frame} specified in \code{data}, 
+#' with ordered columns.
 #' @export 
 #' @examples
 #' someData <- data.frame(

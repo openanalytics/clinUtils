@@ -26,7 +26,7 @@ If specified, the parameters will be grouped by this(these) variable(s) in the y
 \item{width}{max number of characters in the code{paramVar} parameter.}
 }
 \value{
-vector with re-formatted \code{paramVar}, NULL if empty
+Vector with re-formatted \code{paramVar}, NULL if empty
 }
 \description{
 The following workflow is used:

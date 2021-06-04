@@ -13,7 +13,7 @@
 #' If specified, the parameters will be grouped by this(these) variable(s) in the y-axis.
 #' @param revert logical, if TRUE revert the order of the levels of the variable
 #' @param width max number of characters in the code{paramVar} parameter.
-#' @return vector with re-formatted \code{paramVar}, NULL if empty
+#' @return Vector with re-formatted \code{paramVar}, NULL if empty
 #' @author Laure Cougnaud
 #' library(ggplot2)
 #' data(dataADaMCDISCP01)
@@ -103,7 +103,7 @@ formatVarForPlotLabel <- function(data,
 #' @param x character vector with labels to format
 #' @param width target maximum size. Note: a word
 #' longer that this width won't be split (see \code{\link{strwrap}}).
-#' @return vector with formatted labels
+#' @return Vector with formatted labels
 #' @author Laure Cougnaud
 #' longLabel <- "This is a very long description of the variable in the dataset"
 #' cat(longLabel)

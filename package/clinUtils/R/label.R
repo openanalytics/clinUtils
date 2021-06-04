@@ -3,7 +3,7 @@
 #' This function concatenates and formats 
 #' text strings to a label of a table for \code{bookdown} package
 #' @param ... string to be concatenated to form label
-#' @return string with chunk label
+#' @return String with chunk label
 #' @author Laure Cougnaud
 #' @export
 formatTableLabel <- function(...){
@@ -16,7 +16,7 @@ formatTableLabel <- function(...){
 #' Concatenate and format text strings to a chunk label
 #' 
 #' @param ... string to be concatenated to form chunk label
-#' @return string with chunk label
+#' @return String with chunk label
 #' @author Laure Cougnaud
 #' @export
 formatLabelChunk <- function(...)
@@ -30,7 +30,7 @@ formatLabelChunk <- function(...)
 #' or data.frame with only one row.
 #' If an unique data.frame is specified, the
 #' different columns are collapsed to form one label.
-#' @return string with chunk label
+#' @return String with chunk label
 #' @author Laure Cougnaud
 #' @export
 formatLabel <- function(...){

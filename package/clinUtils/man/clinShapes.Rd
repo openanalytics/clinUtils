@@ -10,6 +10,9 @@ An object of class \code{integer} of length 24.
 \usage{
 clinShapes
 }
+\value{
+A numeric vector of shapes.
+}
 \description{
 A set of default shapes are available as named vector.
 }

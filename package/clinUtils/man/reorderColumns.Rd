@@ -7,9 +7,14 @@
 reorderColumns(data, vars)
 }
 \arguments{
-\item{data}{a data.frame}
+\item{data}{A \code{data.frame}}
 
-\item{vars}{named vector indicating the position in the data frame of the specified variable}
+\item{vars}{Named vector indicating the position 
+in the data frame of the specified variable}
+}
+\value{
+The same \code{data.frame} specified in \code{data}, 
+with ordered columns.
 }
 \description{
 Function for reordering columns

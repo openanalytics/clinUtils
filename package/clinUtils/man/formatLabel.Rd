@@ -13,7 +13,7 @@ If an unique data.frame is specified, the
 different columns are collapsed to form one label.}
 }
 \value{
-string with chunk label
+String with chunk label
 }
 \description{
 This function concatenates and formats 
