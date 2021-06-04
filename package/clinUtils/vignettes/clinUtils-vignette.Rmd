@@ -1,6 +1,6 @@
 ---
 title: Introduction to the `clinUtils` package
-author: "Laure Cougnaud"
+author: "Laure Cougnaud and Michela Pasetto"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: 
   rmarkdown::html_document:
@@ -18,17 +18,18 @@ vignette: >
 
 ```{r optionsChunks, echo = FALSE, cache = FALSE}
 
-	library(knitr)
+library(knitr)
+tmpdir <- tempdir()
 
-	knitr::opts_chunk$set(
-		message = FALSE,
-		# stop document execution if error (not the default)
-		error = FALSE, # stop-on-error
-		fig.align = "center",
-		fig.path = "./figures_vignette/",
-		echo = TRUE
-	)
-	
+knitr::opts_chunk$set(
+    message = FALSE,
+    # stop document execution if error (not the default)
+    error = FALSE, # stop-on-error
+    fig.align = "center",
+    fig.path = file.path(tmpdir, "./figures_vignette/"),
+    echo = TRUE
+)
+
 ```
 
 This package `clinUtils` contains functionalities
@@ -36,13 +37,13 @@ to facilitate the analysis of clinical datasets in R.
 
 ```{r loadPackages}
 
-	library(clinUtils)
+library(clinUtils)
 
-	# packages required for the examples in the vignette
-	library(ggplot2)
-	library(pander)
-	library(htmltools)
-	library(plyr)
+# packages required for the examples in the vignette
+library(ggplot2)
+library(pander)
+library(htmltools)
+library(plyr)
 
 ```
 
@@ -61,23 +62,23 @@ a dedicated attribute.
 
 ```{r loadData}
 
-	pathExampleDatasets <- list.files(
-		path = system.file("extdata", "cdiscpilot01", "SDTM", package = "clinUtils"), 
-		pattern = "*.xpt", 
-		full.names = TRUE
-	)
-	
-	data <- loadDataADaMSDTM(files = pathExampleDatasets)
-	# A list is returned, each separated file is accessible via data$[fileName]
-	pander(head(data$DM, 2))
-	pander(head(data$LB, 2))
-	pander(head(data$AE, 2))
-	
-	# Access labels for all variables
-	labelVars <- attr(data, "labelVars")
-	head(labelVars)
-	# Access label for a particular variable: 
-	labelVars["USUBJID"]
+pathExampleDatasets <- list.files(
+    path = system.file("extdata", "cdiscpilot01", "SDTM", package = "clinUtils"), 
+    pattern = "*.xpt", 
+    full.names = TRUE
+)
+
+data <- loadDataADaMSDTM(files = pathExampleDatasets)
+# A list is returned, each separated file is accessible via data$[fileName]
+pander(head(data$DM, 2))
+pander(head(data$LB, 2))
+pander(head(data$AE, 2))
+
+# Access labels for all variables
+labelVars <- attr(data, "labelVars")
+head(labelVars)
+# Access label for a particular variable: 
+labelVars["USUBJID"]
 
 ```
 
@@ -90,36 +91,36 @@ study is available in the package as dataset.
 ### ADaM
 
 ```{r exampleDataset-ADaM}
-	
-	# load data
-	data(dataADaMCDISCP01)
-	dataADaM <- dataADaMCDISCP01
-	names(dataADaM)
-	pander(head(dataADaM$ADSL, 2))
-	pander(head(dataADaM$ADLBC, 2))
-	pander(head(dataADaM$ADAE, 2))
-	
-	# and variable labels
-	labelVarsADaM <- attr(dataADaM, "labelVars")
-	head(labelVarsADaM)
-	
+
+# load data
+data(dataADaMCDISCP01)
+dataADaM <- dataADaMCDISCP01
+names(dataADaM)
+pander(head(dataADaM$ADSL, 2))
+pander(head(dataADaM$ADLBC, 2))
+pander(head(dataADaM$ADAE, 2))
+
+# and variable labels
+labelVarsADaM <- attr(dataADaM, "labelVars")
+head(labelVarsADaM)
+
 ```
 
 ### SDTM
 
 ```{r exampleDataset-SDTM}
 
-	# load data
-	data(dataSDTMCDISCP01)
-	dataSDTM <- dataSDTMCDISCP01
-	names(dataSDTM)
-	pander(head(dataSDTM$DM, 2))
-	pander(head(dataSDTM$LB, 2))
-	pander(head(dataSDTM$AE, 2))
-	
-	# and variable labels
-	labelVarsSDTM <- attr(dataSDTM, "labelVars")
-	head(labelVarsSDTM)
+# load data
+data(dataSDTMCDISCP01)
+dataSDTM <- dataSDTMCDISCP01
+names(dataSDTM)
+pander(head(dataSDTM$DM, 2))
+pander(head(dataSDTM$LB, 2))
+pander(head(dataSDTM$AE, 2))
+
+# and variable labels
+labelVarsSDTM <- attr(dataSDTM, "labelVars")
+head(labelVarsSDTM)
 
 ```
 
@@ -132,10 +133,10 @@ The function `getLabelVar` extracts the label for the specified variable(s),
 ensuring that the variable code is used if no label is specified.
 
 ```{r getLabelVar}
-	
-	# variable label is extracted from 'labelVars'
-	getLabelVar(var = "AEDECOD", labelVars = labelVars)
-	
+
+# variable label is extracted from 'labelVars'
+getLabelVar(var = "AEDECOD", labelVars = labelVars)
+
 ```
 
 This function also supports extraction of variable labels
@@ -157,13 +158,13 @@ standard ADaM CDISC parameter variables (`PARAM`/`PARAMCD`).
 
 ```{r getLabelParamcd}
 
-	# For ADaM dataset
-	getLabelParamcd(paramcd = "CHOL", data = dataADaM$ADLB)
-	getLabelParamcd(paramcd = "BILI", data = dataADaM$ADLB)
-	
-	# For SDTM dataset
-	getLabelParamcd(paramcd = "CHOL", data = dataSDTM$LB, paramcdVar = "LBTESTCD", paramVar = "LBTEST")
-	getLabelParamcd(paramcd = "BILI", data = dataSDTM$LB, paramcdVar = "LBTESTCD", paramVar = "LBTEST")
+# For ADaM dataset
+getLabelParamcd(paramcd = "CHOL", data = dataADaM$ADLB)
+getLabelParamcd(paramcd = "BILI", data = dataADaM$ADLB)
+
+# For SDTM dataset
+getLabelParamcd(paramcd = "CHOL", data = dataSDTM$LB, paramcdVar = "LBTESTCD", paramVar = "LBTEST")
+getLabelParamcd(paramcd = "BILI", data = dataSDTM$LB, paramcdVar = "LBTESTCD", paramVar = "LBTEST")
 
 ```
 
@@ -180,22 +181,26 @@ CDISC variable (`-NRIND`) are extracted via the `colorPaletteNRIND`
 and `shapePaletteNRIND` respectively:
 
 ```{r palette-show}
+
 print(colorPaletteNRIND)
 print(shapePaletteNRIND)
+
 ```
 
 ```{r palette-plot, fig.height = 8}
+
 plot(
-	x = seq_along(colorPaletteNRIND),
-	col = colorPaletteNRIND, 
-	bg = colorPaletteNRIND, 
-	pch = shapePaletteNRIND
+    x = seq_along(colorPaletteNRIND),
+    col = colorPaletteNRIND, 
+    bg = colorPaletteNRIND, 
+    pch = shapePaletteNRIND
 )
 text(
-	x = seq_along(colorPaletteNRIND),
-	labels = names(colorPaletteNRIND), pos = 3
+    x = seq_along(colorPaletteNRIND),
+    labels = names(colorPaletteNRIND), pos = 3
 )
 title("Palette for CDISC normal reference range indicator")
+
 ```
 The `getPaletteCDISC` function extracts such palette for a specified
 variable.  
@@ -205,6 +210,7 @@ and ensures that extra symbols are extracted in case non standard
 categories are available in the data.
 
 ```{r getPaletteCDISC}
+
 dataPlot <- subset(dataSDTM$LB, LBTEST == "Leukocytes")
 
 colorPalette <- getPaletteCDISC(x = dataPlot$LBNRIND, var = "NRIND", type = "color")
@@ -214,17 +220,18 @@ print(shapePalette)
 
 # visualize profile over time
 gg <- ggplot(data = dataPlot) +
-	geom_point(aes(x = LBDY, y = LBSTRESN, 
-		color = LBNRIND, fill = LBNRIND, shape = LBNRIND)) +
-	ggtitle("Evolution of Leukocytes actual value over time")
+    geom_point(aes(x = LBDY, y = LBSTRESN, 
+            color = LBNRIND, fill = LBNRIND, shape = LBNRIND)) +
+    ggtitle("Evolution of Leukocytes actual value over time")
 print(gg)
 
 # use 'standard' symbols/colors
 # ('limits' is only required if the categories are not already ordered in LBNRIND)
 gg + 
-	scale_color_manual(values = colorPalette, limits = names(colorPalette)) +
-	scale_fill_manual(values = colorPalette, limits = names(colorPalette)) +
-	scale_shape_manual(values = shapePalette, limits = names(colorPalette))
+    scale_color_manual(values = colorPalette, limits = names(colorPalette)) +
+    scale_fill_manual(values = colorPalette, limits = names(colorPalette)) +
+    scale_shape_manual(values = shapePalette, limits = names(colorPalette))
+
 ```
 
 ### Get a palette for a specific vector
@@ -247,13 +254,14 @@ linetypePalette <- getLinetypePalette(x = dataPlot$USUBJID)
 
 # create the plot
 ggplot(data = dataPlot, aes(x = ADY, y = CHG, color = USUBJID)) +
-	geom_point(aes(shape = USUBJID)) +
-	geom_line(aes(linetype = USUBJID, group = USUBJID)) +
-	scale_color_manual(values = colorPalette) +
-	scale_shape_manual(values = shapePalette) +
-	scale_linetype_manual(values = linetypePalette) +
-	labs(x = "Relative day", y = "Change from baseline",
-		title = "Profile plot of cholesterol change from baseline") 
+    geom_point(aes(shape = USUBJID)) +
+    geom_line(aes(linetype = USUBJID, group = USUBJID)) +
+    scale_color_manual(values = colorPalette) +
+    scale_shape_manual(values = shapePalette) +
+    scale_linetype_manual(values = linetypePalette) +
+    labs(x = "Relative day", y = "Change from baseline",
+        title = "Profile plot of cholesterol change from baseline") 
+
 ```
 
 Custom palettes can be specified via the `palette` parameter.
@@ -275,6 +283,7 @@ should be reproduced in R.
 roundHalfUp(c(0.45, 0.55), 1)
 # versus R default:
 round(c(0.45, 0.55), 1)
+
 ```
 
 ## Visualize data in an interactive table
@@ -290,25 +299,25 @@ to display patient-specific information or include bar visualization.
 
 ```{r getClinDT}
 
-	dataTEAE <- subset(dataADaM$ADAE, SAFFL == "Y" & TRTEMFL == "Y")
-	
-	# set column names to labels
-	labelVarsTEAE <- getLabelVar(
-		var = colnames(dataTEAE), 
-		labelVars = labelVarsADaM
-	)
-	colnamesTEAE <- setNames(names(labelVarsTEAE), labelVarsTEAE)
-	
-	dataTEAE <- dataTEAE[order(dataTEAE$AESOC), ]
-	
-	getClinDT(
-		dataTEAE, 
-		colnames = colnamesTEAE, 
-		rowGroupVar = c("AESOC"),
-		barVar = "AGE",
-		barRange = c(0, 100),
-		caption = "Listing of treatment-emergent adverse events on the safety analysis set"
-	)
+dataTEAE <- subset(dataADaM$ADAE, SAFFL == "Y" & TRTEMFL == "Y")
+
+# set column names to labels
+labelVarsTEAE <- getLabelVar(
+    var = colnames(dataTEAE), 
+    labelVars = labelVarsADaM
+)
+colnamesTEAE <- setNames(names(labelVarsTEAE), labelVarsTEAE)
+
+dataTEAE <- dataTEAE[order(dataTEAE$AESOC), ]
+
+getClinDT(
+    dataTEAE, 
+    colnames = colnamesTEAE, 
+    rowGroupVar = c("AESOC"),
+    barVar = "AGE",
+    barRange = c(0, 100),
+    caption = "Listing of treatment-emergent adverse events on the safety analysis set"
+)
 
 ```
 
@@ -339,12 +348,12 @@ dataTEAEOld[seq_len(2), "AESEV"] <- "SEVERE"
 
 refVars <- c("USUBJID", "AESOC", "AEDECOD", "ASTDT")
 tableComparison <- compareTables(
-	newData = dataTEAENew, 
-	oldData = dataTEAEOld, 
-	referenceVars = refVars,
-	changeableVars = setdiff(colnames(dataTEAEListing), refVars),
-	# parameters passed to datatable
-	colnames = setNames(names(labelVarsADaM), labelVarsADaM)
+    newData = dataTEAENew, 
+    oldData = dataTEAEOld, 
+    referenceVars = refVars,
+    changeableVars = setdiff(colnames(dataTEAEListing), refVars),
+    # parameters passed to datatable
+    colnames = setNames(names(labelVarsADaM), labelVarsADaM)
 )
 
 ```
@@ -386,33 +395,33 @@ Plots can be included with different specified dimension with: `knitPrintListPlo
 ```{r figure-static-knitPrintListPlots, out.width = "100%", warning = FALSE, results = "asis"}
 
 dataLB <- subset(dataSDTM$LB, 
-	LBTESTCD %in% c("ALB", "ALT", "CHOL", "HCT", "KETONES", "PH")
+    LBTESTCD %in% c("ALB", "ALT", "CHOL", "HCT", "KETONES", "PH")
 )
 dataLB$ACTARM <- dataSDTM$DM$ACTARM[match(dataLB$USUBJID, dataSDTM$DM$USUBJID)]
 
 # create plots:
 listPlotsLB <- plyr::dlply(dataLB, "LBCAT", function(data)
-	ggplot(data = data) +
-		geom_histogram(aes(fill = LBNRIND, x = ACTARM), stat = "count", position = "dodge") +
-		facet_wrap(~LBTEST) +
-		theme(axis.text.x = element_text(angle = -45, hjust = 0))
+      ggplot(data = data) +
+          geom_histogram(aes(fill = LBNRIND, x = ACTARM), stat = "count", position = "dodge") +
+          facet_wrap(~LBTEST) +
+          theme(axis.text.x = element_text(angle = -45, hjust = 0))
 )
 # n2mfrow: extract default dimensions for a specified number of plots
 figDim <- plyr::dlply(dataLB, "LBCAT", function(data) 
-	n2mfrow(length(unique(data$LBTESTCD)))
+      n2mfrow(length(unique(data$LBTESTCD)))
 )
 knitPrintListPlots(
-	plotsList = listPlotsLB, 
-	generalLabel = "lab-hist-static",
-	type = "ggplot2",
-	# set caption for each figure
-	fig.cap = paste("Barplot of", tolower(names(listPlotsLB)), "measurements"),
-	# specify different dimensions
-	fig.width = sapply(figDim, "[[", 1) * 2 + 1, # 3 in for each plot + 1 in for the legend
-	fig.height = sapply(figDim, "[[", 2) * 2 + 2, # 3 in for each plot + 2 for x-axis labels
-	# include title before each visualization
-	titles = simpleCap(tolower(names(listPlotsLB))),
-	titleLevel = 4
+    plotsList = listPlotsLB, 
+    generalLabel = "lab-hist-static",
+    type = "ggplot2",
+    # set caption for each figure
+    fig.cap = paste("Barplot of", tolower(names(listPlotsLB)), "measurements"),
+    # specify different dimensions
+    fig.width = sapply(figDim, "[[", 1) * 2 + 1, # 3 in for each plot + 1 in for the legend
+    fig.height = sapply(figDim, "[[", 2) * 2 + 2, # 3 in for each plot + 2 for x-axis labels
+    # include title before each visualization
+    titles = simpleCap(tolower(names(listPlotsLB))),
+    titleLevel = 4
 )
 
 ```
@@ -425,8 +434,8 @@ A list of interactive figures is created with the `plotly` package:
 
 library(plotly)
 listPlotsInteractiveLB <- sapply(listPlotsLB, function(ggplot)
-	ggplotly(ggplot) %>% partial_bundle()
-, simplify = FALSE)
+      ggplotly(ggplot) %>% partial_bundle()
+    , simplify = FALSE)
 
 ```
 
@@ -436,16 +445,16 @@ A list of interactive figures can be included within a
 _Rmarkdown_ document with the `tagList` function of the `htmltools` package.
 
 ```{r figure-interactive-tagList, warning = FALSE, results = "asis"}
-	
-	tagListArgs <- mapply(list,
-		# section header
-		lapply(names(listPlotsInteractiveLB), htmltools::h4),
-		# interactive plots
-		listPlotsInteractiveLB,
-		SIMPLIFY = FALSE
-	)
-	tagListArgs <- unlist(tagListArgs, recursive = FALSE)
-	do.call(htmltools::tagList, tagListArgs)
+
+tagListArgs <- mapply(list,
+    # section header
+    lapply(names(listPlotsInteractiveLB), htmltools::h4),
+    # interactive plots
+    listPlotsInteractiveLB,
+    SIMPLIFY = FALSE
+)
+tagListArgs <- unlist(tagListArgs, recursive = FALSE)
+do.call(htmltools::tagList, tagListArgs)
 
 ```
 
@@ -457,12 +466,12 @@ set to 'plotly' enables to include additionally e.g. a caption or a title.
 ```{r figure-interactive-knitPrintListPlots, warning = FALSE, results = "asis"}
 
 knitPrintListPlots(
-	plotsList = listPlotsInteractiveLB, 
-	generalLabel = "lab-hist-interactive",
-	type = "plotly",
-	# include title before each visualization
-	titles = simpleCap(tolower(names(listPlotsInteractiveLB))),
-	titleLevel = 5
+    plotsList = listPlotsInteractiveLB, 
+    generalLabel = "lab-hist-interactive",
+    type = "plotly",
+    # include title before each visualization
+    titles = simpleCap(tolower(names(listPlotsInteractiveLB))),
+    titleLevel = 5
 )
 
 ```
@@ -479,20 +488,20 @@ a **list of `flextable` objects** within a single chunk.
 Please note that the following chunk option should be used: **`results = 'asis'`**.
 
 ```{r table-flextable-knitPrintListObjects, warning = FALSE, results = "asis"}
-	
-	library(flextable)
-	listFtLB <- plyr::dlply(dataLB, "LBCAT", function(dataParcat){
-		flextable::flextable(data = head(dataParcat))
-	})
-	
-	knitPrintListObjects(
-		xList = listFtLB, 
-		generalLabel = "lab-listing-ft",
-		titles = simpleCap(tolower(names(listFtLB))),
-		# different alignment for each table
-		ft.align = c("center", "right", "left"),
-		titleLevel = 4
-	)
+
+library(flextable)
+listFtLB <- plyr::dlply(dataLB, "LBCAT", function(dataParcat){
+      flextable::flextable(data = head(dataParcat))
+    })
+
+knitPrintListObjects(
+    xList = listFtLB, 
+    generalLabel = "lab-listing-ft",
+    titles = simpleCap(tolower(names(listFtLB))),
+    # different alignment for each table
+    ft.align = c("center", "right", "left"),
+    titleLevel = 4
+)
 
 ```
 

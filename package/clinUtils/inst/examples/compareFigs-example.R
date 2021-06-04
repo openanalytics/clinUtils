@@ -6,9 +6,10 @@ data(dataADaMCDISCP01)
 library(ggplot2)
 
 dataLB <- dataADaMCDISCP01$ADLBC
+tmpdir <- tempdir()
 
 # default ggplot2 behaviour
-pathFigRef <- "compareFigs_ref"
+pathFigRef <- file.path(tmpdir, "compareFigs_ref")
 dir.create(pathFigRef)
 gg1 <- ggplot(data = subset(dataLB, PARAMCD == "CHOL"), 
 	aes(x = ADY, y = CHG, color = SUBJID)) +
@@ -21,7 +22,7 @@ ggsave(filename = file.path(pathFigRef, "example2.png"), plot = gg1)
 ggsave(filename = file.path(pathFigRef, "example3.png"), plot = gg1)
 
 # use default-color, and linetype/shape palette with enough elements:
-pathFigNew <- "compareFigs_new"
+pathFigNew <- file.path(tmpdir, "compareFigs_new")
 dir.create(pathFigNew)
 ggsave(
 	filename = file.path(pathFigNew, "example1.png"), 

@@ -26,7 +26,7 @@ test_that("addition is correctly detected", {
           `Comparison type` = "Addition", Version = "Current", 
           id = 1, a = 1, b = 2,
           check.names = FALSE,
-		  stringsAsFactors = TRUE
+          stringsAsFactors = TRUE
       )
       expect_equal(diffTable, diffTableRef, check.attributes = FALSE)
       
@@ -43,9 +43,9 @@ test_that("removal is correctly detected", {
       expect_s3_class(diffTable, "data.frame")
       diffTableRef <- data.frame(
           `Comparison type` = factor("Removal", 
-				levels = c("Addition", "Change", "Removal")
-			),
-			Version = factor("Previous", levels = c("Current", "Previous")),
+              levels = c("Addition", "Change", "Removal")
+          ),
+          Version = factor("Previous", levels = c("Current", "Previous")),
           id = 1, a = 1, b = 2,
           check.names = FALSE
       )
@@ -72,11 +72,11 @@ test_that("change is correctly detected", {
               oldData
           )
       )
-	  diffTableRef$`Comparison type` <- factor(diffTableRef$`Comparison type`,
-			 levels = c("Addition", "Change", "Removal"))
+      diffTableRef$`Comparison type` <- factor(diffTableRef$`Comparison type`,
+          levels = c("Addition", "Change", "Removal"))
       expect_equal(diffTable, diffTableRef, check.attributes = FALSE)
       
-})
+    })
 
 test_that("comparison with duplicated records in newData is successful", {
       
@@ -91,7 +91,7 @@ test_that("comparison with duplicated records in newData is successful", {
           `Comparison type` = "Addition", Version = "Current", 
           id = 1, a = 1, b = 3,
           check.names = FALSE,
-		  stringsAsFactors = TRUE
+          stringsAsFactors = TRUE
       )
       expect_equal(diffTable, diffTableRef, check.attributes = FALSE)
       
@@ -137,42 +137,42 @@ test_that("a version is correctly extracted when the tables are compared", {
       expect_equal(nrow(res), 2)
       expect_equal(res$Version, factor(c("Current", "Previous")))
       
-})
+    })
 
 test_that("old or new data should be specified when merging with diff data", {
-			
-	newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
-	oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
-			
-	diffData <- compareDiff(
-		newData, oldData, 
-		referenceVars = intersect(colnames(newData), colnames(oldData)), 
-	)
-	
-	expect_error(mergeDiffWithData(diffData = diffData))
-			
-})
+      
+      newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
+      oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
+      
+      diffData <- compareDiff(
+          newData, oldData, 
+          referenceVars = intersect(colnames(newData), colnames(oldData)), 
+      )
+      
+      expect_error(mergeDiffWithData(diffData = diffData))
+      
+    })
 
 test_that("comparison type terms of diff data should be among a standard set during merging", {
-			
-	newData <- data.frame(id = 1, a = 2)
-	oldData <- data.frame(id = 1, a = 3)
-	
-	diffData <- data.frame(
-		`Comparison type` = "Different", 
-		Version = c("Current"),
-		id = 1, a = 2,
-		check.names = FALSE
-	)
-	attr(diffData, "referenceVars") <- "id"
-	attr(diffData, "changeableVars") <- "a"
-			
-	expect_error(
-		mergeDiffWithData(diffData = diffData, newData = newData),
-		"Comparison type should be among.*"
-	)
-			
-})
+      
+      newData <- data.frame(id = 1, a = 2)
+      oldData <- data.frame(id = 1, a = 3)
+      
+      diffData <- data.frame(
+          `Comparison type` = "Different", 
+          Version = c("Current"),
+          id = 1, a = 2,
+          check.names = FALSE
+      )
+      attr(diffData, "referenceVars") <- "id"
+      attr(diffData, "changeableVars") <- "a"
+      
+      expect_error(
+          mergeDiffWithData(diffData = diffData, newData = newData),
+          "Comparison type should be among.*"
+      )
+      
+    })
 
 test_that("diff data object is merged correctly with new data", {
       
@@ -251,14 +251,14 @@ test_that("error if export type is not available", {
           "'arg' should be one of .+"
       )
       
- })
+    })
 
 test_that("diff data is exported to an interactive table", {
       
-	newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
-	oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
+      newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
+      oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
       
-	diffData <- compareDiff(
+      diffData <- compareDiff(
           newData, oldData, 
           referenceVars = intersect(colnames(newData), colnames(oldData)), 
       )
@@ -267,14 +267,14 @@ test_that("diff data is exported to an interactive table", {
           res <- exportDiffData(diffData)
       )
       expect_is(res, "datatables")
-	  
-	 expect_equal(
-		res$x$data[, colnames(diffData)],
-		diffData,
-		check.attributes = FALSE
-	)
       
-})
+      expect_equal(
+          res$x$data[, colnames(diffData)],
+          diffData,
+          check.attributes = FALSE
+      )
+      
+    })
 
 test_that("difference in new data is exported to an interactive table", {
       
@@ -293,97 +293,97 @@ test_that("difference in new data is exported to an interactive table", {
           res <- exportDiffData(diffData, newDataDiff = newDataDiff)
       )
       expect_is(res, "datatables")
-
-	  expect_equal(
-		  res$x$data[, colnames(newDataDiff)],
-		  newDataDiff,
-		  check.attributes = FALSE
-	  )
-})
+      
+      expect_equal(
+          res$x$data[, colnames(newDataDiff)],
+          newDataDiff,
+          check.attributes = FALSE
+      )
+    })
 
 test_that("difference in old data is exported to an interactive table", {
       
-	newData <- rbind(
-		data.frame(id = 1, a = 2, b = 4),
-		data.frame(id = 1, a = 3, b = 2)
-	)
-	oldData <- rbind(
-		data.frame(id = 1, a = 2, b = 4), # identity
-		data.frame(id = 1, a = 3, b = 5), # change
-		data.frame(id = 1, a = 4, b = 2) # removal
-	)
+      newData <- rbind(
+          data.frame(id = 1, a = 2, b = 4),
+          data.frame(id = 1, a = 3, b = 2)
+      )
+      oldData <- rbind(
+          data.frame(id = 1, a = 2, b = 4), # identity
+          data.frame(id = 1, a = 3, b = 5), # change
+          data.frame(id = 1, a = 4, b = 2) # removal
+      )
       
-	expect_silent(
-		res <- compareTables(
-			newData, oldData, 
-			referenceVars = c("id", "a"),
-			changeableVars = "b",
-			outputType = "oldData-diff-interactive"
-		)
-	)
-	expect_s3_class(res, "datatables")
-	  
-	# identical records correctly tagged
-	expect_setequal(
-		subset(res$x$data, a == 2)[, c("id.diff", "a.diff", "b.diff")],
-		"=="
-	)
-	# removed records correctly tagged
-	expect_setequal(
-		subset(res$x$data, a == 4)[, c("id.diff", "a.diff", "b.diff")],
-		"-"
-	)
-	# changed records correctly tagged
-	expect_setequal(
-		subset(res$x$data, a == 3)[, c("id.diff", "a.diff")],
-		"=="
-	)
-	expect_setequal(
-		subset(res$x$data, a == 3)[, c("b.diff")],
-		"!="
-	)
-	
-})
+      expect_silent(
+          res <- compareTables(
+              newData, oldData, 
+              referenceVars = c("id", "a"),
+              changeableVars = "b",
+              outputType = "oldData-diff-interactive"
+          )
+      )
+      expect_s3_class(res, "datatables")
+      
+      # identical records correctly tagged
+      expect_setequal(
+          subset(res$x$data, a == 2)[, c("id.diff", "a.diff", "b.diff")],
+          "=="
+      )
+      # removed records correctly tagged
+      expect_setequal(
+          subset(res$x$data, a == 4)[, c("id.diff", "a.diff", "b.diff")],
+          "-"
+      )
+      # changed records correctly tagged
+      expect_setequal(
+          subset(res$x$data, a == 3)[, c("id.diff", "a.diff")],
+          "=="
+      )
+      expect_setequal(
+          subset(res$x$data, a == 3)[, c("b.diff")],
+          "!="
+      )
+      
+    })
 
 test_that("a placeholder is displayed in the interactive table if there is no difference between the new and old data", {
-			
-	data <- data.frame(id = 1, a = 2, b = 3, d = 5)
-			
-	diffData <- compareDiff(
-		newData = data, oldData = data, 
-		referenceVars = "id"
-	)
-			
-	expect_silent(
-		res <- exportDiffData(diffData)
-	)
-	expect_is(res, "datatables")
-	expect_equal(
-		res$x$options$language$zeroRecords,
-		"There is no difference between the previous and the current data."
-	)
-			
-})
+      
+      data <- data.frame(id = 1, a = 2, b = 3, d = 5)
+      
+      diffData <- compareDiff(
+          newData = data, oldData = data, 
+          referenceVars = "id"
+      )
+      
+      expect_silent(
+          res <- exportDiffData(diffData)
+      )
+      expect_is(res, "datatables")
+      expect_equal(
+          res$x$options$language$zeroRecords,
+          "There is no difference between the previous and the current data."
+      )
+      
+    })
 
 test_that("column names are specified in the interactive diff data table", {
-			
-	newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
-	oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
-			
-	diffData <- compareDiff(
-		newData, oldData, 
-		referenceVars = intersect(colnames(newData), colnames(oldData)), 
-	)
-			
-	expect_silent(
-		res <- exportDiffData(
-			diffData, 
-			colnames = c(`Variable a` = "a", `Variable b` = "b")
-		)
-	)
-	expect_equal(
-		attr(res$x, "colnames")[match(c("a", "b"), colnames(res$x$data))], 
-		c("Variable a", "Variable b")
-	)
-		
-})
+      
+      newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
+      oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
+      
+      diffData <- compareDiff(
+          newData, oldData, 
+          referenceVars = intersect(colnames(newData), colnames(oldData)), 
+      )
+      
+      expect_silent(
+          res <- exportDiffData(
+              diffData, 
+              colnames = c(`Variable a` = "a", `Variable b` = "b")
+          )
+      )
+      expect_equal(
+          attr(res$x, "colnames")[match(c("a", "b"), colnames(res$x$data))], 
+          c("Variable a", "Variable b")
+      )
+      
+    })

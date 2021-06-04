@@ -5,7 +5,8 @@ context("Figure comparison")
 data(iris)
 vars <- c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")
 
-dirPlots <- "figures"
+tmpdir <- tempdir()
+dirPlots <- paste0(file.path(tmpdir, "figures"), "/")
 dir.create(dirPlots)
 
 pathPlotBasic <- file.path(dirPlots, paste0("scatterplotIris-basic", ".png"))
@@ -18,7 +19,7 @@ png(pathPlotColor)
 pairs(iris[, vars], col = iris$Species)
 tmp <- dev.off()
 
-outputDir <- "compareFigures"
+outputDir <- paste0(file.path(tmpdir, "compareFigures"), "/")
 unlink(outputDir, recursive = TRUE)
 
 test_that("Two identical figures are identified as similar", {

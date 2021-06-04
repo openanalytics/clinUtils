@@ -7,8 +7,11 @@ library(crosstalk)
 library(xml2)
 library(jsonlite)
 
+tmpdir <- tempdir()
+
 # utility function to get JSON table from exported HTML file
-getTableJSON <- function(file){
+getTableJSON <- function(file) {
+  
 	tableHTML <- read_html(file)
 	# extract table in JSON format
 	tableXMLJSON <- xml_find_all(tableHTML, ".//script[@type='application/json']")
@@ -21,12 +24,14 @@ getTableJSON <- function(file){
 }
 
 # export table and get JSON table
-exportAndGetTableJSON <- function(dt){
-	file <- "table.html"
+exportAndGetTableJSON <- function(dt) {
+  
+	file <- file.path(tempdir(), "table.html")
 	htmlwidgets::saveWidget(dt, file = file)
 	tableJSON <- getTableJSON(file = file)
 	unlink(file)
 	return(tableJSON)
+    
 }
 
 test_that("basic", {
@@ -43,7 +48,7 @@ test_that("basic", {
 	expect_identical(object = dt$x$data, expected = data)
 	
 	# check than output contains all columns/rows in correct order
-	file <- "table-basic.html"
+	file <- file.path(tmpdir, "table-basic.html")
 	htmlwidgets::saveWidget(dt, file = file)
 	
 	tableData <- getTableJSON(file)$x$data
@@ -642,12 +647,15 @@ test_that("Export", {
 	)
 			
 	# correct file format
-	file <- "test.html";unlink(file)
+	file <- file.path(tmpdir, "test.html"); unlink(file)
 	expect_silent(dt <- getClinDT(data, file = file))
 	expect_true(file.exists(file))
 	unlink(file)
 	
 	# incorrect file format
-	expect_error(dt <- getClinDT(data, file = "test.csv"), pattern = "extension")
+	expect_error(
+        dt <- getClinDT(data, file = file.path(tmpdir, "test.csv")),
+        pattern = "extension"
+    )
 	
 })
