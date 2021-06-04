@@ -56,7 +56,7 @@ test_that("Two different figures are identified as different", {
 
 test_that("Comparison of two directories with figures", {
 			
-	dirPlots2 <- paste0(file.path(dirPlots, "test"), "/")
+	dirPlots2 <- paste0(file.path(tmpdir, "figures2"), "/")
 	dir.create(dirPlots2)
 	
 	# same figure
