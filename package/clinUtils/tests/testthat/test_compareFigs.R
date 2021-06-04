@@ -6,7 +6,7 @@ data(iris)
 vars <- c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")
 
 tmpdir <- tempdir()
-dirPlots <- paste0(file.path(tmpdir, "figures"), "/")
+dirPlots <- file.path(tmpdir, "figures")
 dir.create(dirPlots)
 
 pathPlotBasic <- file.path(dirPlots, paste0("scatterplotIris-basic", ".png"))
@@ -19,7 +19,7 @@ png(pathPlotColor)
 pairs(iris[, vars], col = iris$Species)
 tmp <- dev.off()
 
-outputDir <- paste0(file.path(tmpdir, "compareFigures"), "/")
+outputDir <- file.path(tmpdir, "compareFigures")
 unlink(outputDir, recursive = TRUE)
 
 test_that("Two identical figures are identified as similar", {
@@ -56,7 +56,7 @@ test_that("Two different figures are identified as different", {
 
 test_that("Comparison of two directories with figures", {
 			
-	dirPlots2 <- paste0(file.path(tmpdir, "figures2"), "/")
+	dirPlots2 <- file.path(tmpdir, "figures2")
 	dir.create(dirPlots2)
 	
 	# same figure
