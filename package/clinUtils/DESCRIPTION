@@ -19,12 +19,10 @@ Imports:
   crosstalk,
   data.table,
   DT,
-  grDevices,
   haven,
   htmlwidgets,
   knitr,
   plyr, 
-  png,
   tools,    
   utils,
   viridisLite
