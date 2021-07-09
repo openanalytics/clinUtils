@@ -1,3 +1,6 @@
+0.0.2
+    o unit tests: no longer dep on xml2 & jsonlite, check for pandoc
+    o add system requirement on pandoc for CRAN
 0.0.1
     o initial version
     o fix knit print when figure opts are character

@@ -132,49 +132,64 @@ includePlotsInRmdDoc <- function(includePlotCmd, file)
 
 test_that("Knitting list of interactive plots with 'knitPrintListObjects'", {
       
-      file <- tempfile(pattern = "includeListPlotly_knitPrintListPlots", fileext = ".Rmd")
-      includePlotsInRmdDoc(
-          "knitPrintListPlots(plotsList = plotsListInteractive, type = \"plotly\")",
-          file = file
-      )
-      expect_silent(outputRmd <- rmarkdown::render(file, quiet = TRUE))
+	skip_if_not(
+		condition = rmarkdown::pandoc_available(), 
+		message = "pandoc is not available"
+	)
+			
+	file <- tempfile(pattern = "includeListPlotly_knitPrintListPlots", fileext = ".Rmd")
+	includePlotsInRmdDoc(
+		"knitPrintListPlots(plotsList = plotsListInteractive, type = \"plotly\")",
+		file = file
+	)
+	expect_silent(outputRmd <- rmarkdown::render(file, quiet = TRUE))
       
-      outputHTMLPlots <- readLines(outputRmd)
-      expect_length(grep("class=\"plotly html-widget\"", outputHTMLPlots), 2)
+	outputHTMLPlots <- readLines(outputRmd)
+	expect_length(grep("class=\"plotly html-widget\"", outputHTMLPlots), 2)
       
-    })
+})
 
 test_that("Knitting list of interactive plots with 'knitPrintListObjects'", {
       
-      file <- tempfile(pattern = "includeListPlotly_knitPrintListObjects", fileext = ".Rmd")
-      includePlotsInRmdDoc(
-          "knitPrintListObjects(xList = plotsListInteractive, printObject = FALSE)",
-          file = file
-      )
-      expect_silent(outputRmd <- rmarkdown::render(file, quiet = TRUE))
-      outputHTMLObjects <- readLines(outputRmd)
-      expect_length(grep("class=\"plotly html-widget\"", outputHTMLObjects), 2)
+	skip_if_not(
+		condition = rmarkdown::pandoc_available(), 
+		message = "pandoc is not available"
+	)
+			
+	file <- tempfile(pattern = "includeListPlotly_knitPrintListObjects", fileext = ".Rmd")
+	includePlotsInRmdDoc(
+		"knitPrintListObjects(xList = plotsListInteractive, printObject = FALSE)",
+		file = file
+	)
+	expect_silent(outputRmd <- rmarkdown::render(file, quiet = TRUE))
+	outputHTMLObjects <- readLines(outputRmd)
+	expect_length(grep("class=\"plotly html-widget\"", outputHTMLObjects), 2)
       
-    })
+})
 
 test_that("Knitting list of interactive flextable with 'knitPrintListObjects'", {
+    
+	skip_if_not(
+		condition = rmarkdown::pandoc_available(), 
+		message = "pandoc is not available"
+	)
+			
+	file <- tempfile(pattern = "includeListFlextable", fileext = ".Rmd")
+	cat(
+		"---",
+		"title: test inclusion list of tables",
+		"output: rmarkdown::html_document",
+		"---",
+		"```{r results = \"asis\"}",
+		"library(flextable);library(clinUtils)",
+		"listTables <- list(flextable(iris), flextable(cars))",
+		"knitPrintListObjects(xList = listTables)",
+		"```",
+		file = file, sep = "\n"
+	)
       
-      file <- tempfile(pattern = "includeListFlextable", fileext = ".Rmd")
-      cat(
-          "---",
-          "title: test inclusion list of tables",
-          "output: rmarkdown::html_document",
-          "---",
-          "```{r results = \"asis\"}",
-          "library(flextable);library(clinUtils)",
-          "listTables <- list(flextable(iris), flextable(cars))",
-          "knitPrintListObjects(xList = listTables)",
-          "```",
-          file = file, sep = "\n"
-      )
+	expect_silent(outputRmd <- rmarkdown::render(file, quiet = TRUE))
+	outputHTMLFt <- readLines(outputRmd)
+	expect_length(grep("class=\"tabwid\"", outputHTMLFt), 2)
       
-      expect_silent(outputRmd <- rmarkdown::render(file, quiet = TRUE))
-      outputHTMLFt <- readLines(outputRmd)
-      expect_length(grep("class=\"tabwid\"", outputHTMLFt), 2)
-      
-    })
+})

@@ -1,7 +1,7 @@
 Package: clinUtils
 Type: Package
 Title: General Utility Functions for Analysis of Clinical Data
-Version: 0.0.1
+Version: 0.0.2
 Date: 2021-05-26
 Authors@R: c(
   person(given = "Laure", family = "Cougnaud", role = "aut",
@@ -35,6 +35,7 @@ Suggests:
   rmarkdown,
   testthat,
   flextable
+SystemRequirements: pandoc (for inclusion of list of interactive plots/objects with knitr_
 URL: https://github.com/openanalytics/clinUtils
 BugReports: https://github.com/openanalytics/clinUtils/issues
 License: MIT + file LICENSE
