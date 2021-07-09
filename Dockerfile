@@ -42,8 +42,7 @@ RUN R -e "remotes::install_version('curl', version = '4.3', upgrade = FALSE)" &&
     R -e "remotes::install_version('glue', version = '1.4.2', upgrade = FALSE)" && \
     R -e "remotes::install_version('gtable', version = '0.3.0', upgrade = FALSE)" && \
     R -e "remotes::install_version('isoband', version = '0.2.4', upgrade = FALSE)"
-RUN R -e "remotes::install_version('jsonlite', version = '1.7.2', upgrade = FALSE)" && \
-    R -e "remotes::install_version('labeling', version = '0.4.2', upgrade = FALSE)" && \
+RUN R -e "remotes::install_version('labeling', version = '0.4.2', upgrade = FALSE)" && \
     R -e "remotes::install_version('lattice', version = '0.20-41', upgrade = FALSE)" && \
     R -e "remotes::install_version('lazyeval', version = '0.2.2', upgrade = FALSE)" && \
     R -e "remotes::install_version('magrittr', version = '2.0.1', upgrade = FALSE)" && \
@@ -66,7 +65,6 @@ RUN R -e "remotes::install_version('uuid', version = '0.1-4', upgrade = FALSE)" 
     R -e "remotes::install_version('viridisLite', version = '0.4.0', upgrade = FALSE)" && \
     R -e "remotes::install_version('withr', version = '2.4.2', upgrade = FALSE)" && \
     R -e "remotes::install_version('xfun', version = '0.22', upgrade = FALSE)" && \
-    R -e "remotes::install_version('xml2', version = '1.3.2', upgrade = FALSE)" && \
     R -e "remotes::install_version('yaml', version = '2.2.1', upgrade = FALSE)" && \
     R -e "remotes::install_version('zip', version = '2.1.1', upgrade = FALSE)" && \
     R -e "remotes::install_version('askpass', version = '1.1', upgrade = FALSE)" && \

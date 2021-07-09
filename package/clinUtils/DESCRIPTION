@@ -27,15 +27,13 @@ Imports:
   utils,
   viridisLite
 Suggests:
-  dplyr,
+  tibble,
   ggplot2,
   plotly,
   htmltools,
-  jsonlite,
   pander,
   rmarkdown,
   testthat,
-  xml2,
   flextable
 URL: https://github.com/openanalytics/clinUtils
 BugReports: https://github.com/openanalytics/clinUtils/issues
