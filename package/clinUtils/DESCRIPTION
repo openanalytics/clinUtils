@@ -36,7 +36,7 @@ Suggests:
   rmarkdown,
   testthat,
   flextable
-SystemRequirements: pandoc (for inclusion of list of interactive plots/objects with knitr_
+SystemRequirements: pandoc (for inclusion of list of interactive plots/objects with knitr)
 URL: https://github.com/openanalytics/clinUtils
 BugReports: https://github.com/openanalytics/clinUtils/issues
 License: MIT + file LICENSE
