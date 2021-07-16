@@ -1,8 +1,8 @@
 Package: clinUtils
 Type: Package
 Title: General Utility Functions for Analysis of Clinical Data
-Version: 0.0.2
-Date: 2021-07-14
+Version: 0.0.3
+Date: 2021-07-16
 Authors@R: c(
   person(given = "Laure", family = "Cougnaud", role = "aut",
   email = "laure.cougnaud@openanalytics.eu"),
