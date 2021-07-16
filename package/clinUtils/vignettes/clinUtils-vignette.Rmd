@@ -300,7 +300,7 @@ for data in clinical trials, as listing or summary tables of
  There are built-in functionalities to expand row variable(s)
 to display patient-specific information or include bar visualization.
 
-```{r getClinDT, eval = rmarkdown::pandoc_available()}
+```{r createDataAE}
 
 dataTEAE <- subset(dataADaM$ADAE, SAFFL == "Y" & TRTEMFL == "Y")
 
@@ -312,6 +312,10 @@ labelVarsTEAE <- getLabelVar(
 colnamesTEAE <- setNames(names(labelVarsTEAE), labelVarsTEAE)
 
 dataTEAE <- dataTEAE[order(dataTEAE$AESOC), ]
+
+```
+
+```{r getClinDT, eval = rmarkdown::pandoc_available()}
 
 getClinDT(
     dataTEAE, 
