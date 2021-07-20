@@ -1,3 +1,7 @@
+0.0.4
+    o change maintainer
+0.0.3
+    o fixes for unit tests
 0.0.2
     o unit tests: no longer dep on xml2 & jsonlite, check for pandoc
     o add system requirement on pandoc for CRAN
