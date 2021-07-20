@@ -4,7 +4,7 @@ Title: General Utility Functions for Analysis of Clinical Data
 Version: 0.0.4
 Date: 2021-07-20
 Authors@R: c(
-  person(given = "Laure", family = "Cougnaud", role = c("aut", , "cre"),
+  person(given = "Laure", family = "Cougnaud", role = c("aut", "cre"),
   email = "laure.cougnaud@openanalytics.eu"),
   person(given = "Michela", family = "Pasetto", role = "aut",
   email = "michela.pasetto@openanalytics.eu"),
