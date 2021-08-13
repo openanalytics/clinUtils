@@ -1,4 +1,4 @@
-#' Convert a data.frame into interactive table
+#' Create an interactive table to display clinical data
 #' 
 #' This function converts a \code{data.frame} from R into 
 #' \code{\link[DT]{datatable}} object
@@ -11,7 +11,10 @@
 #' @param data Data.frame, matrix or \code{\link[crosstalk]{SharedData}}
 #' object with input data for the table.
 #' @param nonVisibleVar Character vector with column(s) in \code{data} to 
-#' hide in the output table (column is hidden).
+#' hide in the output table (column is hidden).\cr
+#' The column(s) also get the extra attribute: \code{className = 'noVis'},
+#' to ensure they are not displayed in the
+#' button to show/hide column(s).
 #' @param nonVisible This parameter is deprecated, use the new interface
 #' with the \code{nonVisibleVar} parameter. 
 #' Numeric vector with column(s)
@@ -55,6 +58,7 @@
 #' @param callback String with custom Javascript callback function.
 #' @param buttons DataTable buttons
 #' (passed to the 'buttons' element of the \code{options} parameter of \code{\link[DT]{datatable}}).
+#' See \code{\link{getClinDTButtons}} for the default options.
 #' To remove all buttons, set this parameter to NULL.
 #' @param scrollX Logical, if TRUE (by default) a horizontal scrolling bar
 #' is included. 
@@ -94,7 +98,7 @@ getClinDT <- function(data,
 	rowGroup = NULL, rowGroupVar = NULL,
 	vAlign = "top",
 	callback = NULL,
-	buttons = c("copy", "csv", "excel", "pdf", "print"),
+	buttons = getClinDTButtons(),
 	scrollX = TRUE,
 	file = NULL,
 	verbose = TRUE,
@@ -376,7 +380,7 @@ getClinDT <- function(data,
 			})
 		},
 		if(!is.null(nonVisible))	
-			list(list(targets = nonVisible, visible = FALSE)),
+			list(list(targets = nonVisible, visible = FALSE, className = 'noVis')),
 		if(!is.null(idxControl))
 			columnDefs <- list(list(orderable = FALSE, className = 'details-control', targets = idxControl))
 	)
@@ -448,7 +452,11 @@ getClinDT <- function(data,
 	}
 	
 	if(length(rowGroup) > 0 && isOptionAvailable(options, "rowGroup")){
-		options[["rowGroup"]] <- list(dataSrc = getCol(rowGroup))
+		rowGroup <- getCol(rowGroup)
+		options[["rowGroup"]] <- list(dataSrc = rowGroup)
+		columnDefs <- c(columnDefs, 
+			list(list(targets = rowGroup, className = "rowGroup"))
+		)
 	}
 	
 	# columnsDefs are combined with input options (if specified)
@@ -672,4 +680,109 @@ checkVarInData <- function(var, data, label){
 	
 }
 
+#' Get default set of buttons to be included
+#' in the interactive table for clinical data.
+#' @param type Character vector with type of buttons, among:
+#' \itemize{
+#' \item{for export data: }{
+#' itemize{
+#' \item 'copy' (by default): copy data to clipboard
+#' \item 'csv' (by default): export selected data to a csv file
+#' \item 'excel' (by default): export selected data to an Excel file
+#' \item 'pdf' (by default): export data in a PDF file, in landscape
+#' format
+#' \item 'print' (by default): extract the data with the print
+#' function of the browser
+#' }
+#' For all these buttons, only the visible columns
+#' (selected by the show/hide button) are exported.
+#' The variables used for row grouping are always
+#' exported as well.
+#' }
+#' \item{to show/hide columns :}{
+#' \itemize{
+#' \item 'colvis': include a collection of buttons
+#' to show/hide specific columns.\cr
+#' Specific columns that should not be listed 
+#' should be defined in \code{visibleVar}
+#' in \code{\link{getClinDT}}
+#' }
+#' }
+#' }
+#' @param typeExtra Character vector with type
+#' of button(s) that should be added to the default
+#' set of buttons.
+#' @param opts List with extra opts for specific buttons.
+#' The list should be named with the button type.
+#' @details
+#' The 'colvis' button doesn't display
+#' the non visible columns.\cr
+#' These are defined internally with:
+#' \preformatted{
+#' options = list(
+#'   columnDefs = list(
+#'     list(targets = [X], className = 'noVis')
+#'   )
+#' )}
+#' with [X] the index of the column(s) 
+#' in Javascript notation
+#' (starting from 0)
+#' @return Nested list with default buttons
+#' to be passed on to 'buttons' option in
+#' the \code{\link{getClinDT}}.
+#' @author Laure Cougnaud
+#' @export
+getClinDTButtons <- function(
+	type = c("copy", "csv", "excel", "pdf", "print"),
+	typeExtra = NULL,
+	opts = NULL){
 
+	type <- unique(c(type, typeExtra))
+
+	type <- match.arg(
+		type,
+		choices = c("copy", "csv", "excel", 
+			"pdf", "print", "colvis"),
+		several.ok = TRUE
+	)
+	
+	getExportButton <- function(typeBtn, ...){
+		if(typeBtn %in% type){
+			c(
+				list(
+					extend = typeBtn,
+					..., 
+					# to only export visible columns
+					exportOptions = list(columns = list(".rowGroup", ":visible"))
+				),
+				opts[[typeBtn]],
+				...
+			)
+		}
+	}
+	
+	buttons <- list(
+		getExportButton(typeBtn = "copy"),
+		getExportButton(typeBtn = "csv"),
+		getExportButton(typeBtn = "excel"),
+		getExportButton(typeBtn = "pdf"),
+		getExportButton(typeBtn = "print"), 
+		# note: columns that are not initially visible
+		# in the DT should be defined via 'columnDefs'
+		if("colvis" %in% type)
+			c(
+				list(
+					extend = "colvis",
+					# only visible columns are selectable
+					columns = ":not(.noVis)",
+					text = "Show/hide columns" # change button label
+				),
+				opts[["colvis"]]
+			)
+	)
+	
+	buttons <- buttons[!sapply(buttons, is.null)]
+	
+	return(buttons)
+	
+}

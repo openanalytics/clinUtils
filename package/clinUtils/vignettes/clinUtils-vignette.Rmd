@@ -47,8 +47,8 @@ library(plyr)
 
 ```
 
-Please note that the interactive outputs (table/visualization) in this vignette are only included if [Pandoc](https://pandoc.org/) 
-is available (pre-requisite for R Markdown). 
+Please note that the interactive outputs (table/visualization) in this vignette
+are only included if [Pandoc](https://pandoc.org/) is available (pre-requisite for R Markdown). 
 
 # Data pre-processing
 

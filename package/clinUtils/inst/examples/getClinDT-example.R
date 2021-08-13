@@ -47,7 +47,7 @@ getClinDT(
 	colnames = tableAELabelsDT
 )
 
-# change color according to thresold
+# change color according to threshold
 getClinDT(
 	data = tableAEBase,
 	filter = "none",
@@ -56,7 +56,7 @@ getClinDT(
 	colnames = tableAELabelsDT
 )
 
-# group per system organ class:
+## group per system organ class:
 tableAEGroup <- tableAEBase %>%
 	group_by(AESOC) %>%
 	mutate(NAESOC = sum(N)) %>%
@@ -85,7 +85,7 @@ getClinDT(
 	escape = grep("USUBJID", colnames(tableAE))-1
 )
 
-# with fixed columns:
+# fix size for columns
 getClinDT(
 	data = tableAEGroup,
 	colnames = tableAELabelsDT,
@@ -101,9 +101,24 @@ getClinDT(
 	# remove general filter
 	filter = "none",
 	# custom set of buttons
-	buttons = c("csv", "excel", "pdf"),
-	# change number of records displayed at each page
-	pageLength = 20
+	buttons = getClinDTButtons(type = c("csv", "excel", "pdf"))
+)
+# add button to select columns
+getClinDT(
+	data = tableAEGroup,
+	colnames = tableAELabelsDT,
+	# custom set of buttons
+	buttons = getClinDTButtons(typeExtra = "colvis")
+)
+# export pdf in landscape format
+buttons <- getClinDTButtons(
+	opts = list(pdf = list(orientation = "landscape"))
+)
+getClinDT(
+	data = tableAEGroup,
+	colnames = tableAELabelsDT,
+	# custom set of buttons
+	buttons = buttons
 )
 
 # hide the first column:

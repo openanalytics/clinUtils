@@ -518,20 +518,7 @@ exportDiffData <- function(
   argsGetClinDT$data <- diffDataDetails
   nonVisibleVar <- c(argsGetClinDT$nonVisibleVar, diffCols)
   argsGetClinDT$nonVisibleVar <- nonVisibleVar
-  
-  # 'diff' columns should not be included in the export:
-  # -1 -> JS notation (start at 0)
-  colsToExport <- setdiff(colnames(diffDataDetails), nonVisibleVar)
-  idxColToExportJS <- match(colsToExport, colnames(diffDataDetails))-1
-  argsGetClinDT$options$buttons <- c(argsGetClinDT$options$buttons,
-		lapply(c("copy", "csv", "excel", "pdf", "print"), function(btn)
-			list(
-				extend = btn, 
-				exportOptions = list(columns = idxColToExportJS) 
-			)
-  	)
- )
-	argsGetClinDT$verbose <- FALSE
+  argsGetClinDT$verbose <- FALSE
   
   diffDataDt <- do.call(getClinDT, argsGetClinDT)
   

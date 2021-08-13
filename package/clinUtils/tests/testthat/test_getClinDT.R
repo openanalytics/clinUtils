@@ -733,6 +733,71 @@ test_that("Buttons can be unset in the DataTables", {
       
     })
 
+test_that("A button to select columns is included if specified", {
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
+			
+	dt <- getClinDT(data, 
+		buttons = getClinDTButtons(type = "colvis")
+	)
+	expect_equal(dt$x$options$buttons[[1]]$extend, "colvis")
+	# non visible columns are not included
+	expect_match(
+		object = dt$x$options$buttons[[1]]$columns,
+		regexp = ".noVis"
+	)
+			
+})
+
+test_that("Specified button options are correctly included", {
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
+			
+	buttons <- getClinDTButtons(
+		type = "pdf",
+		opts = list(pdf = list(orientation = "landscape"))
+	)
+	dt <- getClinDT(data, buttons = buttons)
+	expect_equal(dt$x$options$buttons[[1]]$extend, "pdf")
+	expect_equal(dt$x$options$buttons[[1]]$orientation, "landscape")
+			
+})
+
+test_that("An extra button is added to the set of default buttons", {
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "A", "B", "B", "B"),
+		stringsAsFactors = FALSE
+	)
+			
+	# default set of buttons
+	dt <- getClinDT(data)
+	# extra button
+	dtExtra <- getClinDT(data, 
+		buttons = getClinDTButtons(typeExtra = "colvis")
+	)
+			
+	dtExtraBtns <- dtExtra$x$options$buttons
+	idxExtraBtn <- which(sapply(dtExtraBtns, `[[`, "extend") == "colvis")
+	# check that specified button is included
+	expect_length(idxExtraBtn, 1)
+	# check that default set of buttons is included as well
+	expect_equal(
+		object = dtExtra$x$options$buttons[-idxExtraBtn],
+		expected = dt$x$options$buttons
+	)
+	
+})
+
 test_that("Scrolling along the x-axis can be correctly set in the DataTables", {
       
       data <- data.frame(

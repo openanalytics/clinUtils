@@ -2,7 +2,7 @@
 % Please edit documentation in R/table-getClinDT.R
 \name{getClinDT}
 \alias{getClinDT}
-\title{Convert a data.frame into interactive table}
+\title{Create an interactive table to display clinical data}
 \usage{
 getClinDT(
   data,
@@ -25,7 +25,7 @@ getClinDT(
   rowGroupVar = NULL,
   vAlign = "top",
   callback = NULL,
-  buttons = c("copy", "csv", "excel", "pdf", "print"),
+  buttons = getClinDTButtons(),
   scrollX = TRUE,
   file = NULL,
   verbose = TRUE,
@@ -37,7 +37,10 @@ getClinDT(
 object with input data for the table.}
 
 \item{nonVisibleVar}{Character vector with column(s) in \code{data} to 
-hide in the output table (column is hidden).}
+hide in the output table (column is hidden).\cr
+The column(s) also get the extra attribute: \code{className = 'noVis'},
+to ensure they are not displayed in the
+button to show/hide column(s).}
 
 \item{nonVisible}{This parameter is deprecated, use the new interface
 with the \code{nonVisibleVar} parameter. 
@@ -117,6 +120,7 @@ so you might want to order rows based on the grouping variables upfront.}
 
 \item{buttons}{DataTable buttons
 (passed to the 'buttons' element of the \code{options} parameter of \code{\link[DT]{datatable}}).
+See \code{\link{getClinDTButtons}} for the default options.
 To remove all buttons, set this parameter to NULL.}
 
 \item{scrollX}{Logical, if TRUE (by default) a horizontal scrolling bar
@@ -197,7 +201,7 @@ getClinDT(
 	colnames = tableAELabelsDT
 )
 
-# change color according to thresold
+# change color according to threshold
 getClinDT(
 	data = tableAEBase,
 	filter = "none",
@@ -206,7 +210,7 @@ getClinDT(
 	colnames = tableAELabelsDT
 )
 
-# group per system organ class:
+## group per system organ class:
 tableAEGroup <- tableAEBase \%>\%
 	group_by(AESOC) \%>\%
 	mutate(NAESOC = sum(N)) \%>\%
@@ -235,7 +239,7 @@ getClinDT(
 	escape = grep("USUBJID", colnames(tableAE))-1
 )
 
-# with fixed columns:
+# fix size for columns
 getClinDT(
 	data = tableAEGroup,
 	colnames = tableAELabelsDT,
@@ -251,9 +255,24 @@ getClinDT(
 	# remove general filter
 	filter = "none",
 	# custom set of buttons
-	buttons = c("csv", "excel", "pdf"),
-	# change number of records displayed at each page
-	pageLength = 20
+	buttons = getClinDTButtons(type = c("csv", "excel", "pdf"))
+)
+# add button to select columns
+getClinDT(
+	data = tableAEGroup,
+	colnames = tableAELabelsDT,
+	# custom set of buttons
+	buttons = getClinDTButtons(typeExtra = "colvis")
+)
+# export pdf in landscape format
+buttons <- getClinDTButtons(
+	opts = list(pdf = list(orientation = "landscape"))
+)
+getClinDT(
+	data = tableAEGroup,
+	colnames = tableAELabelsDT,
+	# custom set of buttons
+	buttons = buttons
 )
 
 # hide the first column:
