@@ -237,7 +237,7 @@ gg +
 
 ```
 
-### Get a palette for a specific vector
+## Get default palettes
 
 Default palettes for visualizations are included in the package.
 
@@ -289,7 +289,7 @@ round(c(0.45, 0.55), 1)
 
 ```
 
-## Visualize data in an interactive table
+## Display data in an interactive table
 
 The `getClinDT` function is an utility function, based on the
 the [DT](https://cran.r-project.org/package=DT) package, with sensitive 
@@ -384,7 +384,7 @@ Dedicated functions: `knitPrintListPlots` and `knitPrintListObjects`
  are available to include a list
 of plots/objects in a `Rmarkdown` document,
 enabling to specify any ([knitr](https://CRAN.R-project.org/package=knitr)) chunk
-options and header for each object.
+options and title header for each object.
 
 This function inserts each object in a separated code
 chunk, such as independent option (as figure dimensions)

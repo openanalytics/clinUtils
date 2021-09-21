@@ -6,7 +6,7 @@
 #' Extra functionalities are available to:
 #' \itemize{
 #' \item{have columns or cells of interest that are collapsible/expandable
-#' (see \code{expandVar}/\code{expandIdx})
+#' (see \code{expandVar}/\code{expandIdx})}
 #' \item{group rows based on a variable (see \code{rowGroupVar})}
 #' \item{display a variable as barplot (with specified range of threshold)
 #' (see \code{barVar})}

@@ -42,6 +42,6 @@ SystemRequirements: pandoc
 URL: https://github.com/openanalytics/clinUtils
 BugReports: https://github.com/openanalytics/clinUtils/issues
 License: MIT + file LICENSE
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 LazyData: true

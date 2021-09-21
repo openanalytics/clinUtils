@@ -142,7 +142,18 @@ e.g table width.}
 A \code{\link[DT]{datatable}} object.
 }
 \description{
-
+This function converts a \code{data.frame} from R into 
+a \code{\link[DT]{datatable}} object
+with sensitive defaults.\cr
+Extra functionalities are available to:
+\itemize{
+\item{have columns or cells of interest that are collapsible/expandable
+(see \code{expandVar}/\code{expandIdx})}
+\item{group rows based on a variable (see \code{rowGroupVar})}
+\item{display a variable as barplot (with specified range of threshold)
+(see \code{barVar})}
+\item{hide variable(s) (see \code{nonVisibleVar})}
+}
 }
 \examples{
 data(dataADaMCDISCP01)
