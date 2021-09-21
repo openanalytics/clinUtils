@@ -1,22 +1,21 @@
-library(dplyr)
-
 data(dataADaMCDISCP01)
 labelVars <- attr(dataADaMCDISCP01, "labelVars")
 
 # example of simple adverse event table
 dataAE <- dataADaMCDISCP01$ADAE
-
 subjectsSafety <- subset(dataADaMCDISCP01$ADSL, SAFFL == "Y")$USUBJID
 
 # compute counts of subjects presenting each AE
-tableAE <- dataAE %>% 
-	group_by(AESOC, AEDECOD) %>% 
-	summarise(
-		N = n_distinct(USUBJID),
-		perc = round(N/length(subjectsSafety)*100, 3)
-	) %>%
-	arrange(desc(perc))
-
+tableAE <- stats::aggregate(
+	formula = USUBJID ~ AESOC:AEDECOD,
+	data = dataAE, 
+	FUN = function(usubjid)	length(unique(usubjid))
+)
+colnames(tableAE)[colnames(tableAE) == "USUBJID"] <- "N"
+# and percentages
+tableAE$perc <- round(tableAE$N/length(subjectsSafety)*100, 3)
+# sort records in decreasing percentage
+tableAE <- tableAE[order(tableAE$perc, decreasing = TRUE), ]
 
 # extract new variables labels
 tableAELabels <- getLabelVar(
@@ -24,23 +23,21 @@ tableAELabels <- getLabelVar(
 	labelVars = labelVars,
 	label = c(N = '# subjects', perc = "% subjects")
 )
-# 'colnames' should be specified as c('new name' = 'old name', ...)
+# 'colnames' for DT should be specified as c('new name' = 'old name', ...)
 tableAELabelsDT <- setNames(names(tableAELabels), tableAELabels)
-
-tableAEBase <- tableAE[, setdiff(colnames(tableAE), "USUBJID")]
 
 ## create table with bar
 
 # default:
 getClinDT(
-	data = tableAEBase,
+	data = tableAE,
 	barVar = "perc",
 	colnames = tableAELabelsDT
 )
 
 # specify range for the bar
 getClinDT(
-	data = tableAEBase,
+	data = tableAE,
 	filter = "none",
 	barVar = "perc",
 	barRange = c(0, 100),
@@ -49,22 +46,22 @@ getClinDT(
 
 # change color according to threshold
 getClinDT(
-	data = tableAEBase,
+	data = tableAE,
 	filter = "none",
 	barVar = "perc",
 	barColorThr = seq(from = 0, to = 100, by = 25),
 	colnames = tableAELabelsDT
 )
 
-## group per system organ class:
-tableAEGroup <- tableAEBase %>%
-	group_by(AESOC) %>%
-	mutate(NAESOC = sum(N)) %>%
-	arrange(desc(NAESOC), AESOC, desc(perc)) %>%
-	select(-NAESOC)
+## group per system organ class (and decreasing N):
+tableAESOC <- aggregate(formula = N ~ AESOC, data = tableAE, FUN = sum)
+tableAE$AESOC <- factor(tableAE$AESOC,
+	levels = tableAESOC[order(tableAESOC$N, decreasing = FALSE), "AESOC"]
+)
+tableAE <- tableAE[order(tableAE$AESOC, tableAE$perc, decreasing = TRUE), ]
 	
 getClinDT(
-	data = tableAEGroup,
+	data = tableAE,
 	filter = "none",
 	barVar = "perc",
 	barRange = c(0, 100),
@@ -87,7 +84,7 @@ getClinDT(
 
 # fix size for columns
 getClinDT(
-	data = tableAEGroup,
+	data = tableAE,
 	colnames = tableAELabelsDT,
 	fixedColumns = list(leftColumns = 1),
 	columnsWidth = c(0.1, 0.7, 0.1, 0.1),
@@ -96,7 +93,7 @@ getClinDT(
 
 # change default buttons
 getClinDT(
-	data = tableAEGroup,
+	data = tableAE,
 	colnames = tableAELabelsDT,
 	# remove general filter
 	filter = "none",
@@ -105,7 +102,7 @@ getClinDT(
 )
 # add button to select columns
 getClinDT(
-	data = tableAEGroup,
+	data = tableAE,
 	colnames = tableAELabelsDT,
 	# custom set of buttons
 	buttons = getClinDTButtons(typeExtra = "colvis")
@@ -115,7 +112,7 @@ buttons <- getClinDTButtons(
 	opts = list(pdf = list(orientation = "landscape"))
 )
 getClinDT(
-	data = tableAEGroup,
+	data = tableAE,
 	colnames = tableAELabelsDT,
 	# custom set of buttons
 	buttons = buttons
@@ -123,7 +120,7 @@ getClinDT(
 
 # hide the first column:
 getClinDT(
-	data = tableAEGroup,
+	data = tableAE,
 	nonVisibleVar = "AESOC"
 )
 
@@ -138,7 +135,7 @@ caption <- tags$caption(
 	)
 )
 getClinDT(
-	data = tableAEGroup,
+	data = tableAE,
 	filter = "none",
 	barVar = "perc",
 	barRange = c(0, 100),

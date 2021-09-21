@@ -110,7 +110,6 @@ RUN R -e "remotes::install_version('DT', version = '0.18', upgrade = FALSE)" && 
     R -e "remotes::install_version('covr', version = '3.5.1', upgrade = FALSE)" && \
     R -e "remotes::install_version('flextable', version = '0.6.5', upgrade = FALSE)"
 RUN R -e "remotes::install_version('tibble', version = '3.1.1', upgrade = FALSE)" && \
-    R -e "remotes::install_version('dplyr', version = '1.0.5', upgrade = FALSE)" && \
     R -e "remotes::install_version('forcats', version = '0.5.1', upgrade = FALSE)" && \
     R -e "remotes::install_version('ggplot2', version = '3.3.3', upgrade = FALSE)" && \
     R -e "remotes::install_version('readr', version = '1.4.0', upgrade = FALSE)" && \

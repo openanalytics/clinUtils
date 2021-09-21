@@ -2,7 +2,7 @@
 % Please edit documentation in R/table-getClinDT.R
 \name{getClinDTButtons}
 \alias{getClinDTButtons}
-\title{Get default set of buttons to be included
+\title{Get a default set of buttons to be included
 in the interactive table for clinical data.}
 \usage{
 getClinDTButtons(
@@ -15,7 +15,7 @@ getClinDTButtons(
 \item{type}{Character vector with type of buttons, among:
 \itemize{
 \item{for export data: }{
-itemize{
+\itemize{
 \item 'copy' (by default): copy data to clipboard
 \item 'csv' (by default): export selected data to a csv file
 \item 'excel' (by default): export selected data to an Excel file
@@ -34,7 +34,7 @@ exported as well.
 \item 'colvis': include a collection of buttons
 to show/hide specific columns.\cr
 Specific columns that should not be listed 
-should be defined in \code{visibleVar}
+should be defined in \code{nonVisibleVar}
 in \code{\link{getClinDT}}
 }
 }
@@ -53,7 +53,7 @@ to be passed on to 'buttons' option in
 the \code{\link{getClinDT}}.
 }
 \description{
-Get default set of buttons to be included
+Get a default set of buttons to be included
 in the interactive table for clinical data.
 }
 \details{

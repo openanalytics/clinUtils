@@ -1,13 +1,17 @@
 #' Create an interactive table to display clinical data
 #' 
 #' This function converts a \code{data.frame} from R into 
-#' \code{\link[DT]{datatable}} object
-#' with sensitive defaults.
-#' 
-#' The defaults set in this function allow to create specific interactive tables 
-#' where columns/cells of interest can be collapsed/expanded via
-#' the \code{expandVar}/\code{expandIdx} parameters.
-#' 
+#' a \code{\link[DT]{datatable}} object
+#' with sensitive defaults.\cr
+#' Extra functionalities are available to:
+#' \itemize{
+#' \item{have columns or cells of interest that are collapsible/expandable
+#' (see \code{expandVar}/\code{expandIdx})
+#' \item{group rows based on a variable (see \code{rowGroupVar})}
+#' \item{display a variable as barplot (with specified range of threshold)
+#' (see \code{barVar})}
+#' \item{hide variable(s) (see \code{nonVisibleVar})}
+#' }
 #' @param data Data.frame, matrix or \code{\link[crosstalk]{SharedData}}
 #' object with input data for the table.
 #' @param nonVisibleVar Character vector with column(s) in \code{data} to 
@@ -680,12 +684,12 @@ checkVarInData <- function(var, data, label){
 	
 }
 
-#' Get default set of buttons to be included
+#' Get a default set of buttons to be included
 #' in the interactive table for clinical data.
 #' @param type Character vector with type of buttons, among:
 #' \itemize{
 #' \item{for export data: }{
-#' itemize{
+#' \itemize{
 #' \item 'copy' (by default): copy data to clipboard
 #' \item 'csv' (by default): export selected data to a csv file
 #' \item 'excel' (by default): export selected data to an Excel file
@@ -704,7 +708,7 @@ checkVarInData <- function(var, data, label){
 #' \item 'colvis': include a collection of buttons
 #' to show/hide specific columns.\cr
 #' Specific columns that should not be listed 
-#' should be defined in \code{visibleVar}
+#' should be defined in \code{nonVisibleVar}
 #' in \code{\link{getClinDT}}
 #' }
 #' }

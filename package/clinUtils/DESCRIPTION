@@ -30,7 +30,6 @@ Imports:
   utils,
   viridisLite
 Suggests:
-  dplyr,
   tibble,
   ggplot2,
   plotly,
