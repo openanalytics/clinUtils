@@ -1,11 +1,10 @@
 #' Include a list of objects in a knitr document
 #' 
-#' This functions includes a list of objects in a knitr document 
-#' allowing different chunk options
-#' (e.g. \code{flextable} object).
+#' Each object is included (internally) in a separated chunk,
+#' so different chunk options can be set for each object.
 #' 
-#' Note: the chunk in which this function is called should be 
-#' set with the following option: \strong{\code{results = 'asis'}}.
+#' This function should be called within a chunk
+#' with the following option: \strong{\code{results = 'asis'}}.
 #' @param xList List of objects to print.
 #' @param generalLabel String with general label for the chunks, 
 #' used to build the \code{labels}.
@@ -13,7 +12,10 @@
 #' with i the list index.
 #' Only use if \code{labels} is not specified.
 #' @param labels Character vector with labels,
-#' one for each chunk.
+#' one for each chunk.\cr
+#' This is also used to define file names
+#' for plots exported in the document
+#' (e.g. via \code{opts_chunk$set(dev = "png")}).
 #' @param titles Character vector with section titles,
 #' one for each chunk.
 #' @param titleLevel Integer with level for section header,
@@ -21,11 +23,16 @@
 #' @param printObject Logical, if TRUE (FALSE by default),
 #' each object within \code{xList} is explicitely printed 
 #' with the \code{\link{print}} function.
-#' @param ... any chunk parameters, will be replicated if necessary,
-#' at the exception of 'results', set to 'asis' and 'echo' set to FALSE
-#' internally.
-#' See \code{\link{knitr}[opts_chunk]} for further details on available options.
-#' @example inst/examples/knitPrintListPlots-example.R
+#' @param ... any \code{knitr} chunk parameters
+#' (excepted 'results', set to 'asis' and 'echo' set to FALSE
+#' internally).\cr
+#' See \code{\link{knitr}[opts_chunk]} for further 
+#' details on available options.
+#' Each parameter can be specified for each element
+#' in the list separately: by specifying a vector
+#' with the same length than the list; or for
+#' all elements at once: by specifying a vector
+#' of length 1 (in this case it will be replicated).
 #' @return No returned value, a text is printed with chunk content
 #' @author Laure Cougnaud
 #' @importFrom knitr knit_expand knit

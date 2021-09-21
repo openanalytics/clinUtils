@@ -3,6 +3,7 @@
     - add button to show/hide columns
     - remove non visible variables from export
   o review unit tests
+  o improve doc knit print list
 0.0.4
     o change maintainer
 0.0.3

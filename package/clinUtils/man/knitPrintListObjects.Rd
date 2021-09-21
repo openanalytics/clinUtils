@@ -24,7 +24,10 @@ with i the list index.
 Only use if \code{labels} is not specified.}
 
 \item{labels}{Character vector with labels,
-one for each chunk.}
+one for each chunk.\cr
+This is also used to define file names
+for plots exported in the document
+(e.g. via \code{opts_chunk$set(dev = "png")}).}
 
 \item{titles}{Character vector with section titles,
 one for each chunk.}
@@ -36,83 +39,42 @@ one for each chunk.}
 each object within \code{xList} is explicitely printed 
 with the \code{\link{print}} function.}
 
-\item{...}{any chunk parameters, will be replicated if necessary,
-at the exception of 'results', set to 'asis' and 'echo' set to FALSE
-internally.
-See \code{\link{knitr}[opts_chunk]} for further details on available options.}
+\item{...}{any \code{knitr} chunk parameters
+(excepted 'results', set to 'asis' and 'echo' set to FALSE
+internally).\cr
+See \code{\link{knitr}[opts_chunk]} for further 
+details on available options.
+Each parameter can be specified for each element
+in the list separately: by specifying a vector
+with the same length than the list; or for
+all elements at once: by specifying a vector
+of length 1 (in this case it will be replicated).}
 }
 \value{
 No returned value, a text is printed with chunk content
 }
 \description{
-This functions includes a list of objects in a knitr document 
-allowing different chunk options
-(e.g. \code{flextable} object).
+Each object is included (internally) in a separated chunk,
+so different chunk options can be set for each object.
 }
 \details{
-Note: the chunk in which this function is called should be 
-set with the following option: \strong{\code{results = 'asis'}}.
+This function should be called within a chunk
+with the following option: \strong{\code{results = 'asis'}}.
 }
 \examples{
 \dontrun{
-
-# Note: the following code should be included within a chunk of a knitr (e.g. RMarkdown) document
-# to include/export a list of figures in the Rmarkdown output
-data(iris)
-
-# include a list of static plots
-library(ggplot2)
-plotsListStatic <- list(
-	point = ggplot(data = cars, aes(x = speed, y = dist)) + geom_point(),
-	line = ggplot(data = cars, aes(x = speed, y = dist)) + geom_line()
-)
-# with general label (used to name exported figure)
-knitPrintListPlots(
-  plotsList = plotsListStatic, 
-  generalLabel = "scatter-cars"
-)
-# with label for each plot (used to name exported figure)
-knitPrintListPlots(
-  plotsList = plotsListStatic, 
-  labels = names(plotsListStatic)
-)
-# with section header (header of level 1 in Markdown)
-knitPrintListPlots(
-  plotsList = plotsListStatic, 
-  titles = names(plotsListStatic), 
-  titleLevel = 3
-)
-# specify caption and dimension for each figure (figure height is replicated)
-knitPrintListPlots(
-  plotsList = plotsListStatic, 
-  fig.cap = names(plotsListStatic), 
-  fig.width = 3*seq_along(plotsListStatic), 
-  fig.height = 6
-)
-
-# include a list of interactive plots
-library(plotly)
-plotsListInteractive <- list(
-	point = plot_ly(data = cars, x = ~speed, y = ~dist, type = "scatter", mode = "marker"),
-	line = plot_ly(data = cars, x = ~speed, y = ~dist, type = "scatter", mode = "line")
-)
-knitPrintListPlots(
- plotsList = plotsListInteractive, 
-  type = "plotly", 
-  titles = names(plotsListInteractive), 
-  titleLevel = 3
-)
-
-}
-\dontrun{
 	
-# Note: the following code should be included within a chunk of a knitr (e.g. RMarkdown) document
-# to include/export a list of figures in the Rmarkdown output
+# Note: the following code should be included 
+# within a chunk of a knitr (e.g. RMarkdown) document
+# to include a list of objects in the Rmarkdown output
 
 # list of flextable objects
 library(flextable)
 listTables <- list(flextable(iris), flextable(cars))
-knitPrintListObjects(xList = listTables)
+knitPrintListObjects(
+	xList = listTables,
+	titles = c("Iris dataset", "Cars dataset")
+)
 
 }
 }
