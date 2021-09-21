@@ -1,6 +1,6 @@
-context("Get palette for CDISC variable")
+context("Get palette for a CDISC variable")
 
-test_that("Get CDISC NRIND color palette", {
+test_that("The color palette for a CDISC NRIND variable contains expected elements", {
 			
 	palette <- colorPaletteNRIND
 	expect_is(palette, "character")
@@ -8,7 +8,7 @@ test_that("Get CDISC NRIND color palette", {
 		
 })
 
-test_that("Get CDISC NRIND shape palette", {
+test_that("The shape palette for a CDISC NRIND variable contains expected elements", {
 			
 	palette <- shapePaletteNRIND
 	expect_is(palette, "numeric")
@@ -16,7 +16,7 @@ test_that("Get CDISC NRIND shape palette", {
 			
 })
 
-test_that("Variable type should be specified during extraction of CDISC palette", {
+test_that("An error is generated if the type of the CDISC variable is not specified", {
 			
 	xNRIND <- c("HIGH", "LOW", "NORMAL")
 	expect_error(getPaletteCDISC(x = xNRIND, type = "shape"))
@@ -24,7 +24,7 @@ test_that("Variable type should be specified during extraction of CDISC palette"
 			
 })
 
-test_that("Palette type should be specified during extraction of CDISC palette", {
+test_that("An error is generated if the type of the palette is not specified", {
 			
 	xNRIND <- c("HIGH", "LOW", "NORMAL")
 	expect_error(getPaletteCDISC(x = xNRIND, var = "NRIND"))
@@ -32,7 +32,7 @@ test_that("Palette type should be specified during extraction of CDISC palette",
 			
 })
 
-test_that("Extract shape palette for a CDISC NRIND character variable", {
+test_that("The shape palette extracted for a string variable contains elements in a meaningful order", {
 		
 	xNRIND <- c("HIGH", "LOW", "NORMAL")
 	palette <- getPaletteCDISC(x = xNRIND, var = "NRIND", type = "shape")
@@ -43,7 +43,7 @@ test_that("Extract shape palette for a CDISC NRIND character variable", {
 	
 })
 
-test_that("Extract palette for a CDISC NRIND factor variable", {
+test_that("The shape palette extracted for a factor variable retains the order of the input elements", {
 			
 	xNRIND <- factor(c("HIGH", "LOW", "NORMAL"), levels = c("NORMAL", "LOW", "HIGH"))
 	palette <- getPaletteCDISC(x = xNRIND, var = "NRIND", type = "shape")
@@ -54,7 +54,7 @@ test_that("Extract palette for a CDISC NRIND factor variable", {
 		
 })
 
-test_that("Extract palette for a CDISC NRIND variable with empty element", {
+test_that("The palette contains empty elements as last elements", {
 			
 	xNRIND <- c("", NA_character_, "LOW", "NORMAL")
 	palette <- getPaletteCDISC(x = xNRIND, var = "NRIND", type = "shape")	
@@ -64,7 +64,7 @@ test_that("Extract palette for a CDISC NRIND variable with empty element", {
 			
 })
 
-test_that("Specify custom symbols for a CDISC NRIND variable with extra non standard elements", {
+test_that("Extra elements when specified are correctly included in the palette", {
 			
 	xNRIND <- c("HIGH", "NORMAL", "VERY HIGH")
 	palette <- getPaletteCDISC(x = xNRIND, 
@@ -78,7 +78,7 @@ test_that("Specify custom symbols for a CDISC NRIND variable with extra non stan
 			
 })
 
-test_that("Extract color palette for a CDISC NRIND variable", {
+test_that("The color palette extracted for a string variable contains elements in a meaningful order", {
 	
 	xNRIND <- c("HIGH", "NORMAL")
 	palette <- getPaletteCDISC(x = xNRIND, 
@@ -86,6 +86,7 @@ test_that("Extract color palette for a CDISC NRIND variable", {
 	)
 	expect_is(palette, "character")
 	expect_length(palette, 2)
+	expect_named(palette, c("NORMAL", "HIGH"))
 			
 })
 			

@@ -1,4 +1,4 @@
-context("Get an interactive DataTables for clinical data")
+context("Convert to an interactive DataTables for clinical data")
 
 # Note: last tests are skipped in CRAN
 # because of pandoc requirement

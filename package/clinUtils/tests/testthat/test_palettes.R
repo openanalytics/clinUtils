@@ -1,4 +1,4 @@
-context("Palettes")
+context("Get palettes")
 
 library(ggplot2)
 library(datasets)
@@ -11,7 +11,7 @@ test_that("Palette is extracted for the correct number of elements", {
       
     })
 
-test_that("Error is returned if the number of elements is missing or empty", {
+test_that("An error is returned if the number of elements is missing or empty", {
       
       expect_error(getColorPalette())  
       expect_error(getColorPalette(n = NA_integer_))
@@ -27,7 +27,7 @@ test_that("Error is returned if the number of elements is missing or empty", {
       
     })
 
-test_that("Error is returned if the palette is not a function or a vector", {
+test_that("An rrror is returned if the palette is not a function or a vector", {
       
       expect_error(
           getColorPalette(n = 1, palette = data.frame(A = 1)),
@@ -64,7 +64,7 @@ test_that("Empty values in palette are retained", {
       
     })
 
-test_that("Combination of Unicode and standard palettes is successful",{
+test_that("A standard palette is successfully combined with Unicode elements",{
       
       data(iris)
       gg <- ggplot(data = iris, 
@@ -87,10 +87,11 @@ test_that("Combination of Unicode and standard palettes is successful",{
       
     })
 
-test_that("Palettes are successful when specifying number of elements", {
+test_that("A palette is correctly extracted for a specified number of elements", {
       
       shapes <- getShapePalette(n = 2)
       expect_named(shapes, NULL)
+	  expect_length(shapes, 2)
       expect_identical(
           shapes,
           as.integer(c(21, 22))
@@ -98,6 +99,7 @@ test_that("Palettes are successful when specifying number of elements", {
       
       linetypes <- getLinetypePalette(n = 2)
       expect_named(linetypes, NULL)
+	  expect_length(linetypes, 2)
       expect_identical(
           linetypes,
           c("solid", "dashed")

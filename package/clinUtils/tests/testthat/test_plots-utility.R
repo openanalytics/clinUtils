@@ -1,6 +1,6 @@
-context("Test plots-utility")
+context("Test utility functions for visualizations")
 
-test_that("Formatting long labels", {
+test_that("A long string is correctly formatted with new lines", {
 			
 	labelLong <- paste(
 		sapply(sample(5, 100, replace = TRUE),
@@ -19,9 +19,100 @@ test_that("Formatting long labels", {
       
 })
 
-test_that("Formatting variables for plot labels", {
+test_that("An empty object is returned if the variable for plot label is not specified", {
+
+	expect_null(
+		formatVarForPlotLabel(
+			data = data.frame(),
+			paramVar = NULL
+		)
+	)
 			
-	dataAE <- data.frame(
+})
+
+test_that("A warning is generated if the grouping variable for plot label is not available in the data", {
+			
+	expect_warning(
+		formatVarForPlotLabel(
+			data = data.frame(SEX = c("F", "M")),
+			paramVar = "SEX",
+			paramGroupVar = "TRT"
+		),
+		"grouping.*not available"
+	)
+
+})
+
+test_that("A variable for plot label is correctly formatted as a factor", {
+
+	data <- data.frame(
+		USUBJID = c("1", "1", "2", "2", "3"), 
+		SEX = c("F", "F", "F", "F", "M"),
+		stringsAsFactors = FALSE
+	)	
+	expect_silent(
+		formattedVar <- formatVarForPlotLabel(
+			data = data,
+			paramVar = "SEX"
+		)
+	)
+	expect_is(formattedVar, "factor")
+	expect_identical(
+		levels(formattedVar),
+		levels(factor(data$SEX))
+	)
+			
+})
+
+test_that("A variable for plot label is correctly formatted as a factor with reverse order when specified", {
+			
+	data <- data.frame(
+		USUBJID = c("1", "1", "2", "2", "3"), 
+		SEX = c("F", "F", "F", "F", "M"),
+		stringsAsFactors = FALSE
+	)	
+      
+	formattedVar <- formatVarForPlotLabel(
+		data = data,
+		paramVar = "SEX",
+		revert = TRUE
+	)
+	expect_is(formattedVar, "factor")
+	expect_identical(
+		levels(formattedVar),
+		rev(levels(factor(data$SEX)))
+	)
+	  
+})
+
+test_that("A variable for plot label is correctly ordered based on multiple grouping variables", {
+			
+	data <- data.frame(
+		USUBJID = c("1", "1", "2", "2", "3"), 
+		SEX = c("F", "F", "F", "F", "M"),
+		AEBODSYS = c("II", "I", "I", "I", "II"),
+		AEHLT = c("C", "B", "A", "A", "C"),
+		AEDECOD = c("c1", "b1", "a1", "a2", "c1"),
+		stringsAsFactors = FALSE
+	)
+	  
+	# check ordering when character paramGroupVar is specified
+	groupVars <- c("AEBODSYS", "AEHLT")
+	varByGroup <- formatVarForPlotLabel(
+		data = data,
+		paramVar = "AEDECOD",
+		paramGroupVar = groupVars,
+		width = Inf
+	)
+	dataGroup <- unique(data[, c(groupVars, "AEDECOD")])
+	dataGroup <- dataGroup[do.call(order, dataGroup), ]
+	expect_identical(levels(varByGroup), unique(dataGroup$AEDECOD))
+	
+})
+	
+test_that("A variable for plot label is correctly ordered based on multiple grouping variables with specified order", {
+			
+	data <- data.frame(
 		USUBJID = c("1", "1", "2", "2", "3"), 
 		SEX = c("F", "F", "F", "F", "M"),
 		AEBODSYS = c("II", "I", "I", "I", "II"),
@@ -29,77 +120,37 @@ test_that("Formatting variables for plot labels", {
 		AEHLT = c("C", "B", "A", "A", "C"),
 		AEDECOD = c("c1", "b1", "a1", "a2", "c1"),
 		stringsAsFactors = FALSE
-	)		
-	
-      expect_null(
-          formatVarForPlotLabel(
-              dataAE,
-              paramVar = NULL
-          )
-      )
-      expect_warning(
-          formatVarForPlotLabel(
-              data = dataAE,
-              paramVar = "SEX",
-              paramGroupVar = "TRT"
-          )
-      )
-      expect_silent(
-			formattedVar <- formatVarForPlotLabel(
-	          dataAE,
-	          paramVar = "SEX"
-	      )
-  		)
-      expect_is(formattedVar, "factor")
-      expect_identical(
-          levels(formattedVar),
-          levels(factor(dataAE$SEX))
-      )
-      
-      formattedVar <- formatVarForPlotLabel(
-          dataAE,
-          paramVar = "SEX",
-          revert = TRUE
-      )
-      expect_is(formattedVar, "factor")
-      expect_identical(
-          levels(formattedVar),
-          rev(levels(factor(dataAE$SEX)))
-      )
-	  
-	# check ordering when character paramGroupVar is specified
+	)	
+	data$AEBODSYS <- with(data, reorder(AEBODSYS, AEBDSYCD))
+	data$AEBODSYS <- with(data, factor(AEBODSYS, levels = rev(levels(AEBODSYS))))
 	groupVars <- c("AEBODSYS", "AEHLT")
 	varByGroup <- formatVarForPlotLabel(
-		data = dataAE,
+		data = data,
 		paramVar = "AEDECOD",
 		paramGroupVar = groupVars,
 		width = Inf
 	)
-	dataGroup <- unique(dataAE[, c(groupVars, "AEDECOD")])
-	dataGroup <- dataGroup[do.call(order, dataGroup), ]
-	expect_identical(levels(varByGroup), unique(dataGroup$AEDECOD))
-	
-	# check ordering when factor paramGroupVar is specified
-	dataAECustomOrder <- dataAE
-	dataAECustomOrder$AEBODSYS <- with(dataAECustomOrder, reorder(AEBODSYS, AEBDSYCD))
-	dataAECustomOrder$AEBODSYS <- with(dataAECustomOrder, factor(AEBODSYS, levels = rev(levels(AEBODSYS))))
-	varByGroup <- formatVarForPlotLabel(
-		data = dataAECustomOrder,
-		paramVar = "AEDECOD",
-		paramGroupVar = groupVars,
-		width = Inf
-	)
-	dataGroup <- unique(dataAECustomOrder[, c(groupVars, "AEDECOD")])
+	dataGroup <- unique(data[, c(groupVars, "AEDECOD")])
 	dataGroup <-  dataGroup[do.call(order, dataGroup), ]
 	expect_identical(levels(varByGroup), unique(dataGroup$AEDECOD))
 	
-	# width
+})
+
+test_that("A variable for plot label is correctly formatted to a specific width", {
+			
+	data <- data.frame(
+		USUBJID = c("1", "1", "2", "2", "3"), 
+		SEX = c("F", "F", "F", "F", "M"),
+		AEBODSYS = c("II", "I", "I", "I", "II"),
+		stringsAsFactors = FALSE
+	)
+	
 	varMaxWidth <- formatVarForPlotLabel(
-		data = dataAE,
+		data = data,
 		paramVar = "AEBODSYS",
 		width = 20
 	)
-	oldVarWords <- unlist(strsplit(dataAE$AEBODSYS, split = " "))
+	oldVarWords <- unlist(strsplit(data$AEBODSYS, split = " "))
 	newVarWords <- unlist(strsplit(levels(varMaxWidth), split = "\n", fixed = TRUE))
 	
 	expect_lte(max(nchar(newVarWords)), max(max(nchar(oldVarWords)), 20))

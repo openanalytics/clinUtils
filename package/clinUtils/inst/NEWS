@@ -1,7 +1,8 @@
 0.1.0
-    o getClinDT: 
-      - add button to show/hide columns
-      - remove non visible variables from export
+  o getClinDT: 
+    - add button to show/hide columns
+    - remove non visible variables from export
+  o review unit tests
 0.0.4
     o change maintainer
 0.0.3

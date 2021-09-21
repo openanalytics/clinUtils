@@ -1,4 +1,4 @@
-context("Include list of plots in knitr")
+context("Include list of plots/objects in a report")
 
 # Note: some tests are skipped in CRAN
 # because of pandoc requirement
@@ -18,7 +18,7 @@ labels <- names(plotsListStatic)
 
 tmpdir <- tempdir()
 
-test_that("Knitting list of plots with labels", {	
+test_that("Labels are correctly set for each plot when specified", {	
       
       figDir <- paste0(file.path(tmpdir, "knitPrintListPlots-labels"), "/")
       dir.create(figDir)
@@ -48,7 +48,7 @@ test_that("Knitting list of plots with labels", {
       
     })
 
-test_that("Knitting list of plots with general label", {
+test_that("A general label is correctly set for all plots", {
       
       figDir <- paste0(file.path(tmpdir, "knitPrintListPlots-generalLabel"), "/")
       dir.create(figDir)
@@ -72,7 +72,7 @@ test_that("Knitting list of plots with general label", {
       
     })
 
-test_that("Knitting list of plots with titles", {
+test_that("Titles are correctly set for the plots", {
       
       figDir <- paste0(file.path(tmpdir, "knitPrintListPlots-titles"), "/")
       dir.create(figDir)
@@ -94,7 +94,7 @@ test_that("Knitting list of plots with titles", {
       
     })
 
-test_that("Specify valid custom knitr option", {
+test_that("A custom knitr option is correctly set", {
       
       figDir <- paste0(file.path(tmpdir, "knitPrintListPlots-captions"), "/")
       dir.create(figDir)
@@ -133,14 +133,12 @@ includePlotsInRmdDoc <- function(includePlotCmd, file)
       file = file, sep = "\n"
   )
 
-test_that("Knitting list of interactive plots with 'knitPrintListObjects'", {
-
-      skip_on_cran()
+test_that("A list of interactive plots (plotly) is correctly included", {
       
-#      skip_if_not(
-#          condition = rmarkdown::pandoc_available(), 
-#          message = "pandoc is not available"
-#      )
+      skip_if_not(
+          condition = rmarkdown::pandoc_available(), 
+          message = "pandoc is not available"
+      )
       
       file <- tempfile(pattern = "includeListPlotly_knitPrintListPlots", fileext = ".Rmd")
       includePlotsInRmdDoc(
@@ -154,14 +152,12 @@ test_that("Knitting list of interactive plots with 'knitPrintListObjects'", {
       
     })
 
-test_that("Knitting list of interactive plots with 'knitPrintListObjects'", {
+test_that("A list of interactive objects (plotly) is correctly included", {
       
-      skip_on_cran()
-      
-#      skip_if_not(
-#          condition = rmarkdown::pandoc_available(), 
-#          message = "pandoc is not available"
-#      )
+      skip_if_not(
+          condition = rmarkdown::pandoc_available(), 
+          message = "pandoc is not available"
+      )
       
       file <- tempfile(pattern = "includeListPlotly_knitPrintListObjects", fileext = ".Rmd")
       includePlotsInRmdDoc(
@@ -174,14 +170,12 @@ test_that("Knitting list of interactive plots with 'knitPrintListObjects'", {
       
     })
 
-test_that("Knitting list of interactive flextable with 'knitPrintListObjects'", {
+test_that("A list of interactive table objects (flextable) is correctly included", {
       
-      skip_on_cran()
-      
-#      skip_if_not(
-#          condition = rmarkdown::pandoc_available(), 
-#          message = "pandoc is not available"
-#      )
+      skip_if_not(
+          condition = rmarkdown::pandoc_available(), 
+          message = "pandoc is not available"
+      )
       
       file <- tempfile(pattern = "includeListFlextable", fileext = ".Rmd")
       cat(

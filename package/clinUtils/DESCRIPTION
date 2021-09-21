@@ -8,6 +8,8 @@ Authors@R: c(
   email = "laure.cougnaud@openanalytics.eu"),
   person(given = "Michela", family = "Pasetto", role = "aut",
   email = "michela.pasetto@openanalytics.eu"),
+  person(given = "Arne", family = "De Roeck", 
+  role = "rev", comment = "tests"),
   person(given = "Open Analytics", role = "cph")
   )
 Description: 

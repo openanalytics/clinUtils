@@ -1,9 +1,9 @@
-context("Test labels")
+context("Format labels")
 
 label1 <- "oneString"
 label2 <- "secondString"
 
-test_that("Formatting label with strings", {
+test_that("Strings are correctly formatted", {
       
       expect_identical(formatLabel(label1), label1)
       
@@ -16,7 +16,7 @@ test_that("Formatting label with strings", {
       
     })
 
-test_that("Formatting label with data frames", {
+test_that("Labels from data frame are correctly formatted", {
       
       df1 <- data.frame(col1 = label1, stringsAsFactors = FALSE)
       expect_identical(formatLabel(df1), label1)
@@ -35,7 +35,7 @@ test_that("Formatting label with data frames", {
       
     })
 
-test_that("Formatting label for chunks", {
+test_that("Labels are correctly formatted for chunks", {
       
       formattedLabelChunk <- formatLabelChunk(label1, label2)
       
@@ -47,7 +47,7 @@ test_that("Formatting label for chunks", {
     })
 
 
-test_that("Formatting label for tables", {
+test_that("Table labels are correctly formatted", {
       
       formatTableLabel1 <- formatTableLabel(label1)
       

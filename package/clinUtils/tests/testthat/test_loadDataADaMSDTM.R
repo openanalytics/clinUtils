@@ -3,7 +3,7 @@ context("Import SAS and xpt datasets")
 library(tools)
 library(haven)
 
-test_that("Load data from SAS dataset files properly", {
+test_that("A SAS dataset file is correctly imported", {
 	
 	# create dummy datasets
 	data <- data.frame(
@@ -29,15 +29,55 @@ test_that("Load data from SAS dataset files properly", {
 	
 	tmp <- sapply(adamData, function(x) expect_is(x, class = "data.frame"))
 	
-	# Internal expectations #
+})
+
+test_that("A warning is generated if two SAS dataset with the same name are specified", {
+			
+	# create dummy datasets
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "B", "A", "B", "A")
+	)
+	pathSAS7bdat <- tempfile(fileext = ".sas7bdat")
+	haven::write_sas(data = data, path = pathSAS7bdat)
 	expect_warning(
-		loadDataADaMSDTM(files = c(pathSAS7bdat, pathSAS7bdat)),
+		expect_message(loadDataADaMSDTM(files = c(pathSAS7bdat, pathSAS7bdat))),
 		regexp = "duplicated file name"
 	)
-	expect_error(loadDataADamSDTM("test.xlsx"))
 	
-	# test 'encoding'
-	expect_error(loadDataADaMSDTM(files = pathSAS7bdat, encoding = "test"))
+})
+
+test_that("An error is generated if the SAS data file has a wrong file extensions", {
+			
+	expect_error(
+		expect_message(loadDataADaMSDTM("test.xlsx")),
+		"File.*extension.*not supported"
+	)
+	
+})
+
+test_that("An error is generated if specified encoding doesn't exist", {
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "B", "A", "B", "A")
+	)
+	pathSAS7bdat <- tempfile(fileext = ".sas7bdat")
+	haven::write_sas(data = data, path = pathSAS7bdat)
+	expect_error(
+		expect_message(loadDataADaMSDTM(files = pathSAS7bdat, encoding = "test"))
+	)
+	
+})
+
+test_that("An argument is correctly passed to the internal import function", {
+			
+	data <- data.frame(
+		USUBJID = sample.int(5),
+		TRT = c("A", "B", "A", "B", "A")
+	)
+	pathSAS7bdat <- tempfile(fileext = ".sas7bdat")
+	haven::write_sas(data = data, path = pathSAS7bdat)
 	
 	# pass arguments to 'read_sas'
 	dataSubset <- loadDataADaMSDTM(files = pathSAS7bdat, n_max = 3)
@@ -45,7 +85,7 @@ test_that("Load data from SAS dataset files properly", {
 			
 })
 
-test_that("Load label variables from SAS dataset files properly", {
+test_that("Variable labels are correctly imported from a SAS dataset file", {
 			
 	# create dummy dataset
 	data <- data.frame(
@@ -66,7 +106,7 @@ test_that("Load label variables from SAS dataset files properly", {
 			
 })
 
-test_that("Convert date variables properly", {
+test_that("Date variables are correctly imported from a SAS dataset file", {
 			
 	# create dummy dataset
 	data <- data.frame(
@@ -107,16 +147,34 @@ test_that("Convert date variables properly", {
 			
 })
 
-test_that("Conversion to date/time", {
+test_that("A warning is generated if the object to convert to date is not in the correct date format", {
+			
+	expect_warning(
+		convertToDateTime(c("2020", "01-04-2020")), 
+		regexp = "not of specified calendar date format"
+	)
+			
+})
+			
+
+test_that("A date is correctly converted to a date/time object", {
 	
-	expect_warning(convertToDateTime(c("2020", "01-04-2020")), regexp = "not of specified calendar date format")
-	expect_message(convertToDateTime(c("2020-04-01")), regexp = "Convert vector to calendar date/time format")
-	
-	expect_error(convertToDateTime(c(1, 2)))
+	expect_message(
+		dates <- convertToDateTime(c("2020-04-01")), 
+		regexp = "Convert vector to calendar date/time format"
+	)
+	expect_is(dates, "POSIXt")
 	
 })
 
-test_that("Load data from xpt files properly", {
+test_that("An error is generated if the specified object to convert to date is not a date", {
+			
+	expect_error(convertToDateTime(c(1, 2)))
+			
+})
+			
+
+test_that("A SAS xpt file is correctly imported", {
 			
 	# create dummy dataset
 	data <- data.frame(

@@ -1,6 +1,6 @@
-context("Comparison of data.frames")
+context("Compare data frames")
 
-test_that("no change is detected if data.frame are the same", {
+test_that("No change is detected when two data frame are the same", {
       
       newData <- oldData <- data.frame(id = 1, a = 1, b = 2)	
       diffTable <- compareTables(
@@ -13,7 +13,7 @@ test_that("no change is detected if data.frame are the same", {
       
     })
 
-test_that("addition is correctly detected", {
+test_that("Added rows are correctly detected", {
       
       newData <- data.frame(id = 1, a = 1, b = 2)
       oldData <- data.frame(id = numeric(), a = numeric(), b = numeric())
@@ -32,7 +32,7 @@ test_that("addition is correctly detected", {
       
     })
 
-test_that("removal is correctly detected", {
+test_that("Removed rows are correctly detected", {
       
       newData <- data.frame(id = numeric(), a = numeric(), b = numeric())
       oldData <- data.frame(id = 1, a = 1, b = 2)
@@ -53,7 +53,7 @@ test_that("removal is correctly detected", {
       
     })
 
-test_that("change is correctly detected", {
+test_that("Value changes are correctly detected", {
       
       newData <- data.frame(id = 1, a = 1, b = 3)
       oldData <- data.frame(id = 1, a = 1, b = 2)
@@ -78,7 +78,7 @@ test_that("change is correctly detected", {
       
     })
 
-test_that("comparison with duplicated records in newData is successful", {
+test_that("Comparison with duplicated records is successful", {
       
       newData <- data.frame(id = rep(1, 2), a = c(1, 1), b = c(2, 3))		
       oldData <- data.frame(id = 1, a = 1, b = 2)
@@ -97,7 +97,7 @@ test_that("comparison with duplicated records in newData is successful", {
       
     })
 
-test_that("error if specified columns are not in data", {
+test_that("An error occurs when specified column names are present", {
       
       #newData <- oldData <- data.frame(id = 1, a = 1, b = 2)	
       expect_error(
@@ -111,7 +111,7 @@ test_that("error if specified columns are not in data", {
       
     })
 
-test_that("all columns are considered as reference if referenceVars is not specified", {
+test_that("When reference columns are not specified, all columns are used as the reference", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
@@ -123,7 +123,7 @@ test_that("all columns are considered as reference if referenceVars is not speci
     })
 
 
-test_that("a version is correctly extracted when the tables are compared", {
+test_that("After comparison, differences are attributed to the correct original data frames", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
@@ -139,7 +139,7 @@ test_that("a version is correctly extracted when the tables are compared", {
       
     })
 
-test_that("old or new data should be specified when merging with diff data", {
+test_that("The old or new dataset should be specified when merging with a difference dataset", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
@@ -153,7 +153,7 @@ test_that("old or new data should be specified when merging with diff data", {
       
     })
 
-test_that("comparison type terms of diff data should be among a standard set during merging", {
+test_that("One of the standard comparison types should be specified when merging with a difference dataset", {
       
       newData <- data.frame(id = 1, a = 2)
       oldData <- data.frame(id = 1, a = 3)
@@ -174,7 +174,7 @@ test_that("comparison type terms of diff data should be among a standard set dur
       
     })
 
-test_that("diff data object is merged correctly with new data", {
+test_that("The difference dataset is merged correctly with new data", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
@@ -195,7 +195,7 @@ test_that("diff data object is merged correctly with new data", {
       
     })
 
-test_that("error when 'Comparison type' and 'Version' are in new data", {
+test_that("An error occurs when 'Comparison type' and 'Version' are column names in the new dataset when merging with a difference dataset", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
@@ -215,7 +215,7 @@ test_that("error when 'Comparison type' and 'Version' are in new data", {
       
     })
 
-test_that("diff data object is merged with old data", {
+test_that("Difference datasets are merged correctly with old data", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
@@ -236,7 +236,7 @@ test_that("diff data object is merged with old data", {
       
     })
 
-test_that("error if export type is not available", {
+test_that("An error occurs when a standard export type is not specified while comparing datasets", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
@@ -253,7 +253,7 @@ test_that("error if export type is not available", {
       
     })
 
-test_that("diff data is exported to an interactive table", {
+test_that("The difference dataset is exported correctly to an interactive table", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
@@ -276,7 +276,7 @@ test_that("diff data is exported to an interactive table", {
       
     })
 
-test_that("difference in new data is exported to an interactive table", {
+test_that("The merged product of the difference dataset and new dataset is exported correctly to an interactive table", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
@@ -301,7 +301,7 @@ test_that("difference in new data is exported to an interactive table", {
       )
     })
 
-test_that("difference in old data is exported to an interactive table", {
+test_that("The merged product of the difference dataset and old dataset is exported correctly to an interactive table", {
       
       newData <- rbind(
           data.frame(id = 1, a = 2, b = 4),
@@ -345,7 +345,7 @@ test_that("difference in old data is exported to an interactive table", {
       
     })
 
-test_that("a placeholder is displayed in the interactive table if there is no difference between the new and old data", {
+test_that("A placeholder is displayed in the interactive table if there is no difference between the new and old data", {
       
       data <- data.frame(id = 1, a = 2, b = 3, d = 5)
       
@@ -365,7 +365,7 @@ test_that("a placeholder is displayed in the interactive table if there is no di
       
     })
 
-test_that("column names are specified in the interactive diff data table", {
+test_that("Column names are renamed correctly in the interactive difference data table", {
       
       newData <- data.frame(id = 1, a = 2, b = 3, d = 5)
       oldData <- data.frame(id = 1, a = 3, b = 2, e = 10)
