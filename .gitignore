@@ -1,7 +1,7 @@
 *.project
 *.html
 /tests
-!package/clinUtils/tests
+!clinUtils/tests
 *.tar.gz
 *.Rcheck
 *.png

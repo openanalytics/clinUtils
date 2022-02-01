@@ -61,17 +61,17 @@ pipeline {
                     stages {
                         stage('Rcpp Compile Attributes') {
                             steps {
-                                sh 'R -q -e \'Rcpp::compileAttributes("package/clinUtils")\''
+                                sh 'R -q -e \'Rcpp::compileAttributes("clinUtils")\''
                             }
                         }
                         stage('Roxygen') {
                             steps {
-                                sh 'R -q -e \'roxygen2::roxygenize("package/clinUtils")\''
+                                sh 'R -q -e \'roxygen2::roxygenize("clinUtils")\''
                             }
                         }
                         stage('Build') {
                             steps {
-                                sh 'R CMD build package/clinUtils'
+                                sh 'R CMD build clinUtils'
                             }
                         }
                         stage('Check (no tests)') {
@@ -87,7 +87,7 @@ pipeline {
                         stage('Test and coverage') {
                             steps {
                                 sh '''R -q -e \'
-                                packageCoverage <- covr::package_coverage("package/clinUtils", type = "none", code = "testthat::test_package(\\"clinUtils\\", reporter = testthat::JunitReporter$new(file = file.path(Sys.getenv(\\"WORKSPACE\\"), \\"results.xml\\")))");
+                                packageCoverage <- covr::package_coverage("clinUtils", type = "none", code = "testthat::test_package(\\"clinUtils\\", reporter = testthat::JunitReporter$new(file = file.path(Sys.getenv(\\"WORKSPACE\\"), \\"results.xml\\")))");
                                 covr::report(x = packageCoverage, file = paste0("testCoverage-", attr(packageCoverage, "package")$package, "-", attr(packageCoverage, "package")$version, ".html"));
                                 covr::to_cobertura(packageCoverage)
                                 \''''
