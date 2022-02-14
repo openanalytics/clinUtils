@@ -1,3 +1,5 @@
+0.1.1
+  o example: no explicit 'formula' named parameter in aggregate (R-devel update)
 0.1.0
   o getClinDT: 
     - add button to show/hide columns

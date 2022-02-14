@@ -54,7 +54,7 @@ getClinDT(
 )
 
 ## group per system organ class (and decreasing N):
-tableAESOC <- aggregate(formula = N ~ AESOC, data = tableAE, FUN = sum)
+tableAESOC <- aggregate(N ~ AESOC, data = tableAE, FUN = sum)
 tableAE$AESOC <- factor(tableAE$AESOC,
 	levels = tableAESOC[order(tableAESOC$N, decreasing = FALSE), "AESOC"]
 )
