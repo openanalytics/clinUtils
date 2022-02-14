@@ -1,5 +1,6 @@
 0.1.1
   o example: no explicit 'formula' named parameter in aggregate (R-devel update)
+  o clarify use of pandoc in SystemRequirements
 0.1.0
   o getClinDT: 
     - add button to show/hide columns
