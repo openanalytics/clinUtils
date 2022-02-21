@@ -7,7 +7,7 @@ subjectsSafety <- subset(dataADaMCDISCP01$ADSL, SAFFL == "Y")$USUBJID
 
 # compute counts of subjects presenting each AE
 tableAE <- stats::aggregate(
-	formula = USUBJID ~ AESOC:AEDECOD,
+	USUBJID ~ AESOC:AEDECOD,
 	data = dataAE, 
 	FUN = function(usubjid)	length(unique(usubjid))
 )
