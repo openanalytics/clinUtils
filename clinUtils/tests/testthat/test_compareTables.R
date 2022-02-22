@@ -248,7 +248,7 @@ test_that("An error occurs when a standard export type is not specified while co
       
       expect_error(
           exportDiffData(diffData, to = "dt"),
-          "'arg' should be one of .+"
+          "arg.+should be.+DT"
       )
       
     })
