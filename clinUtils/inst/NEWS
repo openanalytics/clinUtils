@@ -1,3 +1,7 @@
+0.1.2
+  o tests: 
+    - new test for clinColors
+    - correct typo description getColorPalette test
 0.1.1
   o example: no explicit 'formula' named parameter in aggregate (R-devel update)
   o clarify use of pandoc in SystemRequirements

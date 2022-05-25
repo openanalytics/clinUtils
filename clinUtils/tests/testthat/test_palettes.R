@@ -27,7 +27,7 @@ test_that("An error is returned if the number of elements is missing or empty", 
       
     })
 
-test_that("An rrror is returned if the palette is not a function or a vector", {
+test_that("An error is returned if the palette is not a function or a vector", {
       
       expect_error(
           getColorPalette(n = 1, palette = data.frame(A = 1)),
@@ -107,7 +107,12 @@ test_that("A palette is correctly extracted for a specified number of elements",
       
     })
 
-
-
-
+test_that("The default clinical color palette is the viridis palette", {
+  
+  expect_identical(
+    object = clinColors,
+    expected = viridisLite::viridis
+  )
+  
+})
 
