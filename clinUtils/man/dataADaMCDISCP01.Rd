@@ -45,7 +45,7 @@ of subjects than the other example datasets.}
 }
 This dataset was created following the ADaM Version 2.0
 standard.
-This dataset contains the 'Modified \& augmented version 
+This dataset contains the 'Modified and augmented version 
 of cdiscpilot01' dataset.
 }
 \seealso{

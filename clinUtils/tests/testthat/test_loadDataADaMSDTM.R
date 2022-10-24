@@ -169,7 +169,8 @@ test_that("A date is correctly converted to a date/time object", {
 
 test_that("An error is generated if the specified object to convert to date is not a date", {
 			
-	expect_error(convertToDateTime(c(1, 2)))
+	# R > 4.2.2 support numeric for date conversion (in as.POSIXct), so test with a data.frame
+	expect_error(convertToDateTime(data.frame()))
 			
 })
 			

@@ -63,7 +63,7 @@ NULL
 #' }
 #' This dataset was created following the ADaM Version 2.0
 #' standard.
-#' This dataset contains the 'Modified \& augmented version 
+#' This dataset contains the 'Modified and augmented version 
 #' of cdiscpilot01' dataset.
 #' @format List of data.frames containing the ADaM
 #' dataset for each selected domain.\cr

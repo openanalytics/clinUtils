@@ -249,6 +249,8 @@ getClinDT(
 	width = "350px" # change dimension table
 )
 
+\dontrun{# due to time constraint in CRAN
+
 # change default buttons
 getClinDT(
 	data = tableAE,
@@ -302,6 +304,8 @@ getClinDT(
 	rowGroupVar = "AESOC",
 	caption = caption
 )
+
+}
 }
 \author{
 Laure Cougnaud

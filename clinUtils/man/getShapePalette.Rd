@@ -10,7 +10,11 @@ getShapePalette(
   x = NULL,
   includeNA = FALSE,
   asText = FALSE,
-  palette = if (asText) {     clinShapesText } else {     clinShapes }
+  palette = if (asText) {
+     clinShapesText
+ } else {
+     clinShapes
+ }
 )
 }
 \arguments{

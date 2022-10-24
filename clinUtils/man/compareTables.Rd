@@ -140,8 +140,9 @@ compareTables(
 		changeableVars = "c"
 )
 
-## In case only a specific output should be returned:
+\dontrun{# due to time constraint in CRAN
 
+## In case only a specific output should be returned:
 newData <- data.frame(
 	"a" = c(7, 1, 2, 3, 4),
 	"b" = c(2, 1, 6, 7, 8),
@@ -202,6 +203,8 @@ compareTables(
     referenceVars = "a", changeableVars = c("c", "d"), 
     outputType = c("oldData-diff", "oldData-diff-interactive")
 )
+
+}
 ## no changeable vars
 
 newData <- data.frame(
@@ -245,6 +248,8 @@ compareTables(
 
 ## with labels in the interactive format, see ? getClinDT
 
+\dontrun{# due to time constraint in CRAN
+	
 newData <- data.frame(
 	"a" = c(7, 1, 2, 3, 4),
 	"b" = c(2, 1, 6, 7, 8),
@@ -269,6 +274,8 @@ compareTables(
 		"Changeable variable d" = "d"
 	)
 )
+
+}
 
 }
 \author{
