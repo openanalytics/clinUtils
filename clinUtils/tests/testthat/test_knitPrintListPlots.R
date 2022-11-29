@@ -148,8 +148,8 @@ test_that("A list of interactive plots (plotly) is correctly included", {
       expect_silent(outputRmd <- rmarkdown::render(file, quiet = TRUE))
       
       outputHTMLPlots <- readLines(outputRmd)
-      expect_length(grep("class=\"plotly html-widget\"", outputHTMLPlots), 2)
-      
+      expect_length(grep('class="plotly html-widget', outputHTMLPlots), 2)
+
     })
 
 test_that("A list of interactive objects (plotly) is correctly included", {
@@ -166,8 +166,8 @@ test_that("A list of interactive objects (plotly) is correctly included", {
       )
       expect_silent(outputRmd <- rmarkdown::render(file, quiet = TRUE))
       outputHTMLObjects <- readLines(outputRmd)
-      expect_length(grep("class=\"plotly html-widget\"", outputHTMLObjects), 2)
-      
+      expect_length(grep('class="plotly html-widget', outputHTMLObjects), 2)
+
     })
 
 test_that("A list of interactive table objects (flextable) is correctly included", {
