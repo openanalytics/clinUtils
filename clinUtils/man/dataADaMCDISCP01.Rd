@@ -36,6 +36,8 @@ This contains a subset of the CDISC Pilot 01 study dataset for:
 \item{CIBIC+ questionnaire data ('adqscibc'), containing one 
 of the primary endpoint: CIBIC+\cr
 (Video-referenced Clinician's Interview-based Impression of Change)}
+\item{NPI-X Item data ('adqsnpix'), containing the secondary endpoint: 
+NPI-X\cr (Mean Revised Neuropsychiatric Inventory)}
 }
 }
 \item{pharmacokinetic parameters ('adpp')\cr

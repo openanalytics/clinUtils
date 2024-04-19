@@ -5,18 +5,26 @@
 #' \item{a selected subset of subjects}
 #' \item{a selected subset of domains: 
 #' \itemize{
+#' \item{adverse event ('ae')}
+#' \item{concomitant medications ('cm')}
+#' \item{disposition ('ds')}
 #' \item{demographics ('dm')}
 #' \item{treatment exposure ('ex')}
-#' \item{concomitant medications ('cm')}
-#' \item{medical history ('mh')}
-#' \item{adverse event ('ae')}
 #' \item{laboratory ('lb')}
+#' \item{medical history ('mh')}
+#' \item{questionnaire ('qs') - only:
+#' \itemize{
+#' \item ADAS-Cog (11) primary endpoint (\code{QSTESTCD == 'ACTOT'})
+#' \item CIBIC+ primary endpoint (\code{QSTESTCD == 'CIBIC'})
+#' \item NPI-X Item secondary endpoint (\code{QSTESTCD == 'NPTOT'})
+#' }}
+#' \item{demographics supplemental dataset ('suppdm')}
+#' \item{subject visits ('sv')}
 #' \item{vital signs ('vs')}
-#' \item{subject visit ('sv')}
 #' }
 #' }
 #' }
-#' This dataset was created following the SDTM Version 1.1
+#' This dataset was created following the SDTM Version 2
 #' standard.
 #' @format List of data.frames containing the SDTM
 #' dataset for each selected domain.\cr
@@ -54,6 +62,8 @@ NULL
 #' \item{CIBIC+ questionnaire data ('adqscibc'), containing one 
 #' of the primary endpoint: CIBIC+\cr
 #' (Video-referenced Clinician's Interview-based Impression of Change)}
+#' \item{NPI-X Item data ('adqsnpix'), containing the secondary endpoint: 
+#' NPI-X\cr (Mean Revised Neuropsychiatric Inventory)}
 #' }
 #' }
 #' \item{pharmacokinetic parameters ('adpp')\cr
