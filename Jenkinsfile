@@ -6,10 +6,10 @@ pipeline {
     }
     environment {
         IMAGE = 'clinutils'
-        NS = 'clinutils'
-        REG = '196229073436.dkr.ecr.eu-west-1.amazonaws.com'
+        NS = 'shared'
+        REGISTRY = 'registry.openanalytics.eu'
         TAG = sh(returnStdout: true, script: "echo $BRANCH_NAME | sed -e 's/[A-Z]/\\L&/g' -e 's/[^a-z0-9._-]/./g'").trim()
-        DOCKER_BUILDKIT = '1'
+        REGION = 'eu-west-1'
         NOT_CRAN = 'true'
     }
     stages {
@@ -20,19 +20,49 @@ pipeline {
                     apiVersion: v1
                     kind: Pod
                     spec:
+                      imagePullSecrets:
+                        - name: registry-robot
+                      volumes:
+                        - name: kaniko-dockerconfig
+                          secret:
+                            secretName: registry-robot
                       containers:
-                      - name: dind
-                        image: 196229073436.dkr.ecr.eu-west-1.amazonaws.com/oa-infrastructure/dind
-                        securityContext:
-                          privileged: true'''
-                    defaultContainer 'dind'
+                      - name: kaniko
+                        image: gcr.io/kaniko-project/executor:v1.9.1-debug
+                        env:
+                        - name: AWS_SDK_LOAD_CONFIG
+                          value: "true"
+                        command:
+                        - /kaniko/docker-credential-ecr-login
+                        - get
+                        tty: true
+                        resources:
+                          requests:
+                              memory: "2Gi"
+                          limits:
+                              memory: "6Gi"
+                              ephemeral-storage: "10Gi"
+                        imagePullPolicy: Always
+                        volumeMounts:
+                          - name: kaniko-dockerconfig
+                            mountPath: /kaniko/.docker/config.json
+                            subPath: .dockerconfigjson
+                    '''
+                    defaultContainer 'kaniko'
                 }
             }
             steps {
-                withOARegistry {
-                    sh "docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from ${env.REG}/${env.NS}/${env.IMAGE}:${env.TAG} --cache-from ${env.REG}/${env.NS}/${env.IMAGE}:master -t ${env.NS}/${env.IMAGE}:${env.TAG} -f Dockerfile ."
+                container('kaniko') {
+                    sh """/kaniko/executor \
+                    	-v info \
+                    	--context ${env.WORKSPACE} \
+                    	--cache=true \
+                    	--cache-ttl=8760h0m0s \
+                    	--cache-repo ${env.REGISTRY}/${env.NS}/${env.IMAGE} \
+                    	--cleanup \
+                    	--destination ${env.REGISTRY}/${env.NS}/${env.IMAGE}:${env.TAG} \
+                    	--registry-mirror ${env.REGISTRY}"""
                 }
-                ecrPush "${env.REG}", "${env.NS}/${env.IMAGE}", "${env.TAG}", '', 'eu-west-1'
             }
         }
         stage('Packages') {
@@ -42,30 +72,21 @@ pipeline {
                     apiVersion: v1
                     kind: Pod
                     spec:
+                      imagePullSecrets:
+                        - name: registry-robot
                       containers:
-                      - name: r
-                        image: ${env.REG}/${env.NS}/${env.IMAGE}:${env.TAG}
-                        command: 
-                        - cat
-                        tty: true
-                        imagePullPolicy: Always
-                        resources:
-                            requests: 
-                                memory: "1024Mi"
-                            limits:
-                                memory: "1536Mi"
-                     """
+                        - name: r
+                          image: ${env.REGISTRY}/${env.NS}/${env.IMAGE}:${env.TAG}
+                          command: 
+                            - cat
+                          tty: true
+                          imagePullPolicy: Always"""
                     defaultContainer 'r'
                 }
             }
             stages {
                 stage('clinUtils') {
                     stages {
-                        stage('Rcpp Compile Attributes') {
-                            steps {
-                                sh 'R -q -e \'Rcpp::compileAttributes("clinUtils")\''
-                            }
-                        }
                         stage('Roxygen') {
                             steps {
                                 sh 'R -q -e \'roxygen2::roxygenize("clinUtils")\''
@@ -115,7 +136,7 @@ pipeline {
                 }
                 stage('Archive artifacts') {
                     steps {
-                        archiveArtifacts artifacts: '*.tar.gz, *.pdf, **/00check.log, **/Rdlatex.log, testCoverage.zip', fingerprint: true
+                        archiveArtifacts artifacts: '*.tar.gz, *.pdf, **/00check.log, test-results.txt, testCoverage.zip', fingerprint: true
                     }
                 }
             }
