@@ -8,12 +8,12 @@ utils::globalVariables(c("shapePaletteNRIND", "colorPaletteNRIND"))
 #' @format A named character vector with shape symbol for 
 #' typical Normal Reference Range Indicator variable:
 #' \itemize{
-#' \item{"LOW": }{filled down-pointing arrow (\code{25})}
-#' \item{"NORMAL": }{filled circle (21)}
-#' \item{"HIGH": }{filled up-pointing arrow (\code{24})}
-#' \item{"ABNORMAL": }{diamond (\code{18})}
-#' \item{"UNKNOWN" or 'NA': }{cross (\code{3})}
-#' \item{"NA": }{cross (\code{3})}
+#' \item "LOW": filled down-pointing arrow (\code{25})
+#' \item "NORMAL": filled circle (21)
+#' \item "HIGH": filled up-pointing arrow (\code{24})
+#' \item "ABNORMAL": diamond (\code{18})
+#' \item "UNKNOWN" or 'NA': cross (\code{3})
+#' \item "NA": cross (\code{3})
 #' }
 "shapePaletteNRIND"
 
@@ -22,12 +22,12 @@ utils::globalVariables(c("shapePaletteNRIND", "colorPaletteNRIND"))
 #' @format A named character vector with color for 
 #' typical Normal Reference Range Indicator variable:
 #' \itemize{
-#' \item{"LOW": }{orange}
-#' \item{"NORMAL": }{green4}
-#' \item{"HIGH": }{orange}
-#' \item{"ABNORMAL": }{red}
-#' \item{"UNKNOWN" or 'NA': }{grey}
-#' \item{"NA": }{grey}
+#' \item "LOW": orange
+#' \item "NORMAL": green4
+#' \item "HIGH": orange
+#' \item "ABNORMAL": red
+#' \item "UNKNOWN" or 'NA': grey
+#' \item "NA": grey
 #' }
 "colorPaletteNRIND"
 
@@ -38,12 +38,11 @@ utils::globalVariables(c("shapePaletteNRIND", "colorPaletteNRIND"))
 #' The order of the palette depends on the type of the input
 #' variable (\code{x}):
 #' \itemize{
-#' \item{if a factor is specified, the palette is ordered based
-#' on its levels}
-#' \item{if a character vector is specified,
+#' \item if a factor is specified, the palette is ordered based
+#' on its levels
+#' \item if a character vector is specified,
 #' the elements from the internal standard palette are used first,
 #' the remaining elements are then sorted alphabetically.
-#' }
 #' }
 #' @param x Character vector of factor with
 #' variable to consider.
@@ -51,11 +50,12 @@ utils::globalVariables(c("shapePaletteNRIND", "colorPaletteNRIND"))
 #' of this vector, or levels if \code{x} is a factor.
 #' @param var String with type of variable, among:
 #' \itemize{
-#' \item{'NRIND': }{Normal Reference Range Indicator}
+#' \item 'NRIND': Normal Reference Range Indicator
 #' }
 #' @param type String with type of palette:
 #' \itemize{
-#' \item{'shape': }{shape/symbol palette}
+#' \item 'shape': shape/symbol palette
+#' \item 'color': color palette
 #' }
 #' @param palette (optional) Named vector
 #' with extra palette, e.g. to specify elements

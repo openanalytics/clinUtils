@@ -14,12 +14,13 @@ of this vector, or levels if \code{x} is a factor.}
 
 \item{var}{String with type of variable, among:
 \itemize{
-\item{'NRIND': }{Normal Reference Range Indicator}
+\item 'NRIND': Normal Reference Range Indicator
 }}
 
 \item{type}{String with type of palette:
 \itemize{
-\item{'shape': }{shape/symbol palette}
+\item 'shape': shape/symbol palette
+\item 'color': color palette
 }}
 
 \item{palette}{(optional) Named vector
@@ -37,12 +38,11 @@ The extraction of the palette elements is case-insensitive.
 The order of the palette depends on the type of the input
 variable (\code{x}):
 \itemize{
-\item{if a factor is specified, the palette is ordered based
-on its levels}
-\item{if a character vector is specified,
+\item if a factor is specified, the palette is ordered based
+on its levels
+\item if a character vector is specified,
 the elements from the internal standard palette are used first,
 the remaining elements are then sorted alphabetically.
-}
 }
 }
 \examples{

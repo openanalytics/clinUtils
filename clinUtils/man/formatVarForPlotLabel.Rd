@@ -18,12 +18,13 @@ formatVarForPlotLabel(
 
 \item{paramVar}{string, variable of \code{data} with parameter}
 
-\item{paramGroupVar}{(optional) character vector with variable(s) of \code{data} with grouping.
-If specified, the parameters will be grouped by this(these) variable(s) in the y-axis.}
+\item{paramGroupVar}{(optional) character vector with variable(s) of 
+\code{data} with grouping.\cr If specified, the parameters will be 
+grouped by this(these) variable(s) in the y-axis.}
 
 \item{revert}{logical, if TRUE revert the order of the levels of the variable}
 
-\item{width}{max number of characters in the code{paramVar} parameter.}
+\item{width}{max number of characters in the \code{paramVar} parameter.}
 }
 \value{
 Vector with re-formatted \code{paramVar}, NULL if empty
@@ -31,9 +32,9 @@ Vector with re-formatted \code{paramVar}, NULL if empty
 \description{
 The following workflow is used:
 \enumerate{
-\item{format the variable as a factor}
-\item{wrap it across multiple lines if needed}
-\item{sort (its levels) according to a grouping variable}
+\item format the variable as a factor
+\item wrap it across multiple lines if needed
+\item sort (its levels) according to a grouping variable
 }
 }
 \author{

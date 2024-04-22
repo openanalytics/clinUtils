@@ -2,26 +2,25 @@
 #' 
 #' This contains a subset of the CDISC original Pilot 01 study dataset for:
 #' \itemize{
-#' \item{a selected subset of subjects}
-#' \item{a selected subset of domains: 
+#' \item a selected subset of subjects
+#' \item a selected subset of domains: 
 #' \itemize{
-#' \item{adverse event ('ae')}
-#' \item{concomitant medications ('cm')}
-#' \item{disposition ('ds')}
-#' \item{demographics ('dm')}
-#' \item{treatment exposure ('ex')}
-#' \item{laboratory ('lb')}
-#' \item{medical history ('mh')}
-#' \item{questionnaire ('qs') - only:
+#' \item adverse event ('ae')
+#' \item concomitant medications ('cm')
+#' \item disposition ('ds')
+#' \item demographics ('dm')
+#' \item treatment exposure ('ex')
+#' \item laboratory ('lb')
+#' \item medical history ('mh')
+#' \item questionnaire ('qs') - only:
 #' \itemize{
 #' \item ADAS-Cog (11) primary endpoint (\code{QSTESTCD == 'ACTOT'})
 #' \item CIBIC+ primary endpoint (\code{QSTESTCD == 'CIBIC'})
 #' \item NPI-X Item secondary endpoint (\code{QSTESTCD == 'NPTOT'})
-#' }}
-#' \item{demographics supplemental dataset ('suppdm')}
-#' \item{subject visits ('sv')}
-#' \item{vital signs ('vs')}
 #' }
+#' \item demographics supplemental dataset ('suppdm')
+#' \item subject visits ('sv')
+#' \item vital signs ('vs')
 #' }
 #' }
 #' This dataset was created following the SDTM Version 2
@@ -46,31 +45,29 @@ NULL
 #' 
 #' This contains a subset of the CDISC Pilot 01 study dataset for:
 #' \itemize{
-#' \item{a selected subset of subjects}
-#' \item{a selected subset of domains: 
+#' \item a selected subset of subjects
+#' \item a selected subset of domains: 
 #' \itemize{
-#' \item{subject-level ('adsl')}
-#' \item{adverse event ('adae')}
-#' \item{laboratory chemistry data('adlbc')}
-#' \item{vital signs ('advs')}
-#' \item{concomitant medications ('adcm')}
-#' \item{efficacy: 
+#' \item subject-level ('adsl')
+#' \item adverse event ('adae')
+#' \item laboratory chemistry data('adlbc')
+#' \item vital signs ('advs')
+#' \item concomitant medications ('adcm')
+#' \item efficacy: 
 #' \itemize{
-#' \item{ADAS-COG Data ('adqsadas'), containing one of the 
+#' \item ADAS-COG Data ('adqsadas'), containing one of the 
 #'   primary endpoint: ADAS-Cog (11)\cr
-#'   (Alzheimer's Disease Assessment Scale - Cognitive Subscale}
-#' \item{CIBIC+ questionnaire data ('adqscibc'), containing one 
+#'   (Alzheimer's Disease Assessment Scale - Cognitive Subscale
+#' \item CIBIC+ questionnaire data ('adqscibc'), containing one 
 #' of the primary endpoint: CIBIC+\cr
-#' (Video-referenced Clinician's Interview-based Impression of Change)}
-#' \item{NPI-X Item data ('adqsnpix'), containing the secondary endpoint: 
-#' NPI-X\cr (Mean Revised Neuropsychiatric Inventory)}
+#' (Video-referenced Clinician's Interview-based Impression of Change)
+#' \item NPI-X Item data ('adqsnpix'), containing the secondary endpoint: 
+#' NPI-X\cr (Mean Revised Neuropsychiatric Inventory)
 #' }
-#' }
-#' \item{pharmacokinetic parameters ('adpp')\cr
+#' \item pharmacokinetic parameters ('adpp')\cr
 #' Please note that this dataset contains different sets 
-#' of subjects than the other example datasets.}
+#' of subjects than the other example datasets.
 #' }}
-#' }
 #' This dataset was created following the ADaM Version 2.0
 #' standard.
 #' This dataset contains the 'Modified and augmented version 

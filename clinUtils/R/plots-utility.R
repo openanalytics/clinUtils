@@ -3,16 +3,17 @@
 #' 
 #' The following workflow is used:
 #' \enumerate{
-#' \item{format the variable as a factor}
-#' \item{wrap it across multiple lines if needed}
-#' \item{sort (its levels) according to a grouping variable}
+#' \item format the variable as a factor
+#' \item wrap it across multiple lines if needed
+#' \item sort (its levels) according to a grouping variable
 #' }
 #' @param data data.frame with data
 #' @param paramVar string, variable of \code{data} with parameter
-#' @param paramGroupVar (optional) character vector with variable(s) of \code{data} with grouping.
-#' If specified, the parameters will be grouped by this(these) variable(s) in the y-axis.
+#' @param paramGroupVar (optional) character vector with variable(s) of 
+#' \code{data} with grouping.\cr If specified, the parameters will be 
+#' grouped by this(these) variable(s) in the y-axis.
 #' @param revert logical, if TRUE revert the order of the levels of the variable
-#' @param width max number of characters in the code{paramVar} parameter.
+#' @param width max number of characters in the \code{paramVar} parameter.
 #' @return Vector with re-formatted \code{paramVar}, NULL if empty
 #' @author Laure Cougnaud
 #' library(ggplot2)

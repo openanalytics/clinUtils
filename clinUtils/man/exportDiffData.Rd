@@ -48,19 +48,17 @@ currently passed to the \code{\link{getClinDT}} function.}
 \value{
 Depending on the \code{to} parameter:
 \itemize{
-\item{'DT': }{a \code{\link[DT]{datatable}} with the difference between datasets,
+\item 'DT': a \code{\link[DT]{datatable}} with the difference between datasets,
 with:
 \itemize{
-\item{highlighting depending on the difference between datasets:
+\item highlighting depending on the difference between datasets:
 \itemize{
-\item{'Addition' in green}
-\item{'Removal' in yellow}
-\item{'Change' in lightblue}
-\item{'Identical' are not highlighted}
+\item 'Addition' in green
+\item 'Removal' in yellow
+\item 'Change' in lightblue
+\item 'Identical' are not highlighted
 }
-}
-\item{records only present in the old dataset are displayed in italic}
-}
+\item records only present in the old dataset are displayed in italic 
 }
 }
 }

@@ -9,12 +9,12 @@ Range Indicator.}
 A named character vector with color for 
 typical Normal Reference Range Indicator variable:
 \itemize{
-\item{"LOW": }{orange}
-\item{"NORMAL": }{green4}
-\item{"HIGH": }{orange}
-\item{"ABNORMAL": }{red}
-\item{"UNKNOWN" or 'NA': }{grey}
-\item{"NA": }{grey}
+\item "LOW": orange
+\item "NORMAL": green4
+\item "HIGH": orange
+\item "ABNORMAL": red
+\item "UNKNOWN" or 'NA': grey
+\item "NA": grey
 }
 }
 \usage{

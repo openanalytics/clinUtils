@@ -14,7 +14,7 @@ getClinDTButtons(
 \arguments{
 \item{type}{Character vector with type of buttons, among:
 \itemize{
-\item{for export data: }{
+\item for export data: 
 \itemize{
 \item 'copy' (by default): copy data to clipboard
 \item 'csv' (by default): export selected data to a csv file
@@ -28,15 +28,13 @@ For all these buttons, only the visible columns
 (selected by the show/hide button) are exported.
 The variables used for row grouping are always
 exported as well.
-}
-\item{to show/hide columns :}{
+\item to show/hide columns :
 \itemize{
 \item 'colvis': include a collection of buttons
 to show/hide specific columns.\cr
 Specific columns that should not be listed 
 should be defined in \code{nonVisibleVar}
 in \code{\link{getClinDT}}
-}
 }
 }}
 

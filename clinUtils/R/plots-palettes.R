@@ -2,6 +2,7 @@
 #' 
 #' Default color palette is the color-blind viridis palette.
 #' See documentation of \code{\link[viridisLite]{viridis}}.
+#' @param option see similar parameter in \code{\link[viridisLite]{viridis}}
 #' @return The \code{\link[viridisLite]{viridis}} function.
 #' @inheritParams viridisLite::viridis
 #' @importFrom viridisLite viridis

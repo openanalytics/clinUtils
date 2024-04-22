@@ -20,13 +20,13 @@ The \code{newData} or \code{oldData} (as a data frame object)
 with the extra column 'Comparison type' specifying the type
 of change, either:
 \itemize{
-\item{'Change': }{record present in both dataset based 
+\item 'Change': record present in both dataset based 
 on the reference variables, but with changes in the
-changeable variables}
-\item{'Addition': }{records present in new but not in old data}
-\item{'Removal': }{records present in old but not in new data}
-\item{'Identical': }{records identical in the old and new datasets
-(on both the reference and changeable variables)}
+changeable variables
+\item 'Addition': records present in new but not in old data
+\item 'Removal': records present in old but not in new data
+\item 'Identical': records identical in the old and new datasets
+(on both the reference and changeable variables)
 }
 }
 \description{

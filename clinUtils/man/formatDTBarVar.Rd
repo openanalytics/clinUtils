@@ -25,16 +25,16 @@ which should be represented as bar in the table.}
 \item{barColorThr}{Numeric vector with threshold to 
 consider to color the bar, either:
 \itemize{
-\item{a numeric vector of length 1, same threshold for all bars}
-\item{named vector with threshold for each bar, named with the variable
-in \code{barVar}}
+\item a numeric vector of length 1, same threshold for all bars
+\item named vector with threshold for each bar, named with the variable
+in \code{barVar}
 }}
 
 \item{barRange}{(optional) range for the bars, either:
 \itemize{
-\item{a numeric vector of length 2, same range for all bars}
-\item{list with range for each bar, named with the variable
-in \code{barVar}}
+\item a numeric vector of length 2, same range for all bars
+\item list with range for each bar, named with the variable
+in \code{barVar}
 }
 If not specified, the range of each \code{barVar} variable
 in \code{data} is used.}

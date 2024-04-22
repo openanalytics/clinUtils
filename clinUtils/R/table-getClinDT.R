@@ -5,12 +5,12 @@
 #' with sensitive defaults.\cr
 #' Extra functionalities are available to:
 #' \itemize{
-#' \item{have columns or cells of interest that are collapsible/expandable
-#' (see \code{expandVar}/\code{expandIdx})}
-#' \item{group rows based on a variable (see \code{rowGroupVar})}
-#' \item{display a variable as barplot (with specified range of threshold)
-#' (see \code{barVar})}
-#' \item{hide variable(s) (see \code{nonVisibleVar})}
+#' \item have columns or cells of interest that are collapsible/expandable
+#' (see \code{expandVar}/\code{expandIdx})
+#' \item group rows based on a variable (see \code{rowGroupVar})
+#' \item display a variable as barplot (with specified range of threshold)
+#' (see \code{barVar})
+#' \item hide variable(s) (see \code{nonVisibleVar})
 #' }
 #' @param data Data.frame, matrix or \code{\link[crosstalk]{SharedData}}
 #' object with input data for the table.
@@ -565,18 +565,18 @@ getClinDT <- function(data,
 #' which should be represented as bar in the table.
 #' @param barRange (optional) range for the bars, either:
 #' \itemize{
-#' \item{a numeric vector of length 2, same range for all bars}
-#' \item{list with range for each bar, named with the variable
-#' in \code{barVar}}
+#' \item a numeric vector of length 2, same range for all bars
+#' \item list with range for each bar, named with the variable
+#' in \code{barVar}
 #' }
 #' If not specified, the range of each \code{barVar} variable
 #' in \code{data} is used.
 #' @param barColorThr Numeric vector with threshold to 
 #' consider to color the bar, either:
 #' \itemize{
-#' \item{a numeric vector of length 1, same threshold for all bars}
-#' \item{named vector with threshold for each bar, named with the variable
-#' in \code{barVar}}
+#' \item a numeric vector of length 1, same threshold for all bars
+#' \item named vector with threshold for each bar, named with the variable
+#' in \code{barVar}
 #' }
 #' @param getCol Function, which for an index of a column
 #' in \code{data} returns the index of the column to be passed to
@@ -688,7 +688,7 @@ checkVarInData <- function(var, data, label){
 #' in the interactive table for clinical data.
 #' @param type Character vector with type of buttons, among:
 #' \itemize{
-#' \item{for export data: }{
+#' \item for export data: 
 #' \itemize{
 #' \item 'copy' (by default): copy data to clipboard
 #' \item 'csv' (by default): export selected data to a csv file
@@ -702,15 +702,13 @@ checkVarInData <- function(var, data, label){
 #' (selected by the show/hide button) are exported.
 #' The variables used for row grouping are always
 #' exported as well.
-#' }
-#' \item{to show/hide columns :}{
+#' \item to show/hide columns :
 #' \itemize{
 #' \item 'colvis': include a collection of buttons
 #' to show/hide specific columns.\cr
 #' Specific columns that should not be listed 
 #' should be defined in \code{nonVisibleVar}
 #' in \code{\link{getClinDT}}
-#' }
 #' }
 #' }
 #' @param typeExtra Character vector with type

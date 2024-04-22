@@ -15,16 +15,18 @@
 #' @param outputType String describing which output should be returned,
 #' (multiple are possible), either:
 #' \itemize{
-#' \item{'table-comparison': }{data.frame containing difference between
-#' two datasets, see 'output' of \code{\link{compareDiff}} function.}
-#' \item{'table-comparison-interactive': }{\code{\link[DT]{datatable}} object with differences between
-#' the two datasets, see 'output' of \code{\link{exportDiffData}}.}
-#' \item{'newData-diff' or 'oldData-diff': }{data.frame with new/old data respectively,
-#' containing the information if each record differs in the old/new datasets respectively.
-#' See output of \code{\link{mergeDiffWithData}}.}
-#' \item{'newData-diff-interactive' or 'oldData-diff-interactive': }{\code{\link[DT]{datatable}} with new/old data respectively,
-#' containing the information if each record differs in the old/new datasets respectively.
-#' See output of \code{\link{exportDiffData}}.}
+#' \item 'table-comparison': data.frame containing difference between
+#' two datasets, see 'output' of \code{\link{compareDiff}} function.
+#' \item 'table-comparison-interactive': \code{\link[DT]{datatable}} object 
+#' with differences between the two datasets, see 'output' of 
+#' \code{\link{exportDiffData}}.
+#' \item 'newData-diff' or 'oldData-diff': data.frame with new/old data 
+#' respectively, containing the information if each record differs in the 
+#' old/new datasets respectively. See output of \code{\link{mergeDiffWithData}}.
+#' \item 'newData-diff-interactive' or 'oldData-diff-interactive': 
+#' \code{\link[DT]{datatable}} with new/old data respectively, containing the 
+#' information if each record differs in the old/new datasets respectively.
+#' See output of \code{\link{exportDiffData}}.
 #' }
 #' @return The comparison of the two input tables.
 NULL
@@ -133,33 +135,33 @@ compareTables <- function(
 #' @section Identification of the differences between datasets:
 #' To identify the differences between datasets, the following steps are followed:
 #' \enumerate{
-#' \item{removal of records identical between the old and new dataset
-#' (will be considered as 'Identical' later on)}
-#' \item{records with a reference value present in the old dataset but not
-#' in the new dataset are considered 'Removal'}
-#' \item{records with a reference value present in the new dataset but not
-#' in the old dataset are considered 'Addition'}
-#' \item{records with reference value present both in the new and old dataset,
+#' \item removal of records identical between the old and new dataset
+#' (will be considered as 'Identical' later on)
+#' \item records with a reference value present in the old dataset but not
+#' in the new dataset are considered 'Removal'
+#' \item records with a reference value present in the new dataset but not
+#' in the old dataset are considered 'Addition'
+#' \item records with reference value present both in the new and old dataset,
 #' \strong{after filtering of identical records} and with difference in
-#' the changeable variables are considered 'Change'}
+#' the changeable variables are considered 'Change'
 #' }
 #' @inheritParams comparisonTables-common-args
 #' @return Object of class 'diff.data', i.e. a data.frame with columns:
 #' \itemize{
-#' \item{'Comparison type': }{type of difference between
+#' \item 'Comparison type': type of difference between
 #' the old and new data, either:
 #' \itemize{
-#' \item{'Change': }{records present both in new and old data,
-#' based on the reference variables, but with difference(s) in changeable vars}
-#' \item{'Addition': }{records with reference variables
-#' present in new but not in old data}
-#' \item{'Removal': }{records with reference variables 
-#' present in old but not in new data}
-#' }}
-#' \item{'Version': }{'Previous' or 'Current' depending if record represents
-#' content from old or new data respectively}
-#' \item{\code{referenceVars}}
-#' \item{\code{changeableVars}}
+#' \item 'Change': records present both in new and old data,
+#' based on the reference variables, but with difference(s) in changeable vars
+#' \item 'Addition': records with reference variables
+#' present in new but not in old data
+#' \item 'Removal': records with reference variables 
+#' present in old but not in new data
+#' }
+#' \item 'Version': 'Previous' or 'Current' depending if record represents
+#' content from old or new data respectively
+#' \item \code{referenceVars}
+#' \item \code{changeableVars}
 #' }
 #' @author Laure Cougnaud
 #' @import data.table
@@ -295,13 +297,13 @@ getSetDiff <- function(x, y, referenceVars) {
 #' with the extra column 'Comparison type' specifying the type
 #' of change, either:
 #' \itemize{
-#' \item{'Change': }{record present in both dataset based 
+#' \item 'Change': record present in both dataset based 
 #' on the reference variables, but with changes in the
-#' changeable variables}
-#' \item{'Addition': }{records present in new but not in old data}
-#' \item{'Removal': }{records present in old but not in new data}
-#' \item{'Identical': }{records identical in the old and new datasets
-#' (on both the reference and changeable variables)}
+#' changeable variables
+#' \item 'Addition': records present in new but not in old data
+#' \item 'Removal': records present in old but not in new data
+#' \item 'Identical': records identical in the old and new datasets
+#' (on both the reference and changeable variables)
 #' }
 #' @import data.table
 #' @export 
@@ -432,19 +434,17 @@ mergeInputDiff <- function(
 #' @inheritParams comparisonTables-common-args
 #' @return Depending on the \code{to} parameter:
 #' \itemize{
-#' \item{'DT': }{a \code{\link[DT]{datatable}} with the difference between datasets,
+#' \item 'DT': a \code{\link[DT]{datatable}} with the difference between datasets,
 #' with:
 #' \itemize{
-#' \item{highlighting depending on the difference between datasets:
+#' \item highlighting depending on the difference between datasets:
 #' \itemize{
-#' \item{'Addition' in green}
-#' \item{'Removal' in yellow}
-#' \item{'Change' in lightblue}
-#' \item{'Identical' are not highlighted}
+#' \item 'Addition' in green
+#' \item 'Removal' in yellow
+#' \item 'Change' in lightblue
+#' \item 'Identical' are not highlighted
 #' }
-#' }
-#' \item{records only present in the old dataset are displayed in italic}
-#' }
+#' \item records only present in the old dataset are displayed in italic 
 #' }
 #' }
 #' @import DT

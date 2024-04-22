@@ -7,11 +7,11 @@
 #' 
 #' The following workflow is used:
 #' \enumerate{
-#' \item{numbers are rounded with the \code{\link{roundHalfUp}}
+#' \item numbers are rounded with the \code{\link{roundHalfUp}}
 #' function, see the \code{? roundHalfUp} for more details
-#' on the rounding strategy}
-#' \item{round numbers are formatted to character in
-#' the format: 'xxx.xxx' with pads leading zeros}
+#' on the rounding strategy
+#' \item round numbers are formatted to character in
+#' the format: 'xxx.xxx' with pads leading zeros
 #' }
 #' @param x Numeric vector to round.
 #' @param digits Integer with number of digits to consider, 0 by default.

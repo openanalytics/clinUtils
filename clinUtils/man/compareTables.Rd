@@ -32,16 +32,18 @@ If not specified, only 'Addition' and 'Removal' are detected.}
 \item{outputType}{String describing which output should be returned,
 (multiple are possible), either:
 \itemize{
-\item{'table-comparison': }{data.frame containing difference between
-two datasets, see 'output' of \code{\link{compareDiff}} function.}
-\item{'table-comparison-interactive': }{\code{\link[DT]{datatable}} object with differences between
-the two datasets, see 'output' of \code{\link{exportDiffData}}.}
-\item{'newData-diff' or 'oldData-diff': }{data.frame with new/old data respectively,
-containing the information if each record differs in the old/new datasets respectively.
-See output of \code{\link{mergeDiffWithData}}.}
-\item{'newData-diff-interactive' or 'oldData-diff-interactive': }{\code{\link[DT]{datatable}} with new/old data respectively,
-containing the information if each record differs in the old/new datasets respectively.
-See output of \code{\link{exportDiffData}}.}
+\item 'table-comparison': data.frame containing difference between
+two datasets, see 'output' of \code{\link{compareDiff}} function.
+\item 'table-comparison-interactive': \code{\link[DT]{datatable}} object 
+with differences between the two datasets, see 'output' of 
+\code{\link{exportDiffData}}.
+\item 'newData-diff' or 'oldData-diff': data.frame with new/old data 
+respectively, containing the information if each record differs in the 
+old/new datasets respectively. See output of \code{\link{mergeDiffWithData}}.
+\item 'newData-diff-interactive' or 'oldData-diff-interactive': 
+\code{\link[DT]{datatable}} with new/old data respectively, containing the 
+information if each record differs in the old/new datasets respectively.
+See output of \code{\link{exportDiffData}}.
 }}
 
 \item{...}{Any parameters passed to the \code{\link{exportDiffData}} function.
@@ -60,15 +62,15 @@ Compare tables
 
 To identify the differences between datasets, the following steps are followed:
 \enumerate{
-\item{removal of records identical between the old and new dataset
-(will be considered as 'Identical' later on)}
-\item{records with a reference value present in the old dataset but not
-in the new dataset are considered 'Removal'}
-\item{records with a reference value present in the new dataset but not
-in the old dataset are considered 'Addition'}
-\item{records with reference value present both in the new and old dataset,
+\item removal of records identical between the old and new dataset
+(will be considered as 'Identical' later on)
+\item records with a reference value present in the old dataset but not
+in the new dataset are considered 'Removal'
+\item records with a reference value present in the new dataset but not
+in the old dataset are considered 'Addition'
+\item records with reference value present both in the new and old dataset,
 \strong{after filtering of identical records} and with difference in
-the changeable variables are considered 'Change'}
+the changeable variables are considered 'Change'
 }
 }
 

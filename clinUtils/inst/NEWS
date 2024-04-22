@@ -3,6 +3,7 @@
     - efficacy (questionnaire) data (primary/secondary endpoints)
     - disposition data (SDTM only)
     - supplemental demographics data
+   o doc: remove description-like items in itemize (R-devel 11/10/2023)
 0.1.4
   o fix unit tests for htmlwidgets 1.6
 0.1.3

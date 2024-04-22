@@ -28,20 +28,20 @@ If not specified, only 'Addition' and 'Removal' are detected.}
 \value{
 Object of class 'diff.data', i.e. a data.frame with columns:
 \itemize{
-\item{'Comparison type': }{type of difference between
+\item 'Comparison type': type of difference between
 the old and new data, either:
 \itemize{
-\item{'Change': }{records present both in new and old data,
-based on the reference variables, but with difference(s) in changeable vars}
-\item{'Addition': }{records with reference variables
-present in new but not in old data}
-\item{'Removal': }{records with reference variables 
-present in old but not in new data}
-}}
-\item{'Version': }{'Previous' or 'Current' depending if record represents
-content from old or new data respectively}
-\item{\code{referenceVars}}
-\item{\code{changeableVars}}
+\item 'Change': records present both in new and old data,
+based on the reference variables, but with difference(s) in changeable vars
+\item 'Addition': records with reference variables
+present in new but not in old data
+\item 'Removal': records with reference variables 
+present in old but not in new data
+}
+\item 'Version': 'Previous' or 'Current' depending if record represents
+content from old or new data respectively
+\item \code{referenceVars}
+\item \code{changeableVars}
 }
 }
 \description{
@@ -51,15 +51,15 @@ Get differences between two data.frames
 
 To identify the differences between datasets, the following steps are followed:
 \enumerate{
-\item{removal of records identical between the old and new dataset
-(will be considered as 'Identical' later on)}
-\item{records with a reference value present in the old dataset but not
-in the new dataset are considered 'Removal'}
-\item{records with a reference value present in the new dataset but not
-in the old dataset are considered 'Addition'}
-\item{records with reference value present both in the new and old dataset,
+\item removal of records identical between the old and new dataset
+(will be considered as 'Identical' later on)
+\item records with a reference value present in the old dataset but not
+in the new dataset are considered 'Removal'
+\item records with a reference value present in the new dataset but not
+in the old dataset are considered 'Addition'
+\item records with reference value present both in the new and old dataset,
 \strong{after filtering of identical records} and with difference in
-the changeable variables are considered 'Change'}
+the changeable variables are considered 'Change'
 }
 }
 

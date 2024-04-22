@@ -25,12 +25,13 @@ Named character vector with label, \code{var} is no label is available
 \description{
 The label is extracted either (in this order):
 \enumerate{
-\item{if \code{label} is specified: }{from this label based on names,
-or directly from this label if \code{label} and \code{var} are of length 1 (if available)}
-\item{if \code{labelVars} is specified: }{from the specified vector of labels,
-based on names (if available)}
-\item{if \code{data} is specified: }{from the 'label' attribute 
-of the corresponding column in \code{data} (if available)}
+\item if \code{label} is specified: from this label based on names,
+or directly from this label if \code{label} and \code{var} are of length 1 
+(if available)
+\item if \code{labelVars} is specified: from the specified vector of labels,
+based on names (if available)
+\item if \code{data} is specified: from the 'label' attribute 
+of the corresponding column in \code{data} (if available)
 } 
 If the label is not available, the input variable is returned.
 }

@@ -9,12 +9,12 @@ Range Indicator.}
 A named character vector with shape symbol for 
 typical Normal Reference Range Indicator variable:
 \itemize{
-\item{"LOW": }{filled down-pointing arrow (\code{25})}
-\item{"NORMAL": }{filled circle (21)}
-\item{"HIGH": }{filled up-pointing arrow (\code{24})}
-\item{"ABNORMAL": }{diamond (\code{18})}
-\item{"UNKNOWN" or 'NA': }{cross (\code{3})}
-\item{"NA": }{cross (\code{3})}
+\item "LOW": filled down-pointing arrow (\code{25})
+\item "NORMAL": filled circle (21)
+\item "HIGH": filled up-pointing arrow (\code{24})
+\item "ABNORMAL": diamond (\code{18})
+\item "UNKNOWN" or 'NA': cross (\code{3})
+\item "NA": cross (\code{3})
 }
 }
 \usage{

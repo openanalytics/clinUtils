@@ -20,31 +20,29 @@ datasets and variables name.
 \description{
 This contains a subset of the CDISC Pilot 01 study dataset for:
 \itemize{
-\item{a selected subset of subjects}
-\item{a selected subset of domains: 
+\item a selected subset of subjects
+\item a selected subset of domains: 
 \itemize{
-\item{subject-level ('adsl')}
-\item{adverse event ('adae')}
-\item{laboratory chemistry data('adlbc')}
-\item{vital signs ('advs')}
-\item{concomitant medications ('adcm')}
-\item{efficacy: 
+\item subject-level ('adsl')
+\item adverse event ('adae')
+\item laboratory chemistry data('adlbc')
+\item vital signs ('advs')
+\item concomitant medications ('adcm')
+\item efficacy: 
 \itemize{
-\item{ADAS-COG Data ('adqsadas'), containing one of the 
+\item ADAS-COG Data ('adqsadas'), containing one of the 
   primary endpoint: ADAS-Cog (11)\cr
-  (Alzheimer's Disease Assessment Scale - Cognitive Subscale}
-\item{CIBIC+ questionnaire data ('adqscibc'), containing one 
+  (Alzheimer's Disease Assessment Scale - Cognitive Subscale
+\item CIBIC+ questionnaire data ('adqscibc'), containing one 
 of the primary endpoint: CIBIC+\cr
-(Video-referenced Clinician's Interview-based Impression of Change)}
-\item{NPI-X Item data ('adqsnpix'), containing the secondary endpoint: 
-NPI-X\cr (Mean Revised Neuropsychiatric Inventory)}
+(Video-referenced Clinician's Interview-based Impression of Change)
+\item NPI-X Item data ('adqsnpix'), containing the secondary endpoint: 
+NPI-X\cr (Mean Revised Neuropsychiatric Inventory)
 }
-}
-\item{pharmacokinetic parameters ('adpp')\cr
+\item pharmacokinetic parameters ('adpp')\cr
 Please note that this dataset contains different sets 
-of subjects than the other example datasets.}
+of subjects than the other example datasets.
 }}
-}
 This dataset was created following the ADaM Version 2.0
 standard.
 This dataset contains the 'Modified and augmented version 

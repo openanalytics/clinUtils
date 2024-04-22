@@ -20,18 +20,7 @@ clinColors(n, alpha = 1, begin = 0, end = 1, direction = 1, option = "D")
 colors are ordered from darkest to lightest. If -1, the order of colors is
 reversed.}
 
-\item{option}{A character string indicating the color map option to use.
-Eight options are available:
-\itemize{
- \item "magma" (or "A")
- \item "inferno" (or "B")
- \item "plasma" (or "C")
- \item "viridis" (or "D")
- \item "cividis" (or "E")
- \item "rocket" (or "F")
- \item "mako" (or "G")
- \item "turbo" (or "H")
-}}
+\item{option}{see similar parameter in \code{\link[viridisLite]{viridis}}}
 }
 \value{
 The \code{\link[viridisLite]{viridis}} function.

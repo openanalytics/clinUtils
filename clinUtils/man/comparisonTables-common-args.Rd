@@ -23,16 +23,18 @@ differences between datasets, as returned by the \code{\link{compareDiff}} funct
 \item{outputType}{String describing which output should be returned,
 (multiple are possible), either:
 \itemize{
-\item{'table-comparison': }{data.frame containing difference between
-two datasets, see 'output' of \code{\link{compareDiff}} function.}
-\item{'table-comparison-interactive': }{\code{\link[DT]{datatable}} object with differences between
-the two datasets, see 'output' of \code{\link{exportDiffData}}.}
-\item{'newData-diff' or 'oldData-diff': }{data.frame with new/old data respectively,
-containing the information if each record differs in the old/new datasets respectively.
-See output of \code{\link{mergeDiffWithData}}.}
-\item{'newData-diff-interactive' or 'oldData-diff-interactive': }{\code{\link[DT]{datatable}} with new/old data respectively,
-containing the information if each record differs in the old/new datasets respectively.
-See output of \code{\link{exportDiffData}}.}
+\item 'table-comparison': data.frame containing difference between
+two datasets, see 'output' of \code{\link{compareDiff}} function.
+\item 'table-comparison-interactive': \code{\link[DT]{datatable}} object 
+with differences between the two datasets, see 'output' of 
+\code{\link{exportDiffData}}.
+\item 'newData-diff' or 'oldData-diff': data.frame with new/old data 
+respectively, containing the information if each record differs in the 
+old/new datasets respectively. See output of \code{\link{mergeDiffWithData}}.
+\item 'newData-diff-interactive' or 'oldData-diff-interactive': 
+\code{\link[DT]{datatable}} with new/old data respectively, containing the 
+information if each record differs in the old/new datasets respectively.
+See output of \code{\link{exportDiffData}}.
 }}
 }
 \value{

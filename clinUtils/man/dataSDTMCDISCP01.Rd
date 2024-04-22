@@ -20,26 +20,25 @@ datasets and variables name.
 \description{
 This contains a subset of the CDISC original Pilot 01 study dataset for:
 \itemize{
-\item{a selected subset of subjects}
-\item{a selected subset of domains: 
+\item a selected subset of subjects
+\item a selected subset of domains: 
 \itemize{
-\item{adverse event ('ae')}
-\item{concomitant medications ('cm')}
-\item{disposition ('ds')}
-\item{demographics ('dm')}
-\item{treatment exposure ('ex')}
-\item{laboratory ('lb')}
-\item{medical history ('mh')}
-\item{questionnaire ('qs') - only:
+\item adverse event ('ae')
+\item concomitant medications ('cm')
+\item disposition ('ds')
+\item demographics ('dm')
+\item treatment exposure ('ex')
+\item laboratory ('lb')
+\item medical history ('mh')
+\item questionnaire ('qs') - only:
 \itemize{
 \item ADAS-Cog (11) primary endpoint (\code{QSTESTCD == 'ACTOT'})
 \item CIBIC+ primary endpoint (\code{QSTESTCD == 'CIBIC'})
 \item NPI-X Item secondary endpoint (\code{QSTESTCD == 'NPTOT'})
-}}
-\item{demographics supplemental dataset ('suppdm')}
-\item{subject visits ('sv')}
-\item{vital signs ('vs')}
 }
+\item demographics supplemental dataset ('suppdm')
+\item subject visits ('sv')
+\item vital signs ('vs')
 }
 }
 This dataset was created following the SDTM Version 2
