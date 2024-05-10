@@ -42,9 +42,13 @@ By default all columns ending with 'DTC' are used (dateVars is: 'DTC$').}
 }
 \value{
 List of data.frame with data of each ADAM file (if not empty),
-with special attributes 'labelVars': named vector with label of the variables.
-Each data.frame contains an additional column called 'dataset' specifying the name of the 
-\code{files} it was read from.
+with special attributes:
+\itemize{
+ \item 'labelVars': named vector with label of the variables
+ \item 'label': named vector with label of the datasets
+}
+Each data.frame contains an additional column called 'dataset' 
+specifying the name of the \code{files} it was read from.
 }
 \description{
 Load data set in SAS format ('sas7bdat' or 'xpt') into R data.frames, from

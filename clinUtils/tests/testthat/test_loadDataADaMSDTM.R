@@ -232,3 +232,32 @@ test_that("A dataset in raw vector format is correctly imported", {
   )
   
 })
+
+test_that("A dataset with label is correctly imported", {
+  
+  # 'label' attribute supported in haven::write_xpt only from version >= 2.5.0
+  testthat::skip_if(packageVersion("haven") < "2.5.0")
+  
+  # create dummy dataset
+  data <- data.frame(
+    USUBJID = seq_len(5),
+    TRT = c("A", "B", "A", "B", "A"),
+    stringsAsFactors = FALSE
+  )
+  
+  # export to a file
+  pathFile <- tempfile(fileext = ".xpt")
+  label <- "Subject-Level Dataset"
+  haven::write_xpt(data = data, path = pathFile, label = label)
+ 
+  # import the data
+  data <- loadDataADaMSDTM(files = pathFile, verbose = FALSE)
+  
+  # check label
+  dataset <- toupper(tools::file_path_sans_ext(basename(pathFile)))
+  expect_equal(
+    object = attr(data, "label"),
+    expected = setNames(label, dataset)
+  )
+  
+})

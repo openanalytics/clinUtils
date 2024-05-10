@@ -1,5 +1,7 @@
 0.1.5.9000
-  o loadDataADaMSDTM: extension to a list of binary objects
+  o loadDataADaMSDTM: 
+    - extension to a list of binary objects
+    - extract dataset label
 0.1.5
   o data: addition of:
     - efficacy (questionnaire) data (primary/secondary endpoints)

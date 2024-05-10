@@ -28,9 +28,13 @@
 #' @param ... Additional parameters for the \code{\link[haven]{read_sas}} or
 #' \code{\link[haven]{read_xpt}} functions, depending on the input file type.
 #' @return List of data.frame with data of each ADAM file (if not empty),
-#' with special attributes 'labelVars': named vector with label of the variables.
-#' Each data.frame contains an additional column called 'dataset' specifying the name of the 
-#' \code{files} it was read from.
+#' with special attributes:
+#' \itemize{
+#'  \item 'labelVars': named vector with label of the variables
+#'  \item 'label': named vector with label of the datasets
+#' }
+#' Each data.frame contains an additional column called 'dataset' 
+#' specifying the name of the \code{files} it was read from.
 #' @author Laure Cougnaud
 #' @importFrom tools file_path_sans_ext
 #' @importFrom haven read_sas read_xpt
@@ -97,6 +101,9 @@ loadDataADaMSDTM <- function(
 		data <- as.data.frame(data)
 		
 		if(nrow(data) > 0){
+		  
+		  # extract label (not retained by 'cbind')
+		  label <- attr(data, "label")
 		
 			# save dataset name
 			data <- cbind(data, DATASET = dataset)
@@ -110,6 +117,9 @@ loadDataADaMSDTM <- function(
 			
 			# column names in lower case for some datasets
 			colnames(data) <- toupper(colnames(data))
+			
+			# save the label
+			attr(data, "label") <- label
 			
 		}else	if(verbose)	warning("Dataset ", dataset, " is empty.")
 		
@@ -134,6 +144,11 @@ loadDataADaMSDTM <- function(
 	# extract label variables
 	labelVars <- c(getLabelVars(dataList), 'DATASET' = "Dataset Name")
 	attr(dataList, "labelVars") <- labelVars
+	
+	# extract dataset label
+	labels <- lapply(dataList, attr, "label")
+	labels <- labels[!sapply(labels, is.null)]
+	attr(dataList, "label") <- unlist(labels)
 	
 	return(dataList)
 
