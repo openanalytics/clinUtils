@@ -1,6 +1,7 @@
 #' Load data from ADaM/SDTM file(s).
 #' 
-#' Load data set from SAS format into R data.frames.
+#' Load data set in SAS format ('sas7bdat' or 'xpt') into R data.frames, from
+#' \code{files} or raw vector \code{data}.
 #' 
 #' While creating the R data.frames, if date/time variables are present, 
 #' those are converted into to R date/time class 
@@ -8,8 +9,12 @@
 #' 
 #' The labels of the ADaM/SDTM data sets are attached as attributes 
 #' of the R data.frame.
-#' @param files Character vector with path to ADaM or SDTM file(s).
+#' @param files Character vector with path to ADaM or SDTM file(s).\cr
 #' Currently only import of files with extension: 'sas7bdat' or 'xpt' are supported.
+#' @param data Named list with \link{raw} vector data 
+#' (as supported by: \link[haven]{read_sas} and \link[haven]{read_xpt}).\cr
+#' The list should be named with the file name (or full path)
+#' the data has been imported from (e.g.: 'ae.xpt' or '/path/to/data.adsl.sas7bdat').
 #' @param convertToDate logical, if TRUE columns with date/time are converted to 
 #' \code{\link{POSIXct}} format, which stores calendar date/time in R.
 #' Please note that most of the time this is not necessary, as date variables
@@ -39,40 +44,62 @@
 #' attr(dataFromXpt, "labelVars") # column labels
 #' }
 #' @export
-loadDataADaMSDTM <- function(files, 
+loadDataADaMSDTM <- function(
+  files, data,
 	convertToDate = FALSE, dateVars = "DTC$",
 	verbose = TRUE, 
 	encoding = "UTF-8", 
-	...){
-	
-	# extract ADaM name
-	names(files) <- toupper(file_path_sans_ext(basename(files)))
-	
-	idxDuplFiles <- duplicated(names(files))
-	if(any(idxDuplFiles))
-		warning(sum(idxDuplFiles), " duplicated file name. These files will have the same name in the 'dataset' column.")
+  ...){
+  
+  
+  isData <- (!missing(data))
+  if(isData){
+    
+    if(!is.list(data) || (is.list(data) && is.null(names(data))))
+      stop("'data' should be a named list.")
+    
+  }else{
+  
+    if(!is.character(files))
+      stop("'files' should be a character vector")
+    
+  }
 
-	readFct <- function(file, ...)
-		switch(file_ext(file),
-			'sas7bdat' = read_sas(file, encoding = encoding, ...),
-			'xpt' = read_xpt(file, ...),
-			stop(paste("File with extension:", file_ext(file), "currently not supported."))
-		)
+  # utility function to import data from xpt or sas7bdat file
+	readFct <- function(file, input = file, ...){
+  	switch(
+  	  tools::file_ext(file),
+  		'sas7bdat' = haven::read_sas(data_file = input, encoding = encoding, ...),
+  		'xpt' = haven::read_xpt(file = input, ...),
+  		stop(paste("File with extension:", file_ext(file), "currently not supported."))
+  	)
+	}
+	
+	getDataset <- function(file)
+	  return(toupper(tools::file_path_sans_ext(basename(file))))
 	
 	# import SAS dataset format into R
-	dataList <- sapply(names(files), function(name){
+	files <- if(isData){names(data)}else{files}
+	dataList <- sapply(files, function(file){
+	  
+	  # extract dataset name
+	  dataset <- getDataset(file = file)
 				
 		if(verbose)
-			message("Import ", name, " dataset.")
+		  message("Import ", dataset, " dataset.")
 				
 		# read data
-		
-		data <- as.data.frame(readFct(files[name], ...))
+		data <- readFct(
+		  file = file, 
+		  input = if(isData){data[[file]]}else{file}, 
+		  ...
+		)
+		data <- as.data.frame(data)
 		
 		if(nrow(data) > 0){
 		
 			# save dataset name
-			data <- cbind(data, DATASET = name)
+			data <- cbind(data, DATASET = dataset)
 			
 			if(convertToDate){
 				colsDate <- grep(dateVars, colnames(data), value = TRUE)
@@ -84,13 +111,25 @@ loadDataADaMSDTM <- function(files,
 			# column names in lower case for some datasets
 			colnames(data) <- toupper(colnames(data))
 			
-		}else	if(verbose)	warning("Dataset ", name, " is empty.")
+		}else	if(verbose)	warning("Dataset ", dataset, " is empty.")
 		
-		data
+		return(data)
 	}, simplify = FALSE)
 
 	# remove empty dataset(s)
 	dataList <- dataList[!sapply(dataList, is.null)]
+	
+	# set names as the dataset name:
+	datasets <- getDataset(file = names(dataList))
+	
+	# check if there is no duplicated names
+	idxDuplFiles <- duplicated(datasets)
+	if(any(idxDuplFiles))
+	  warning(sum(idxDuplFiles), " duplicated file name. ",
+	    "These files will have the same name in the 'dataset' column.")
+	
+	# set the names of the list to the datasets
+	names(dataList) <- datasets
 	
 	# extract label variables
 	labelVars <- c(getLabelVars(dataList), 'DATASET' = "Dataset Name")

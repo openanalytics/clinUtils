@@ -6,6 +6,7 @@
 \usage{
 loadDataADaMSDTM(
   files,
+  data,
   convertToDate = FALSE,
   dateVars = "DTC$",
   verbose = TRUE,
@@ -14,8 +15,13 @@ loadDataADaMSDTM(
 )
 }
 \arguments{
-\item{files}{Character vector with path to ADaM or SDTM file(s).
+\item{files}{Character vector with path to ADaM or SDTM file(s).\cr
 Currently only import of files with extension: 'sas7bdat' or 'xpt' are supported.}
+
+\item{data}{Named list with \link{raw} vector data 
+(as supported by: \link[haven]{read_sas} and \link[haven]{read_xpt}).\cr
+The list should be named with the file name (or full path)
+the data has been imported from (e.g.: 'ae.xpt' or '/path/to/data.adsl.sas7bdat').}
 
 \item{convertToDate}{logical, if TRUE columns with date/time are converted to 
 \code{\link{POSIXct}} format, which stores calendar date/time in R.
@@ -41,7 +47,8 @@ Each data.frame contains an additional column called 'dataset' specifying the na
 \code{files} it was read from.
 }
 \description{
-Load data set from SAS format into R data.frames.
+Load data set in SAS format ('sas7bdat' or 'xpt') into R data.frames, from
+\code{files} or raw vector \code{data}.
 }
 \details{
 While creating the R data.frames, if date/time variables are present, 

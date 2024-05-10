@@ -196,3 +196,39 @@ test_that("A SAS xpt file is correctly imported", {
 			
 })
 
+
+test_that("A dataset in raw vector format is correctly imported", {
+  
+  # create dummy dataset
+  data <- data.frame(
+    USUBJID = seq_len(5),
+    TRT = c("A", "B", "A", "B", "A"),
+    stringsAsFactors = FALSE
+  )
+  
+  # export to a file
+  pathFile <- tempfile(fileext = ".xpt")
+  haven::write_xpt(data = data, path = pathFile)
+  
+  # import as binary object
+  xRaw <- readBin(pathFile, what = "raw", n = file.info(pathFile)$size)
+  
+  # load data
+  input <- setNames(list(xRaw), pathFile)
+  res <- loadDataADaMSDTM(data = input, verbose = FALSE)
+  
+  # check if a list
+  expect_type(object = res, type = "list")
+  
+  # check that dataset name correctly extracted
+  dataset <- toupper(tools::file_path_sans_ext(basename(pathFile)))
+  expect_named(object = res, expected = dataset)
+  expect_setequal(object = res[[dataset]][, "DATASET"], expected = dataset)
+  
+  # check if data properly imported
+  expect_equal(
+    object = subset(res[[dataset]], select = -DATASET), 
+    expected = data
+  )
+  
+})
