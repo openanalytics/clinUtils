@@ -1,8 +1,8 @@
 Package: clinUtils
 Type: Package
 Title: General Utility Functions for Analysis of Clinical Data
-Version: 0.2.0
-Date: 2024-05-17
+Version: 0.2.1
+Date: 2025-09-03
 Authors@R: c(
   person(given = "Laure", family = "Cougnaud", role = c("aut", "cre"),
   email = "laure.cougnaud@openanalytics.eu"),
@@ -42,6 +42,6 @@ SystemRequirements: pandoc (for export clin DT to a file - inclusion of list of 
 URL: https://github.com/openanalytics/clinUtils
 BugReports: https://github.com/openanalytics/clinUtils/issues
 License: MIT + file LICENSE
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 LazyData: true

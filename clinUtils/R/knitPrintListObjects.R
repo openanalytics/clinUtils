@@ -26,7 +26,7 @@
 #' @param ... any \code{knitr} chunk parameters
 #' (excepted 'results', set to 'asis' and 'echo' set to FALSE
 #' internally).\cr
-#' See \code{\link{knitr}[opts_chunk]} for further 
+#' See \code{\link[knitr]{opts_chunk}} for further 
 #' details on available options.
 #' Each parameter can be specified for each element
 #' in the list separately: by specifying a vector
