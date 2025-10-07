@@ -136,7 +136,7 @@ test_that("Invisible columns are not shown in the DataTables output", {
       cDefs <- dt$x$options$columnDefs
       cDefsNonVisible <- sapply(cDefs, function(x) isFALSE(x$visible))
       expect_true(any(cDefsNonVisible))
-      expect(cDefs[[which(cDefsNonVisible)]]$targets, 1)
+      expect_equal(cDefs[[which(cDefsNonVisible)]]$targets, 1)
       
     })
 
@@ -173,7 +173,7 @@ test_that("Percentages are correctly formatted", {
       cDefs <- dt$x$options$columnDefs
       cDefsFmtPercentage <- sapply(cDefs, function(x) "render" %in% names(x) && grepl("formatPercentage", x$render))
       expect_true(any(cDefsFmtPercentage))
-      expect(cDefs[[which(cDefsFmtPercentage)]]$targets, 1)		
+      expect_equal(cDefs[[which(cDefsFmtPercentage)]]$targets, 1)		
       
     })
 
